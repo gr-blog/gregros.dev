@@ -5,4 +5,5 @@ image:
   alt: ReactAnything image
 tagline: React in weird places
 color: "#b3a0fd"
+hidden: true
 posts: []
