@@ -1,7 +1,7 @@
 ---
 title: Debug webpages with code using the inspector's internal API
-published: 2025-04-17
-updated: 2025-04-17
+published: 2025-07-08
+updated: 2025-07-08
 description: ...
 ---
 Using the right approach, we can get past the Chrome inspector’s UI and invoke its internal API directly.
