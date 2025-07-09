@@ -121,7 +121,7 @@ This kind of iframe can only be created using JavaScript. It uses a Blob URI, a 
 To create one, we need to create a Blob object with the contents we want the iframe to have:
 
 ```js
-var blob = new Blob(["<h1>hello world</h1>"], {type: "text/html"})
+var blob = new Blob(["<h1>hello world</h1>"], { type: "text/html" })
 ```
 
 Then we need to create a URI for it:

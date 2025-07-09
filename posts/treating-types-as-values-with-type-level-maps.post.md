@@ -71,8 +71,8 @@ type MapValueOfKey<Key extends keyof Map> = Map[Key]
 We can merge JS objects using the `...` spread operator:
 
 ```ts
-const map1 = {a: 1}
-const map2 = {b: 2}
+const map1 = { a: 1 }
+const map2 = { b: 2 }
 const result = {
 	...map1,
 	...map2
@@ -82,8 +82,8 @@ const result = {
 Meanwhile, in the land of types, we can merge two type-level maps using the `&` operator:
 
 ```ts
-type Map1 = {A: 1}
-type Map2 = {B: 2}
+type Map1 = { A: 1 }
+type Map2 = { B: 2 }
 type Result = Map1 & Map2 // {A: 1; B: 2}
 ```
 ## Mapping
@@ -99,8 +99,8 @@ type Result = {
 It doesn’t have a built-in JavaScript equivalent, but we can compare it to `mapValues` from lodash:
 
 ```ts
-import {mapValues} from "lodash"
-const map = {key_1: 42, key_2: 123}
+import { mapValues } from "lodash"
+const map = { key_1: 42, key_2: 123 }
 const result = mapValues(map, x => `${x}`) // {key_1: "42", key_2: "123"}
 ```
 # Use-cases
@@ -130,8 +130,8 @@ One way is to define an overload for every command, like this:
 
 ```ts
 declare class Browser {
-	call(name: "Click", args: {x: number, y: number}): Promise<void>
-	call(name: "Goto", args: {url: string}): Promise<string>
+	call(name: "Click", args: { x: number, y: number }): Promise<void>
+	call(name: "Goto", args: { url: string }): Promise<string>
 	call(name: "GetLocation", args: {}): Promise<string>
 }
 ```

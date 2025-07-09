@@ -57,11 +57,10 @@ function example<T>() {
 Intuitively, we would expect the return type of `example<T>` to be `List<T>`, since we basically just added a few no-ops.
 
 Unfortunately, TypeScript disagrees. Instead, its return type turns out to be:
-
+<!-- eslint-skip  -->
 ```ts
 List<(T extends Promise<any> ? Promise<T extends Promise<infer S> ? S : T> : T extends Promise<infer S> ? S : T) extends Promise<...> ? Promise<...> : (T extends Promise<any> ? Promise<T extends Promise<infer S> ? S : T> : T extends Promise<infer S> ? S : T) extends Promise<...> ? S : T extends Promise<any> ? Promise<T extends Promise<infer S> ? S : T> : T extends Promise<infer S> ? S : T>
 ```
-
 Even though it *looks* like some of these conditionals should simplify, TypeScript doesn’t even try. Instead, it lets them build on themselves until we get this thing.
 
 TypeScript _will_ resolve all these conditionals if we call the method as `example<number>`. But if we keep the code generic, we’re going to end up with these unreadable types just lying around all over the place.
@@ -99,7 +98,7 @@ example()
 We can only call it by passing `this` explicitly:
 
 ```ts
-example.call({a: 1})
+example.call({ a: 1 })
 ```
 
 It’s a pretty obscure feature – but we can use it to get some interesting results. 
