@@ -12,10 +12,10 @@ Here is what a *type-level map* looks like:
 
 ```ts
 interface TypeLevelMap {
-  Key1: MyType;
-  Key2: MyOtherType;
-  Key3: true;
-  Key4: object;
+    Key1: MyType;
+    Key2: MyOtherType;
+    Key3: true;
+    Key4: object;
 }
 ```
 
@@ -92,7 +92,7 @@ The mapped type lets us project every “type value” using an expression:
 ```ts
 type Map = { Key_1: 42; Key_2: 123 };
 type Result = {
-  [Key in keyof Map]: `${Map[Key]}`;
+    [Key in keyof Map]: `${Map[Key]}`;
 }; // {Key_1: "42"; Key_2: "123"}
 ```
 
@@ -153,8 +153,8 @@ The type-level map will be keyed using the command name. Its value will *also* b
 
 ```ts
 type CommandType = {
-	Args: object
-	Returns: unknown
+    Args: object
+    Returns: unknown
 }
 ```
 
@@ -162,23 +162,23 @@ It looks like this:
 
 ```ts
 export interface CommandsMap {
-	Click: {
-		Args: {
-			x: number
-			y: number
-		}
-		Returns: void
-	}
-	Goto: {
-		Args: {
-			url: string
-		}
-		Returns: string
-	}
-	GetLocation: {
-		Args: {}
-		Returns: string
-	}
+    Click: {
+        Args: {
+            x: number
+            y: number
+        }
+        Returns: void
+    }
+    Goto: {
+        Args: {
+            url: string
+        }
+        Returns: string
+    }
+    GetLocation: {
+        Args: {}
+        Returns: string
+    }
 }
 ```
 
@@ -187,11 +187,11 @@ Since we’re using `CommandsMap` as a type-level map, it’s not really the typ
 ```ts
 declare class Browser {
     call<Name extends keyof CommandsMap>(
-		name: Name,
-		args: CommandsMap[Name]["Args"]
-	): Promise<
-		CommandsMap[Name]["Returns"]
-	>
+        name: Name,
+        args: CommandsMap[Name]["Args"]
+    ): Promise<
+        CommandsMap[Name]["Returns"]
+    >
 }
 ```
 
@@ -232,15 +232,15 @@ We’ll need a type-level map to do this, but luckily one already exists. Namely
 
 ```ts
 interface HTMLElementTagNameMap {
-  a: HTMLAnchorElement;
-  abbr: HTMLElement;
-  address: HTMLElement;
-  area: HTMLAreaElement;
-  article: HTMLElement;
-  aside: HTMLElement;
-  audio: HTMLAudioElement;
-  b: HTMLElement;
-  // ...
+    a: HTMLAnchorElement;
+    abbr: HTMLElement;
+    address: HTMLElement;
+    area: HTMLAreaElement;
+    article: HTMLElement;
+    aside: HTMLElement;
+    audio: HTMLAudioElement;
+    b: HTMLElement;
+    // ...
 }
 ```
 

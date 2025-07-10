@@ -55,8 +55,8 @@ Each iframe has a complete DOM, which starts with having the base HTML structure
 ```html
 <!DOCTYPE html>
 <html>
-  <head></head>
-  <body></body>
+    <head></head>
+    <body></body>
 </html>
 ```
 

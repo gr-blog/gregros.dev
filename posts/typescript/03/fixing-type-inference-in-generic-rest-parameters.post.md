@@ -10,7 +10,7 @@ Let’s say we have a type called `List<T>` that looks like this:
 
 ```ts
 interface List<T> {
-  at(n: number): T;
+    at(n: number): T;
 }
 ```
 

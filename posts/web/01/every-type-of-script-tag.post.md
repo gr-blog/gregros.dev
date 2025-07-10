@@ -83,15 +83,15 @@ Here are a few examples of ES module script tags of different kinds:
 </script>
 
 <!-- an external module script tag -->
-<script 
-  type="module" 
-  src="https://example.com/module.js"
+<script
+    type="module"
+    src="https://example.com/module.js"
 ></script>
 
 <!-- a data module script tag -->
-<script 
-  type="module"
-  src="data:text/javascript,import './module.js'"
+<script
+    type="module"
+    src="data:text/javascript,import './module.js'"
 >
 </script>
 ```
@@ -134,9 +134,9 @@ This is a particularly nasty and error-prone feature, and you’ll frequently se
 Here is an example of a script tag using this technique:
 
 ```html
-<!-- a classic inline script tag 
-     using the 'self-executing function'
-     technique 
+<!-- a classic inline script tag
+    using the 'self-executing function'
+    technique
 -->
 <script>
   (function() {
@@ -150,31 +150,31 @@ Here is an example of a script tag using this technique:
 Here are examples of different kinds of classic script tags:
 
 ```html
- <!-- external classic script tag -->
-<script 
-  src="https://example.com/script.js"
+<!-- external classic script tag -->
+<script
+    src="https://example.com/script.js"
 ></script>
 
 <!-- inline classic script tag -->
-<script> 
-  alert(1) 
-</script> 
+<script>
+  alert(1)
+</script>
 
 <!-- data classic script tag -->
-<script 
-  src="data:text/javascript,alert(1)"
-></script> 
+<script
+    src="data:text/javascript,alert(1)"
+></script>
 
 <!-- with type attribute -->
-<script 
-  src="https://example.com/script.js" 
-  type="text/javascript"
+<script
+    src="https://example.com/script.js"
+    type="text/javascript"
 ></script>
 
 <!-- another one -->
-<script 
-  src="https://example.com/script.js" 
-  type=""
+<script
+    src="https://example.com/script.js"
+    type=""
 ></script>
 ```
 ### Client-side infrastructure
@@ -210,21 +210,21 @@ So, for example, the following content will cause the script to break:
 ```html
 <script type="module">
   const script2 = "<script>alert(1)</script>"
-  //            parsing fails here ↑
-</script>  
+// parsing fails here ↑
+</script>
 ```
 
 Here are examples of valid inline script tags:
 
 ```html
 <!-- classic inline script tag -->
-<script> 
-	alert(1) 
+<script>
+	alert(1)
 </script>
 
 <!-- module inline script tag -->
-<script type="module"> 
-	import { myFunction } from './module.js' 
+<script type="module">
+	import { myFunction } from './module.js'
 </script>
 ```
 ## External script
@@ -243,14 +243,14 @@ Here are some examples of external script tags:
 
 ```html
 <!-- classic external script -->
-<script 
-  src="https://example.com/script.js"
+<script
+    src="https://example.com/script.js"
 ></script>
 
 <!-- module external script -->
-<script 
-  type="module" 
-  src="https://example.com/module.js"
+<script
+    type="module"
+    src="https://example.com/module.js"
 ></script>
 ```
 ## Data scripts
@@ -268,24 +268,24 @@ Here are some examples of data script tags in action:
 
 ```html
 <!-- classic data script tag -->
-<script 
-  src="data:text/javascript,alert(1)"
+<script
+    src="data:text/javascript,alert(1)"
 ></script>
 
 <!-- classic base64 encoded data script tag -->
-<script 
-  src="data:text/javascript;base64,YWxlcnQoMSk="
+<script
+    src="data:text/javascript;base64,YWxlcnQoMSk="
 ></script>
 
 <!-- classic base64+utf8 encoded data script tag -->
-<script 
-  src="data:text/javascript;charset=UTF-8;base64,YWxlcnQoMSk="
+<script
+    src="data:text/javascript;charset=UTF-8;base64,YWxlcnQoMSk="
 ></script>
 
 <!-- module data script tag -->
-<script 
-  type="module"
-  src="data:text/javascript,import './module.js'"
+<script
+    type="module"
+    src="data:text/javascript,import './module.js'"
 ></script>
 ```
 ## Blob scripts
@@ -344,8 +344,8 @@ document.body.appendChild(script)
 The resulting script tag looks like this:
 
 ```html
-<script 
-	src="blob:http://localhost:1234/60e5ba14-5bd0-4333-bb19-7782bf17cf4a"
+<script
+    src="blob:http://localhost:1234/60e5ba14-5bd0-4333-bb19-7782bf17cf4a"
 ></script>
 ```
 

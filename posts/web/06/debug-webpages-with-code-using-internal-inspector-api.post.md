@@ -138,7 +138,7 @@ It can be helpful to exclude these using the methods [`isHttpFamily`](https://gi
 ```js
 NetworkLog.requests().filter(x => 
     x.isHttpFamily() && 
-	!x.wasBlocked()
+    !x.wasBlocked()
 )
 ```
 
@@ -199,7 +199,6 @@ var searchPromises = NetworkLog.requests()
     .filter(x => x.requestMethod == "POST")
     .map(async x => {
         let payload = await x.requestFormData()
-		
         // skip no payload:
         if (!payload) { 
             return false

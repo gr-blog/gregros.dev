@@ -49,15 +49,15 @@ But something interesting happens when `T` is actually generic at the point of c
 ```ts
 function example<T>() {
     return new List<T>()
-	    .map(x => x) // no-op
-	    .map(x => x) // no-op
+        .map(x => x) // no-op
+        .map(x => x) // no-op
 }
 ```
 
 Intuitively, we would expect the return type of `example<T>` to be `List<T>`, since we basically just added a few no-ops.
 
 Unfortunately, TypeScript disagrees. Instead, its return type turns out to be:
-
+<!-- eslint-skip -->
 ```ts
 List<(T extends Promise<any> ? Promise<T extends Promise<infer S> ? S : T> : T extends Promise<infer S> ? S : T) extends Promise<...> ? Promise<...> : (T extends Promise<any> ? Promise<T extends Promise<infer S> ? S : T> : T extends Promise<infer S> ? S : T) extends Promise<...> ? S : T extends Promise<any> ? Promise<T extends Promise<infer S> ? S : T> : T extends Promise<infer S> ? S : T>
 ```
@@ -203,9 +203,9 @@ To top it off, we just add a second overload to cover the case when `T` is not a
 ```ts
 declare class List<T> {
     map<T, S>(
-    this: List<Promise<T>>,
-    iteratee: (e: T) => S
-  ): List<Promise<S>>
+        this: List<Promise<T>>,
+        iteratee: (e: T) => S
+    ): List<Promise<S>>
   
     map<S>(iteratee: (e: T) => S): List<S>
 }

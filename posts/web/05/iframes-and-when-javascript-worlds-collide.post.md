@@ -135,9 +135,9 @@ Both functions will just return an array literal, and we’ll check to see which
 ```js
 var iframe = makeIframe(`
 <script>
-	function getArray1() {
-		return [1, 2, 3]
-	}
+    function getArray1() {
+        return [1, 2, 3]
+    }
 </script>
 `)
 var i_win = iframe.contentWindow
