@@ -37,71 +37,71 @@ Since a type-level map is like a dictionary with types as values, we’ll compar
 Here’s how we can get an array of all the keys in an object in runtime code:
 
 ```ts
-const map = { key_1: 42, key_2: 123 };
-const result = Object.keys(map); // ["key_1", "key_2"]
+const map = { key_1: 42, key_2: 123 }
+const result = Object.keys(map) // ["key_1", "key_2"]
 ```
 
 The equivalent here is the `keyof` type operator:
 
 ```ts
-type Map = { Key_1: 42; Key_2: 123 };
-type Keys = keyof Map; // "Key_1" | "Key_2"
+type Map = { Key_1: 42; Key_2: 123 }
+type Keys = keyof Map // "Key_1" | "Key_2"
 ```
 ## Look up values
 Looking up a property on an object can look like this:
 
 ```ts
-const map = { key: 42 };
-const result = map["key"]; // 42
+const map = { key: 42 }
+const result = map["key"] // 42
 ```
 
 Meanwhile, here is the type-level version:
 
 ```ts
-type Map = { Key: 42 };
-type Result = Map["Key"]; // 42
+type Map = { Key: 42 }
+type Result = Map["Key"] // 42
 ```
 
 This example shows what I like to call a *static lookup*. We can also do a *generic lookup* based on a type parameter, like this:
 
 ```ts
-type MapValueOfKey<Key extends keyof Map> = Map[Key];
+type MapValueOfKey<Key extends keyof Map> = Map[Key]
 ```
 ## Merging
 We can merge JS objects using the `...` spread operator:
 
 ```ts
-const map1 = { a: 1 };
-const map2 = { b: 2 };
+const map1 = { a: 1 }
+const map2 = { b: 2 }
 const result = {
     ...map1,
     ...map2
-}; // {a: 1, b: 2}
+} // {a: 1, b: 2}
 ```
 
 Meanwhile, in the land of types, we can merge two type-level maps using the `&` operator:
 
 ```ts
-type Map1 = { A: 1 };
-type Map2 = { B: 2 };
-type Result = Map1 & Map2; // {A: 1; B: 2}
+type Map1 = { A: 1 }
+type Map2 = { B: 2 }
+type Result = Map1 & Map2 // {A: 1; B: 2}
 ```
 ## Mapping
 The mapped type lets us project every “type value” using an expression:
 
 ```ts
-type Map = { Key_1: 42; Key_2: 123 };
+type Map = { Key_1: 42; Key_2: 123 }
 type Result = {
     [Key in keyof Map]: `${Map[Key]}`;
-}; // {Key_1: "42"; Key_2: "123"}
+} // {Key_1: "42"; Key_2: "123"}
 ```
 
 It doesn’t have a built-in JavaScript equivalent, but we can compare it to `mapValues` from lodash:
 
 ```ts
-import { mapValues } from "lodash";
-const map = { key_1: 42, key_2: 123 };
-const result = mapValues(map, x => `${x}`); // {key_1: "42", key_2: "123"}
+import { mapValues } from "lodash"
+const map = { key_1: 42, key_2: 123 }
+const result = mapValues(map, x => `${x}`) // {key_1: "42", key_2: "123"}
 ```
 # Use-cases
 Type-level maps are a cornerstone of modern TypeScript APIs. Most of the TypeScript packages you’re familiar with use them in one way or another.
@@ -130,9 +130,9 @@ One way is to define an overload for every command, like this:
 
 ```ts
 declare class Browser {
-    call(name: "Click", args: { x: number, y: number }): Promise<void>;
-    call(name: "Goto", args: { url: string }): Promise<string>;
-    call(name: "GetLocation", args: {}): Promise<string>;
+    call(name: "Click", args: { x: number, y: number }): Promise<void>
+    call(name: "Goto", args: { url: string }): Promise<string>
+    call(name: "GetLocation", args: {}): Promise<string>
 }
 ```
 
@@ -155,7 +155,7 @@ The type-level map will be keyed using the command name. Its value will *also* b
 type CommandType = {
     Args: object
     Returns: unknown
-};
+}
 ```
 
 It looks like this:
@@ -191,7 +191,7 @@ declare class Browser {
         args: CommandsMap[Name]["Args"]
     ): Promise<
         CommandsMap[Name]["Returns"]
-    >;
+    >
 }
 ```
 
@@ -219,7 +219,7 @@ Besides that, the canonical name of every element type has this `HTML*Element` s
 ```ts
 type Example = Tag<
   HTMLDivElement | HTMLButtonElement | HTMLCanvasElement | HTMLSomeOtherElement
->;
+>
 ```
 
 This isn’t just cosmetic – it will truncate compilation errors and make parsing out the names of these types basically impossible.
@@ -247,16 +247,16 @@ interface HTMLElementTagNameMap {
 Using this type-level map, we can define our wrapper like this:
 
 ```ts
-export type TagNames = keyof HTMLElementTagNameMap;
+export type TagNames = keyof HTMLElementTagNameMap
 export interface TagWrapper<Tag extends TagNames> {}
 ```
 
 And here’s what using it looks like:
 
 ```ts
-type Div = TagWrapper<"div">;
-type Canvas = TagWrapper<"canvas">;
-type Either = TagWrapper<"div" | "canvas">;
+type Div = TagWrapper<"div">
+type Canvas = TagWrapper<"canvas">
+type Either = TagWrapper<"div" | "canvas">
 ```
 
 This solution is even better in terms of API design! We’re letting users reference each tag using its canonical HTML name, rather than the constructor name. 
@@ -264,7 +264,7 @@ This solution is even better in terms of API design! We’re letting users refer
 We can even use the entire `TagNames` type to define a wrapper for _any_ element, but without considering element structure at all.
 
 ```ts
-type Any = TagWrapper<TagNames>;
+type Any = TagWrapper<TagNames>
 ```
 # Conclusion
 Type-level maps are a powerful TypeScript pattern that’s a staple of advanced type definitions.

@@ -21,32 +21,32 @@ Since the code `[x, y, z]` always compiles, no matter what `x`, `y`, and `z` hap
 This seems like a classic use case for a rest argument. Something like this:
 
 ```ts
-declare function List<T>(...args: T[]): List<T>;
+declare function List<T>(...args: T[]): List<T>
 ```
 
 But there is a problem here. While this approach does work if we just use values like `1` and `2`:
 
 ```ts
-const list: List<number> = List(1, 2);
+const list: List<number> = List(1, 2)
 ```
 
 It [fails](https://www.typescriptlang.org/play/?#code/AQSwdgLgpgTgZgQwMZWAGRAZwgHgCoB8wA3gFDDAIQAUYAXMGAK4C2ARrAJQN4DcpAX1KkAJlCQAbBDFRwmYJBBAB7MOiy5C1AHS7pAc0w8A2gF1u67PgKkkq7MAkbgAXks0AjABpgAIgAWUBISysAA7sowEiK+nLxAA) if we add in something else, like a string:
 
 ```ts
-const list = List(1, "hello world");
+const list = List(1, "hello world")
 // ⛔ Argument of type `string` is not assignable to parameter of type `number`
 ```
 
 We get a different version of this problem if we instead pass unrelated object types:
 
 ```ts
-List({ a: 1 }, { b: 2 });
+List({ a: 1 }, { b: 2 })
 ```
 
 This does compile. But where we might expect to get a neat disjunction type, the compiler widens it into something [pretty weird](https://www.typescriptlang.org/play/?#code/AQSwdgLgpgTgZgQwMZWAGRAZwgHgCoB8wA3gFDDAIQAUYAXMGAK4C2ARrAJQN4DcpAX1KkAJlCQAbBDFRwmYJBBAB7MOiy5C1AHS7pAc0w8A2gF1u67PgKkkq7MAkbgAXks1ilBgEZgAgDQkwGwMAEx+nLxAA):
 
 ```ts
-List<{ a: 1; b?: undefined } | { b: 2; a?: undefined }>;
+List<{ a: 1; b?: undefined } | { b: 2; a?: undefined }>
 ```
 
 Why is this happening, and is there a way to fix it?
@@ -73,13 +73,13 @@ I understand the overall motivation, though – TypeScript is trying to avoid in
 Since defining an array always works, TypeScript uses different logic for inferring its type – it just takes the disjunction of all the element types. Since we want to reproduce this logic, we’d like TypeScript to do the same with `List`.
 
 ```ts
-const example = [ 1, "2", true ] satisfies (1 | "2" | true)[];
+const example = [ 1, "2", true ] satisfies (1 | "2" | true)[]
 ```
 
 We can make use of this logic ourselves by rephrasing the signature using a generic tuple argument, which we’ll use to annotate the rest parameter:
 
 ```ts
-declare function List<Ts extends readonly any[]>(...items: Ts): List<Ts[number]>;
+declare function List<Ts extends readonly any[]>(...items: Ts): List<Ts[number]>
 ```
 
 This isn’t a completely different signature – we’re just being a bit more specific about how we want inference to happen. 
@@ -87,7 +87,7 @@ This isn’t a completely different signature – we’re just being a bit more 
 Defined like this, the following code compiles just fine, [giving us](https://www.typescriptlang.org/play/?#code/AQSwdgLgpgTgZgQwMZWAGRAZwgHgCoB8wA3gFDDAIQAUYAXMGAK4C2ARrAJQN4DcpAX1IATKEgA2CGKjhMwSCCAD2YdFlx5MwKAA9oYYVukJhK8QE9KYcwG0AugWoA6FyGgtMPTNzXZ8mG2Z2WAd+JBVsYHF1YABeXxpiSgYARmABABoSYDYGACZ0zjCIiCj1AviMbGoUrIAiAAsocXElYAB3JRhxYTqspIRUwuAgA) a clean disjunction of value and object types:
 
 ```ts
-List(1, "hello world", { a: 1 }) satisfies List<number | string | { a: number }>;
+List(1, "hello world", { a: 1 }) satisfies List<number | string | { a: number }>
 ```
 # Conclusion
 Using generics with rest parameters can sometimes cause type inference to fail. In this post, we’ve looked at a way of overcoming this problem using tuples – leading to more flexible variadic signatures.

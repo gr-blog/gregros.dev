@@ -16,14 +16,14 @@ The classic example is `appendChild`. This method accepts a DOM node and inserts
 Here is some code to illustrate this:
 ```js
 // Create an element
-var div = document.createElement("div");
+var div = document.createElement("div")
 
 // Insert it into the page
-document.body.appendChild(div);
+document.body.appendChild(div)
 // Works!
 
 // Let's try to insert a regular object instead
-document.body.appendChild({});
+document.body.appendChild({})
 // Uncaught TypeError: Failed to execute 'appendChild' on 'Node': 
 //     parameter 1 is not of type 'Node'.
 ```
@@ -39,28 +39,28 @@ Here is the code:
 
 ```js
 // Create an element
-var div = document.createElement("div");
+var div = document.createElement("div")
 
 // Remove its prototype
-Object.setPrototypeOf(div, null);
+Object.setPrototypeOf(div, null)
 
 // Delete all of its keys
 for (const key of Reflect.ownKeys(div)) {
-    delete div[key];
+    delete div[key]
 }
 
 // Insert it into the page
-document.body.appendChild(div);
+document.body.appendChild(div)
 ```
 ## Trying to fake one
 Now, here is the second variation:
 
 ```js
 // Create an object with the HTMLDivElement prototype
-var div = Object.create(HTMLDivElement.prototype);
+var div = Object.create(HTMLDivElement.prototype)
 
 // Insert it into the page
-document.body.appendChild(div);
+document.body.appendChild(div)
 ```
 
 In this variation, we use the `Object.create` function to make a new JavaScript object with the `HTMLDivElement` prototype. It’s the opposite of what we did in the previous variation — we’re making something that looks like a functional JavaScript object, but we’re not using the correct API to do so.
@@ -82,19 +82,19 @@ But no matter how you screw up a DOM node, if you get a reference to one of thos
 
 ```js
 // Create a div elemenmt
-var div = document.createElement("div");
+var div = document.createElement("div")
 
 // Unset its prototype
-Object.setPrototypeOf(div, null);
+Object.setPrototypeOf(div, null)
 
 // Insert it into the DOM
-document.body.appendChild(div);
+document.body.appendChild(div)
 
 // Get the `setAttribute` function
-const { setAttribute } = HTMLElement.prototype;
+const { setAttribute } = HTMLElement.prototype
 
 // Invoke it using `call`:
-setAttribute.call(div, "id", "this-actually-works");
+setAttribute.call(div, "id", "this-actually-works")
 ```
 
 Weird, right? Don’t worry, this will actually make more sense once we zoom out a bit.

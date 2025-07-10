@@ -301,7 +301,7 @@ var blob = new Blob(
     { 
         type: 'text/javascript' 
     }
-);
+)
 ```
 
 You can then use `URL.createObjectURL` to get a URI with the `blob:` pseudo-protocol. Again, being a pseudo-protocol, it doesn’t point to a location of a resource. In this case, the URI points to the dynamically allocated blob.
@@ -309,7 +309,7 @@ You can then use `URL.createObjectURL` to get a URI with the `blob:` pseudo-prot
 This URI looks something like this:
 
 ```js
-`blob:http://localhost:1234/60e5ba14-5bd0-4333-bb19-7782bf17cf4a`;
+`blob:http://localhost:1234/60e5ba14-5bd0-4333-bb19-7782bf17cf4a`
 ```
 
 There are solid reasons to use these, though I have to admit they’re pretty weird. 
@@ -327,18 +327,18 @@ var blob = new Blob(
     { 
         type: 'text/javascript' 
     }
-);
+)
 // Generate a blob URI for it
-var uri = URL.createObjectURL(blob);
+var uri = URL.createObjectURL(blob)
 
 // Create a new script tag
-var script = document.createElement('script');
+var script = document.createElement('script')
 
 // Set its src to the URI
-script.src = uri;
+script.src = uri
 
 // Insert it into the page
-document.body.appendChild(script);
+document.body.appendChild(script)
 ```
 
 The resulting script tag looks like this:

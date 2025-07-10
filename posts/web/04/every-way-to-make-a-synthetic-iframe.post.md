@@ -46,13 +46,13 @@ Here is an example of it being set using HTML:
 And here we set it via a JavaScript property:
 ```js
 // Create the iframe 
-var iframe = document.createElement("iframe");
+var iframe = document.createElement("iframe")
 
 // Set the srcdoc attribute
-iframe.srcdoc = "<h1>hello world</h1>";
+iframe.srcdoc = "<h1>hello world</h1>"
 
 // Attach it to the page
-document.body.appendChild(iframe);
+document.body.appendChild(iframe)
 ```
 
 A srcdoc iframe doesn’t have an origin. That means its origin defaults to the page that created it, which in turn means it’s not isolated from that page by default.
@@ -70,23 +70,23 @@ You can use pretty much any method you want, but if you use DOM objects, make su
 
 ```js
 // Create the iframe
-var iframe = document.createElement("iframe");
+var iframe = document.createElement("iframe")
 
 // Attach it to the page
-document.body.appendChild(iframe);
+document.body.appendChild(iframe)
 
 // Now we can access its document
-var doc = iframe.contentWindow.document;
+var doc = iframe.contentWindow.document
 
 // Create an h1 element
 // Remember to use the iframe’s createElement function
-var iframeH1 = doc.createElement("h1");
+var iframeH1 = doc.createElement("h1")
 
 // Set its text content
-iframeH1.textContent = "hello world";
+iframeH1.textContent = "hello world"
 
 // Append it to the body
-doc.body.appendChild(iframeH1);
+doc.body.appendChild(iframeH1)
 ```
 
 - Constructed using JavaScript.
@@ -121,21 +121,21 @@ This kind of iframe can only be created using JavaScript. It uses a Blob URI, a 
 To create one, we need to create a Blob object with the contents we want the iframe to have:
 
 ```js
-var blob = new Blob(["<h1>hello world</h1>"], { type: "text/html" });
+var blob = new Blob(["<h1>hello world</h1>"], { type: "text/html" })
 ```
 
 Then we need to create a URI for it:
 
 ```js
-var uri = URL.createObjectURL(blob);
+var uri = URL.createObjectURL(blob)
 ```
 
 And finally, we can set the iframe’s `src` attribute to that URL:
 
 ```js
-var iframe = document.createElement("iframe");
-iframe.src = uri;
-document.body.appendChild(iframe);
+var iframe = document.createElement("iframe")
+iframe.src = uri
+document.body.appendChild(iframe)
 ```
 
 The result looks something like this:
