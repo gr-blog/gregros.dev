@@ -46,7 +46,7 @@ Object.setPrototypeOf(div, null)
 
 // Delete all of its keys
 for (const key of Reflect.ownKeys(div)) {
-	delete div[key]
+    delete div[key]
 }
 
 // Insert it into the page

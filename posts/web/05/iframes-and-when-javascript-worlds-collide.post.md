@@ -52,10 +52,10 @@ We’ll encapsulate all of that in a function, and also have that function inser
 
 ```js
 function makeIframe(contents) {
-	var iframe = document.createElement("iframe")
-	iframe.srcdoc = contents
-	document.body.appendChild(iframe)
-	return iframe
+    var iframe = document.createElement("iframe")
+    iframe.srcdoc = contents
+    document.body.appendChild(iframe)
+    return iframe
 }
 ```
 
@@ -73,20 +73,20 @@ var i_win = iframe.contentWindow
 
 // and run some checks:
 console.assert(
-	// It's a window
-	i_win === i_win.globalThis
+    // It's a window
+    i_win === i_win.globalThis
 )
 console.assert(
-	// but not *our* window
-	i_win !== window
+    // but not *our* window
+    i_win !== window
 ) 
 console.assert(
-	// It has a different Array
-	i_win.Array !== Array
+    // It has a different Array
+    i_win.Array !== Array
 )
 console.assert(
-	// And a different `setTimeout` function
-	i_win.setTimeout !== setTimeout
+    // And a different `setTimeout` function
+    i_win.setTimeout !== setTimeout
 )
 ```
 
@@ -97,10 +97,10 @@ We’ll start by creating an array using the iframe’s `Array` constructor.
 ```js
 var i_array = new i_win.Array([1, 2])
 console.assert(
-	i_array[0] === 1
+    i_array[0] === 1
 )
 console.assert(
-	i_array.length === 2
+    i_array.length === 2
 )
 ```
 
@@ -108,10 +108,10 @@ The result seems to work like a normal array, but don’t be fooled. Any check i
 
 ```js
 console.assert(
-	!(i_array instanceof Array)
+    !(i_array instanceof Array)
 )
 console.assert(
-	!(i_array instanceof Object)
+    !(i_array instanceof Object)
 )
 ```
 
@@ -143,19 +143,19 @@ var iframe = makeIframe(`
 var i_win = iframe.contentWindow
 
 i_win.getArray2 = function() {
-	return [1, 2, 3]
+    return [1, 2, 3]
 }
 
 var x_array1 = i_win.getArray1()
 var x_array2 = i_win.getArray2()
 
 console.log(
-	"version 1:",
-	array1 instanceof Array
+    "version 1:",
+    array1 instanceof Array
 )
 console.log(
-	"version 2:",
-	array2 instanceof Array
+    "version 2:",
+    array2 instanceof Array
 )
 ```
 
@@ -217,13 +217,13 @@ We get an alien element in the DOM, and it’s just sitting there. We can even l
 var i_div_after = document.querySelector("#find-me")
 
 console.assert(
-	i_div === i_div_after
+    i_div === i_div_after
 )
 console.assert(
-	!(i_div instanceof Element)
+    !(i_div instanceof Element)
 )
 console.assert(
-	i_div instanceof i_win.Element
+    i_div instanceof i_win.Element
 )
 ```
 
@@ -238,7 +238,7 @@ We could even insert child nodes into the element’s subtree, with the correct 
 ```js
 i_div.setAttribute("data-blah", "xyz")
 i_div.appendChild(
-	document.createElement("div")
+    document.createElement("div")
 )
 
 console.log(i_div.outerHTML)

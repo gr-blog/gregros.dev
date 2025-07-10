@@ -21,12 +21,12 @@ interface TypeLevelMap {
 
 From one point of view, it’s just a funny-looking object. From another, it’s a dictionary that maps strings to types:
 $$
-\begin{align}
-\texttt{Key1}&\Rightarrow\texttt{MyType} \\
-\texttt{Key2}&\Rightarrow\texttt{MyOtherType} \\
-\texttt{Key3}&\Rightarrow\texttt{true} \\
-\texttt{Key4}&\Rightarrow\texttt{object}
-\end{align}
+\begin{align*}
+\mathtt{Key1}&\Rightarrow\mathtt{MyType} \\
+\mathtt{Key2}&\Rightarrow\mathtt{MyOtherType} \\
+\mathtt{Key3}&\Rightarrow\mathtt{true} \\
+\mathtt{Key4}&\Rightarrow\mathtt{object}
+\end{align*}
 $$
 When viewed like this, the types are actually *values*, like `42` or `"hello world"`. 
 # Working with type-level maps
@@ -74,8 +74,8 @@ We can merge JS objects using the `...` spread operator:
 const map1 = { a: 1 }
 const map2 = { b: 2 }
 const result = {
-	...map1,
-	...map2
+    ...map1,
+    ...map2
 } // {a: 1, b: 2}
 ```
 
@@ -130,9 +130,9 @@ One way is to define an overload for every command, like this:
 
 ```ts
 declare class Browser {
-	call(name: "Click", args: { x: number, y: number }): Promise<void>
-	call(name: "Goto", args: { url: string }): Promise<string>
-	call(name: "GetLocation", args: {}): Promise<string>
+    call(name: "Click", args: { x: number, y: number }): Promise<void>
+    call(name: "Goto", args: { url: string }): Promise<string>
+    call(name: "GetLocation", args: {}): Promise<string>
 }
 ```
 
@@ -186,7 +186,7 @@ Since we’re using `CommandsMap` as a type-level map, it’s not really the typ
 
 ```ts
 declare class Browser {
-	call<Name extends keyof CommandsMap>(
+    call<Name extends keyof CommandsMap>(
 		name: Name,
 		args: CommandsMap[Name]["Args"]
 	): Promise<

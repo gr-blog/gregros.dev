@@ -97,7 +97,7 @@ Luckily, there is a pretty stable API that lets us import modules using the same
 
 ```js
 var Logs = await runtime.loadLegacyModule(
-	"models/logs/logs.js"
+    "models/logs/logs.js"
 )
 ```
 
@@ -109,7 +109,7 @@ For example, we can access the [NetworkLog](https://github.com/ChromeDevTools/de
 
 ```js
 var Logs = await runtime.loadLegacyModule(
-	"models/logs/logs.js"
+    "models/logs/logs.js"
 )
 var NetworkLog = Logs.NetworkLog.NetworkLog.instance()
 ```
@@ -137,7 +137,7 @@ It can be helpful to exclude these using the methods [`isHttpFamily`](https://gi
 
 ```js
 NetworkLog.requests().filter(x => 
-	x.isHttpFamily() && 
+    x.isHttpFamily() && 
 	!x.wasBlocked()
 )
 ```
@@ -151,9 +151,9 @@ Using the *meta-inspector*, you can figure it out using JavaScript. We just grou
 ```js
 var trafficByHost = Object.create(null)
 for (var rq of NetworkLog.requests()) {
-	let currentTraffic = trafficByHost[rq.domain ?? ""] ?? 0
-	currentTraffic += rq.resourceSize ?? 0
-	trafficByHost[rq.domain] = currentTraffic
+    let currentTraffic = trafficByHost[rq.domain ?? ""] ?? 0
+    currentTraffic += rq.resourceSize ?? 0
+    trafficByHost[rq.domain] = currentTraffic
 }
 trafficByHost
 ```
@@ -170,16 +170,16 @@ Here is the code:
 
 ```js
 var reqList = NetworkLog.requests()
-	.map(rq => {
-		return { // simplify objects:
-			url: rq.url(),
-			security: rq.securityDetails()?.protocol ?? ""
-		}
-	})
+    .map(rq => {
+        return { // simplify objects:
+            url: rq.url(),
+            security: rq.securityDetails()?.protocol ?? ""
+        }
+    })
 
 // Grouping requests by security protocol:
 Object.groupBy(reqList, x =>
-	x.security
+    x.security
 )
 ```
 
@@ -196,28 +196,28 @@ We’ll use the [`requestFormData`](https://github.com/ChromeDevTools/devtools-f
 
 ```js
 var searchPromises = NetworkLog.requests()
-	.filter(x => x.requestMethod == "POST")
-	.map(async x => {
-		let payload = await x.requestFormData()
+    .filter(x => x.requestMethod == "POST")
+    .map(async x => {
+        let payload = await x.requestFormData()
 		
-		// skip no payload:
-		if (!payload) { 
-			return false
-		}
-		// search in the contents:
-		if (!payload.includes("zionSp")) {
-			return false
-		}
-		// if pass, return simplified object:
-		return {
-			url: x.url(),
-			body: payload
-		}
-	}
-)
+        // skip no payload:
+        if (!payload) { 
+            return false
+        }
+        // search in the contents:
+        if (!payload.includes("zionSp")) {
+            return false
+        }
+        // if pass, return simplified object:
+        return {
+            url: x.url(),
+            body: payload
+        }
+    }
+    )
 
 // await all and filter out false values:
-(await Promise.all(searchPromises)).filter(x => x)
+    (await Promise.all(searchPromises)).filter(x => x)
 ```
 ## Other stuff
 There is a lot more you can do with this network data. For example:

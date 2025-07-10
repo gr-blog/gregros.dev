@@ -297,10 +297,10 @@ You can get Blobs as the result of `fetch` requests or from files uploaded by th
 
 ```ts
 var blob = new Blob(
-  ['alert(1)'], 
-  { 
-    type: 'text/javascript' 
-  }
+    ['alert(1)'], 
+    { 
+        type: 'text/javascript' 
+    }
 )
 ```
 
@@ -323,10 +323,10 @@ Here is some code that creates a script tag using this kind of URI:
 ```js
 // Construct the blob
 var blob = new Blob(
-  ['alert(1)'], 
-  { 
-    type: 'text/javascript' 
-  }
+    ['alert(1)'], 
+    { 
+        type: 'text/javascript' 
+    }
 )
 // Generate a blob URI for it
 var uri = URL.createObjectURL(blob)

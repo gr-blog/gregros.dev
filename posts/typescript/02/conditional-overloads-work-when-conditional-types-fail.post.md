@@ -50,14 +50,14 @@ But something interesting happens when `T` is actually generic at the point of c
 function example<T>() {
     return new List<T>()
 	    .map(x => x) // no-op
-        .map(x => x) // no-op
+	    .map(x => x) // no-op
 }
 ```
 
 Intuitively, we would expect the return type of `example<T>` to be `List<T>`, since we basically just added a few no-ops.
 
 Unfortunately, TypeScript disagrees. Instead, its return type turns out to be:
-<!-- eslint-skip  -->
+
 ```ts
 List<(T extends Promise<any> ? Promise<T extends Promise<infer S> ? S : T> : T extends Promise<infer S> ? S : T) extends Promise<...> ? Promise<...> : (T extends Promise<any> ? Promise<T extends Promise<infer S> ? S : T> : T extends Promise<infer S> ? S : T) extends Promise<...> ? S : T extends Promise<any> ? Promise<T extends Promise<infer S> ? S : T> : T extends Promise<infer S> ? S : T>
 ```
@@ -83,11 +83,11 @@ TypeScript takes this idea but goes a bit further – functions can declare a *`
 
 ```ts
 function example(this: { a: 1 }) {
-  return this.a
+    return this.a
 }
 ```
 
-Here's the key insight: TypeScript treats that `this` parameter just like any other argument. It only gets checked when you actually call the function.
+TypeScript treats that `this` parameter just like any other argument. It only gets checked when you actually call the function.
 
 So the following code, for example, will fail to compile because the `this` argument is missing:
 
@@ -139,8 +139,8 @@ Here is an example:
 
 ```ts
 declare class Example {
-  doThing(this: { a: 1 }): { a: 1 }
-  doThing(): {}
+    doThing(this: { a: 1 }): { a: 1 }
+    doThing(): {}
 }
 ```
 
@@ -202,12 +202,12 @@ To top it off, we just add a second overload to cover the case when `T` is not a
 
 ```ts
 declare class List<T> {
-  map<T, S>(
+    map<T, S>(
     this: List<Promise<T>>,
     iteratee: (e: T) => S
   ): List<Promise<S>>
   
-  map<S>(iteratee: (e: T) => S): List<S>
+    map<S>(iteratee: (e: T) => S): List<S>
 }
 ```
 # Testing it out
@@ -215,15 +215,15 @@ With this version, our code works as expected. It works when we know `T` is a pr
 
 ```ts
 new List<number>()
-	.map(async x => x)
-	.map(x => x + 1) satisfies List<Promise<number>>
+    .map(async x => x)
+    .map(x => x + 1) satisfies List<Promise<number>>
 ```
 
 While retaining the return type in case of a no-op:
 
 ```ts
 function example<T>() {
-	return new List<T>().map(x => x).map(x => x) satisfies List<T>
+    return new List<T>().map(x => x).map(x => x) satisfies List<T>
 }
 ```
 # Conclusion
