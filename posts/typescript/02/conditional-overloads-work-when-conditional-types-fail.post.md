@@ -14,7 +14,7 @@ Let’s say we have a `List<T>`, and we want a `map` method that maps each eleme
 
 ```ts
 declare class List<T> {
-    map<S>(iteratee: (x: T) => S): List<S>
+    map<S>(iteratee: (x: T) => S): List<S>;
 }
 ```
 
@@ -22,9 +22,9 @@ But what if we had a `List<Promise<T>>`? A user who wants to use our `map` metho
 
 ```ts
 list.map(async p => {
-    const v = await p
-    return projection(v)
-})
+    const v = await p;
+    return projection(v);
+});
 ```
 
 That’s pretty awkward! What if we instead allow the user to project the *awaited value* of each Promise, rather than the Promise itself?
@@ -39,7 +39,7 @@ Naturally, the first thing we’d reach for is conditional types. The idea is to
 declare class List<T> {
     map<R>(
         iteratee: (e: T extends Promise<infer S> ? S : T) => R
-    ): List<T extends Promise<any> ? Promise<R> : R>
+    ): List<T extends Promise<any> ? Promise<R> : R>;
 }
 // You can also use Awaited<T> to the same effect
 ```
@@ -50,14 +50,14 @@ But something interesting happens when `T` is actually generic at the point of c
 function example<T>() {
     return new List<T>()
         .map(x => x) // no-op
-        .map(x => x) // no-op
+        .map(x => x); // no-op
 }
 ```
 
 Intuitively, we would expect the return type of `example<T>` to be `List<T>`, since we basically just added a few no-ops.
 
 Unfortunately, TypeScript disagrees. Instead, its return type turns out to be:
-<!-- eslint-skip -->
+{/* eslint-skip */}
 ```ts
 List<(T extends Promise<any> ? Promise<T extends Promise<infer S> ? S : T> : T extends Promise<infer S> ? S : T) extends Promise<...> ? Promise<...> : (T extends Promise<any> ? Promise<T extends Promise<infer S> ? S : T> : T extends Promise<infer S> ? S : T) extends Promise<...> ? S : T extends Promise<any> ? Promise<T extends Promise<infer S> ? S : T> : T extends Promise<infer S> ? S : T>
 ```
@@ -83,7 +83,7 @@ TypeScript takes this idea but goes a bit further – functions can declare a *`
 
 ```ts
 function example(this: { a: 1 }) {
-    return this.a
+    return this.a;
 }
 ```
 
@@ -92,13 +92,13 @@ TypeScript treats that `this` parameter just like any other argument. It only ge
 So the following code, for example, will fail to compile because the `this` argument is missing:
 
 ```ts
-example()
+example();
 ```
 
 We can only call it by passing `this` explicitly:
 
 ```ts
-example.call({ a: 1 })
+example.call({ a: 1 });
 ```
 
 It’s a pretty obscure feature – but we can use it to get some interesting results. 
@@ -109,24 +109,24 @@ This means we can define a method on a class that can’t be called normally:
 
 ```ts
 declare class Example {
-    doStuff(this: { a: 1 }): void
+    doStuff(this: { a: 1 }): void;
 }
 
-let a = new Example()
+let a = new Example();
 
-a.doStuff() // ❌ `this` argument not assignable to {a: 1}
+a.doStuff(); // ❌ `this` argument not assignable to {a: 1}
 ```
 
 But by extending the class, we can make the method callable:
 
 ```ts
 declare class Example2 extends Example {
-    a: 1
+    a: 1;
 }
 
-let b = new Example2()
+let b = new Example2();
 
-b.doStuff() // ✅ works
+b.doStuff(); // ✅ works
 ```
 
 I like to call these *conditional methods*, and they’re kind of cool – but they’re also something we need to be careful about. These methods aren’t **callable** but they’re still **visible**. That leads to a lot of confusion when users try to call them.
@@ -139,8 +139,8 @@ Here is an example:
 
 ```ts
 declare class Example {
-    doThing(this: { a: 1 }): { a: 1 }
-    doThing(): {}
+    doThing(this: { a: 1 }): { a: 1 };
+    doThing(): {};
 }
 ```
 
@@ -152,9 +152,9 @@ For this part, let’s look at the signature of a `push` method. We’ll declare
 
 ```ts
 declare class List<T> {
-    pushNormal(item: T): void
+    pushNormal(item: T): void;
     
-    pushWeird<S>(this: List<S>, item: S): void
+    pushWeird<S>(this: List<S>, item: S): void;
 }
 ```
 
@@ -176,7 +176,7 @@ declare class List<T> {
     map<_T, S>(
         this: List<Promise<_T>>,
         iteratee: (x: _T) => S
-    ): List<Promise<S>>
+    ): List<Promise<S>>;
 }
 ```
 
@@ -194,7 +194,7 @@ declare class List<T> {
     map<T, S>(
         this: List<Promise<T>>,
         iteratee: (x: T) => S
-    ): List<S>
+    ): List<S>;
 }
 ```
 
@@ -205,9 +205,9 @@ declare class List<T> {
     map<T, S>(
         this: List<Promise<T>>,
         iteratee: (e: T) => S
-    ): List<Promise<S>>
+    ): List<Promise<S>>;
   
-    map<S>(iteratee: (e: T) => S): List<S>
+    map<S>(iteratee: (e: T) => S): List<S>;
 }
 ```
 # Testing it out
@@ -216,14 +216,14 @@ With this version, our code works as expected. It works when we know `T` is a pr
 ```ts
 new List<number>()
     .map(async x => x)
-    .map(x => x + 1) satisfies List<Promise<number>>
+    .map(x => x + 1) satisfies List<Promise<number>>;
 ```
 
 While retaining the return type in case of a no-op:
 
 ```ts
 function example<T>() {
-    return new List<T>().map(x => x).map(x => x) satisfies List<T>
+    return new List<T>().map(x => x).map(x => x) satisfies List<T>;
 }
 ```
 # Conclusion

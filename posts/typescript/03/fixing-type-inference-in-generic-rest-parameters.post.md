@@ -21,7 +21,7 @@ Since the code `[x, y, z]` always compiles, no matter what `x`, `y`, and `z` hap
 This seems like a classic use case for a rest argument. Something like this:
 
 ```ts
-declare function List<T>(...args: T[]): List<T>
+declare function List<T>(...args: T[]): List<T>;
 ```
 
 But there is a problem here. While this approach does work if we just use values like `1` and `2`:
@@ -73,7 +73,7 @@ I understand the overall motivation, though – TypeScript is trying to avoid in
 Since defining an array always works, TypeScript uses different logic for inferring its type – it just takes the disjunction of all the element types. Since we want to reproduce this logic, we’d like TypeScript to do the same with `List`.
 
 ```ts
-const example = [ 1, "2", true ] satisfies (1 | "2" | true)[]
+const example = [ 1, "2", true ] satisfies (1 | "2" | true)[];
 ```
 
 We can make use of this logic ourselves by rephrasing the signature using a generic tuple argument, which we’ll use to annotate the rest parameter:
@@ -87,7 +87,7 @@ This isn’t a completely different signature – we’re just being a bit more 
 Defined like this, the following code compiles just fine, [giving us](https://www.typescriptlang.org/play/?#code/AQSwdgLgpgTgZgQwMZWAGRAZwgHgCoB8wA3gFDDAIQAUYAXMGAK4C2ARrAJQN4DcpAX1IATKEgA2CGKjhMwSCCAD2YdFlx5MwKAA9oYYVukJhK8QE9KYcwG0AugWoA6FyGgtMPTNzXZ8mG2Z2WAd+JBVsYHF1YABeXxpiSgYARmABABoSYDYGACZ0zjCIiCj1AviMbGoUrIAiAAsocXElYAB3JRhxYTqspIRUwuAgA) a clean disjunction of value and object types:
 
 ```ts
-List(1, "hello world", { a: 1 }) satisfies List<number | string | { a: number }>
+List(1, "hello world", { a: 1 }) satisfies List<number | string | { a: number }>;
 ```
 # Conclusion
 Using generics with rest parameters can sometimes cause type inference to fail. In this post, we’ve looked at a way of overcoming this problem using tuples – leading to more flexible variadic signatures.

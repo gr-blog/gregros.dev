@@ -27,13 +27,13 @@ For example, I prefer to set up my JS environment like this:
 
 ```js
 // reduce memory footprint:
-delete window.Object
+delete window.Object;
 // improved developer experience:
-JSON.parse = eval
+JSON.parse = eval;
 // so I don't miss anything:
-console.error = alert
+console.error = alert;
 // for debugging:
-console.log = document.write
+console.log = document.write;
 ```
 
 Keeping the environments separate is the only way to make sure the pages stay consistent.
@@ -52,10 +52,10 @@ We’ll encapsulate all of that in a function, and also have that function inser
 
 ```js
 function makeIframe(contents) {
-    var iframe = document.createElement("iframe")
-    iframe.srcdoc = contents
-    document.body.appendChild(iframe)
-    return iframe
+    var iframe = document.createElement("iframe");
+    iframe.srcdoc = contents;
+    document.body.appendChild(iframe);
+    return iframe;
 }
 ```
 
@@ -66,28 +66,28 @@ We can do that using the iframe’s `contentWindow` property, which exposes *ifr
 
 ```js
 // create the iframe with no contents:
-var iframe = makeIframe("")
+var iframe = makeIframe("");
 
 // get its window:
-var i_win = iframe.contentWindow
+var i_win = iframe.contentWindow;
 
 // and run some checks:
 console.assert(
     // It's a window
     i_win === i_win.globalThis
-)
+);
 console.assert(
     // but not *our* window
     i_win !== window
-) 
+); 
 console.assert(
     // It has a different Array
     i_win.Array !== Array
-)
+);
 console.assert(
     // And a different `setTimeout` function
     i_win.setTimeout !== setTimeout
-)
+);
 ```
 
 Great! Now let’s mess around with everything and see what happens. 
@@ -95,13 +95,13 @@ Great! Now let’s mess around with everything and see what happens.
 We’ll start by creating an array using the iframe’s `Array` constructor.
 
 ```js
-var i_array = new i_win.Array([1, 2])
+var i_array = new i_win.Array([1, 2]);
 console.assert(
     i_array[0] === 1
-)
+);
 console.assert(
     i_array.length === 2
-)
+);
 ```
 
 The result seems to work like a normal array, but don’t be fooled. Any check involving the array’s prototype will reveal the alien array’s true nature:
@@ -109,10 +109,10 @@ The result seems to work like a normal array, but don’t be fooled. Any check i
 ```js
 console.assert(
     !(i_array instanceof Array)
-)
+);
 console.assert(
     !(i_array instanceof Object)
-)
+);
 ```
 
 Weird, right?
@@ -139,24 +139,24 @@ var iframe = makeIframe(`
         return [1, 2, 3]
     }
 </script>
-`)
-var i_win = iframe.contentWindow
+`);
+var i_win = iframe.contentWindow;
 
 i_win.getArray2 = function() {
-    return [1, 2, 3]
-}
+    return [1, 2, 3];
+};
 
-var x_array1 = i_win.getArray1()
-var x_array2 = i_win.getArray2()
+var x_array1 = i_win.getArray1();
+var x_array2 = i_win.getArray2();
 
 console.log(
     "version 1:",
     array1 instanceof Array
-)
+);
 console.log(
     "version 2:",
     array2 instanceof Array
-)
+);
 ```
 
 What do you think?
@@ -191,14 +191,14 @@ An iframe has its own copy of the DOM prototype chains, and every element within
 But what happens if we insert one of them into the DOM of the parent page? 
 
 ```js
-var iframe = makeIframe("")
-var i_win = iframe.contentWindow
+var iframe = makeIframe("");
+var i_win = iframe.contentWindow;
 
-var i_doc = i_win.document
-var i_div = i_doc.createElement("div")
+var i_doc = i_win.document;
+var i_div = i_doc.createElement("div");
 
-i_div.id = "find-me"
-document.body.appendChild(i_div)
+i_div.id = "find-me";
+document.body.appendChild(i_div);
 ```
 
 This one is a bit tricky! Here are some possibilities:
@@ -214,17 +214,17 @@ What ends up happening, though, is that Chrome inserts the element as-is.
 We get an alien element in the DOM, and it’s just sitting there. We can even look it up!
 
 ```js
-var i_div_after = document.querySelector("#find-me")
+var i_div_after = document.querySelector("#find-me");
 
 console.assert(
     i_div === i_div_after
-)
+);
 console.assert(
     !(i_div instanceof Element)
-)
+);
 console.assert(
     i_div instanceof i_win.Element
-)
+);
 ```
 
 This really took me for a spin, because it *feels* like something the browser shouldn’t allow. 
@@ -236,12 +236,12 @@ But no, the element is totally fine. We could check the document’s `innerHTML`
 We could even insert child nodes into the element’s subtree, with the correct prototype this time.
 
 ```js
-i_div.setAttribute("data-blah", "xyz")
+i_div.setAttribute("data-blah", "xyz");
 i_div.appendChild(
     document.createElement("div")
-)
+);
 
-console.log(i_div.outerHTML)
+console.log(i_div.outerHTML);
 ```
 
 It would all work just fine. If we didn’t know any better, we wouldn’t even know anything is wrong.

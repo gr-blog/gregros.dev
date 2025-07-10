@@ -98,7 +98,7 @@ Luckily, there is a pretty stable API that lets us import modules using the same
 ```js
 var Logs = await runtime.loadLegacyModule(
     "models/logs/logs.js"
-)
+);
 ```
 
 Internally, it just does a dynamic import from one of the inspector’s script files. Nothing fancy. But convenient!
@@ -110,8 +110,8 @@ For example, we can access the [NetworkLog](https://github.com/ChromeDevTools/de
 ```js
 var Logs = await runtime.loadLegacyModule(
     "models/logs/logs.js"
-)
-var NetworkLog = Logs.NetworkLog.NetworkLog.instance()
+);
+var NetworkLog = Logs.NetworkLog.NetworkLog.instance();
 ```
 
 `Logs` is a module with an export `NetworkLog` that also happens to be a module, finally exporting the `NetworkLog` class.
@@ -126,7 +126,7 @@ Let’s take a look at the first use case of this technique — filtering and pr
 We do this using the `NetworkLog` I showed in the last section — it’s actually the source of all the data in the Network panel. To access its data, we just need to call:
 
 ```js
-NetworkLog.requests()
+NetworkLog.requests();
 ```
 
 Which returns an array of [NetworkRequest](https://github.com/ChromeDevTools/devtools-frontend/blob/main/front_end/core/sdk/NetworkRequest.ts) objects. These are mutable objects that get updated in real-time as network data arrives. 
@@ -139,7 +139,7 @@ It can be helpful to exclude these using the methods [`isHttpFamily`](https://gi
 NetworkLog.requests().filter(x => 
     x.isHttpFamily() && 
     !x.wasBlocked()
-)
+);
 ```
 
 Let’s take a look at some code examples!
@@ -149,13 +149,13 @@ If you’re looking at a complicated web application with lots of dependencies, 
 Using the *meta-inspector*, you can figure it out using JavaScript. We just group the log entries by [`domain`](https://github.com/ChromeDevTools/devtools-frontend/blob/4590d3a54ca7023ca9f61f0dc46f2d821401c118/front_end/core/sdk/NetworkRequest.ts#L911) and sum by [`resourceSize`](https://github.com/ChromeDevTools/devtools-frontend/blob/ed19c1e8985293025be2e812b86ea7619185fcfd/front_end/core/sdk/NetworkRequest.ts#L649).
 
 ```js
-var trafficByHost = Object.create(null)
+var trafficByHost = Object.create(null);
 for (var rq of NetworkLog.requests()) {
-    let currentTraffic = trafficByHost[rq.domain ?? ""] ?? 0
-    currentTraffic += rq.resourceSize ?? 0
-    trafficByHost[rq.domain] = currentTraffic
+    let currentTraffic = trafficByHost[rq.domain ?? ""] ?? 0;
+    currentTraffic += rq.resourceSize ?? 0;
+    trafficByHost[rq.domain] = currentTraffic;
 }
-trafficByHost
+trafficByHost;
 ```
 ## Security reports
 TLS 1.2 is widely considered to be obsolete, but it’s still being used on the web in some cases. 
@@ -174,13 +174,13 @@ var reqList = NetworkLog.requests()
         return { // simplify objects:
             url: rq.url(),
             security: rq.securityDetails()?.protocol ?? ""
-        }
-    })
+        };
+    });
 
 // Grouping requests by security protocol:
 Object.groupBy(reqList, x =>
     x.security
-)
+);
 ```
 
 I looked around, and I quickly found some webpages using TLS 1.2 using this technique:
@@ -198,25 +198,25 @@ We’ll use the [`requestFormData`](https://github.com/ChromeDevTools/devtools-f
 var searchPromises = NetworkLog.requests()
     .filter(x => x.requestMethod == "POST")
     .map(async x => {
-        let payload = await x.requestFormData()
+        let payload = await x.requestFormData();
         // skip no payload:
         if (!payload) { 
-            return false
+            return false;
         }
         // search in the contents:
         if (!payload.includes("zionSp")) {
-            return false
+            return false;
         }
         // if pass, return simplified object:
         return {
             url: x.url(),
             body: payload
-        }
+        };
     }
     )
 
 // await all and filter out false values:
-    (await Promise.all(searchPromises)).filter(x => x)
+    (await Promise.all(searchPromises)).filter(x => x);
 ```
 ## Other stuff
 There is a lot more you can do with this network data. For example:
