@@ -151,7 +151,7 @@ path. Here is how it works:
 ```js
 var Logs = await runtime.loadLegacyModule(
     "models/logs/logs.js",
-);
+)
 ```
 
 Internally, it just does a dynamic import from one of the inspector’s script
@@ -169,8 +169,8 @@ instance from the `Logs` module we imported earlier using:
 ```js
 var Logs = await runtime.loadLegacyModule(
     "models/logs/logs.js",
-);
-var NetworkLog = Logs.NetworkLog.NetworkLog.instance();
+)
+var NetworkLog = Logs.NetworkLog.NetworkLog.instance()
 ```
 
 `Logs` is a module with an export `NetworkLog` that also happens to be a module,
@@ -192,7 +192,7 @@ the source of all the data in the Network panel. To access its data, we just
 need to call:
 
 ```js
-NetworkLog.requests();
+NetworkLog.requests()
 ```
 
 Which returns an array of
@@ -213,7 +213,7 @@ and
 NetworkLog.requests().filter((x) =>
     x.isHttpFamily() &&
     !x.wasBlocked()
-);
+)
 ```
 
 Let’s take a look at some code examples!
@@ -231,13 +231,13 @@ and sum by
 [`resourceSize`](https://github.com/ChromeDevTools/devtools-frontend/blob/ed19c1e8985293025be2e812b86ea7619185fcfd/front_end/core/sdk/NetworkRequest.ts#L649).
 
 ```js
-var trafficByHost = Object.create(null);
+var trafficByHost = Object.create(null)
 for (var rq of NetworkLog.requests()) {
-    let currentTraffic = trafficByHost[rq.domain ?? ""] ?? 0;
-    currentTraffic += rq.resourceSize ?? 0;
-    trafficByHost[rq.domain] = currentTraffic;
+    let currentTraffic = trafficByHost[rq.domain ?? ""] ?? 0
+    currentTraffic += rq.resourceSize ?? 0
+    trafficByHost[rq.domain] = currentTraffic
 }
-trafficByHost;
+trafficByHost
 ```
 
 ## Security reports
@@ -265,11 +265,11 @@ var reqList = NetworkLog.requests()
         return { // simplify objects:
             url: rq.url(),
             security: rq.securityDetails()?.protocol ?? "",
-        };
-    });
+        }
+    })
 
 // Grouping requests by security protocol:
-Object.groupBy(reqList, (x) => x.security);
+Object.groupBy(reqList, (x) => x.security)
 ```
 
 I looked around, and I quickly found some webpages using TLS 1.2 using this
@@ -297,22 +297,22 @@ data. It just returns it as a string.
 var searchPromises = NetworkLog.requests()
     .filter((x) => x.requestMethod == "POST")
     .map(async (x) => {
-        let payload = await x.requestFormData();
+        let payload = await x.requestFormData()
         // skip no payload:
         if (!payload) {
-            return false;
+            return false
         }
         // search in the contents:
         if (!payload.includes("zionSp")) {
-            return false;
+            return false
         }
         // if pass, return simplified object:
         return {
             url: x.url(),
             body: payload,
-        };
+        }
     })// await all and filter out false values:
-    (await Promise.all(searchPromises)).filter((x) => x);
+    (await Promise.all(searchPromises)).filter((x) => x)
 ```
 
 ## Other stuff
