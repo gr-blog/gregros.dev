@@ -31,7 +31,7 @@ That’s pretty awkward! What if we instead allow the user to project the *await
 
 At runtime, we can check every element to see if it’s a Promise, and if it is, project it using `then`. Simple enough.
 
-But what about at compile-time? We would need a method that has a different signature depending on what `T` happens to be! 
+But what about at compile-time? We would need a method that has a different signature depending on what `T` happens to be!
 # Trying to use conditional types
 Naturally, the first thing we’d reach for is conditional types. The idea is to phrase both the argument and the return type based on what `T` actually is:
 
@@ -61,11 +61,12 @@ Unfortunately, TypeScript disagrees. Instead, its return type turns out to be:
 ```ts
 List<(T extends Promise<any> ? Promise<T extends Promise<infer S> ? S : T> : T extends Promise<infer S> ? S : T) extends Promise<...> ? Promise<...> : (T extends Promise<any> ? Promise<T extends Promise<infer S> ? S : T> : T extends Promise<infer S> ? S : T) extends Promise<...> ? S : T extends Promise<any> ? Promise<T extends Promise<infer S> ? S : T> : T extends Promise<infer S> ? S : T>
 ```
+
 Even though it *looks* like some of these conditionals should simplify, TypeScript doesn’t even try. Instead, it lets them build on themselves until we get this thing.
 
-TypeScript _will_ resolve all these conditionals if we call the method as `example<number>`. But if we keep the code generic, we’re going to end up with these unreadable types just lying around all over the place.
+TypeScript *will* resolve all these conditionals if we call the method as `example<number>`. But if we keep the code generic, we’re going to end up with these unreadable types just lying around all over the place.
 
-The only way to deal with these things is to use lots of type assertions and `any`, which probably won’t pass code review. 
+The only way to deal with these things is to use lots of type assertions and `any`, which probably won’t pass code review.
 
 Is there a better approach? Turns out, yes! But it involves a clever trick that combines three TypeScript features in a way you might not expect...
 # The conditional overload
@@ -101,7 +102,7 @@ We can only call it by passing `this` explicitly:
 example.call({ a: 1 })
 ```
 
-It’s a pretty obscure feature – but we can use it to get some interesting results. 
+It’s a pretty obscure feature – but we can use it to get some interesting results.
 ## Methods with a this annotation
 Strangely, a `this` annotation on a method works the same as on a function – it doesn’t take into account where the method is actually defined.
 
@@ -133,7 +134,7 @@ I like to call these *conditional methods*, and they’re kind of cool – but t
 
 Luckily, the next stage of the pattern solves this problem!
 ## Conditional overloads
-The trick is using *conditional methods* as overloads, while ensuring that some version of the method is callable no matter what `this` happens to be. 
+The trick is using *conditional methods* as overloads, while ensuring that some version of the method is callable no matter what `this` happens to be.
 
 Here is an example:
 
@@ -166,7 +167,7 @@ Since the `this` argument is treated as just another argument by TypeScript, it�
 
 - The value of `this` has the type `List<T>`
 - The `this` annotation on the method is `List<S>`
-- The compiler infers $S \equiv T$. 
+- The compiler infers $S \equiv T$.
 - The inferred signature becomes `pushWeird(this: List<T>, item: T)`.
 
 It’s not very useful when used this way, of course. But using this pattern, we can also rephrase what `S` refers to. Take a look:
@@ -210,6 +211,7 @@ declare class List<T> {
     map<S>(iteratee: (e: T) => S): List<S>
 }
 ```
+
 # Testing it out
 With this version, our code works as expected. It works when we know `T` is a promise:
 
@@ -226,8 +228,9 @@ function example<T>() {
     return new List<T>().map(x => x).map(x => x) satisfies List<T>
 }
 ```
+
 # Conclusion
-Conditional types can be a bit fragile, especially when generic code is involved. 
+Conditional types can be a bit fragile, especially when generic code is involved.
 
 In this post, we looked at a way of having conditional logic without conditional types, using TypeScript’s overloads feature together with `this` annotations.
 

@@ -16,9 +16,11 @@ I like to divide script tags based on two primary classifications.
 2. The **source axis**, which says **where it gets its content from**.
 
 We can picture this using a simple tabular diagram:
+
 ```canva size=445x305 ;; key=script-tag-types ;; alt=Script tag types diagram
 https://www.canva.com/design/DAGby5He9jU/1PyY3PGdsH74HG0GVjaimA/view?utm_content=DAGby5He9jU&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h43df53d6b0
 ```
+
 # Type axis
 There are three possible options here, and they’re all determined by the script’s `type` attribute.
 
@@ -34,7 +36,7 @@ You’ll get this kind of script tag if your `type` is present but **doesn’t**
 - Module — `"module"`
 - No value or the empty string `""`
 
-These script tags won’t execute and won’t fetch any resources. Instead, they’re used to embed data into the page through the body of the tag, usually in the form of JSON. 
+These script tags won’t execute and won’t fetch any resources. Instead, they’re used to embed data into the page through the body of the tag, usually in the form of JSON.
 
 It’s best practice to use the `type` attribute to indicate the type of data it contains.
 
@@ -47,7 +49,7 @@ Some common values for the attribute include:
 In principle, you could use any HTML tag for this purpose, but script tags have several advantages over other types of tags.
 
 - They are invisible.
-- They can appear in the `<head>` portion of the page. 
+- They can appear in the `<head>` portion of the page.
 - They let you avoid escaping most special characters used in HTML, like `&` and `<`.
 
 Here is an example of a non-executable script tag:
@@ -69,7 +71,7 @@ Here is an example of a non-executable script tag:
 ```
 
 ## Module
-You’ll get this kind of script tag if you have the `type` attribute set to `"module"`. 
+You’ll get this kind of script tag if you have the `type` attribute set to `"module"`.
 
 These script tags are entrypoints to the ES module system. They always fetch and execute asynchronously.
 
@@ -97,15 +99,15 @@ Here are a few examples of ES module script tags of different kinds:
 ```
 
 ### The new normal for the web
-Nowadays, pretty much everyone uses module script tags. 
+Nowadays, pretty much everyone uses module script tags.
 
 While porting old code that uses classic script tags can be a thorny proposition, you should absolutely use these if you’re building something new.
 
-One drawback they do have is **compatibility.** They’ve been supported by major browsers since around 2017, but some users continue to use obsolete browsers that don’t support them. 
+One drawback they do have is **compatibility.** They’ve been supported by major browsers since around 2017, but some users continue to use obsolete browsers that don’t support them.
 
 This includes the infamous IE11, but also some built-in mobile browsers.
 
-Overall, these browsers account for up to 5% of active users, but this percentage can be much lower or much higher, depending on the specific demographics your product is targeting. 
+Overall, these browsers account for up to 5% of active users, but this percentage can be much lower or much higher, depending on the specific demographics your product is targeting.
 
 If you’re, say, writing a tech blog, it’s not something you have to worry about. But a government service, a pension fund, or a bank might have stricter requirements.
 ## Classic
@@ -115,19 +117,19 @@ You’ll get this kind of script tag if the `type` attribute:
 - Has a value of `text/javascript` or another valid JavaScript MIME type.
 - Has no value, or the value `""`.
 
-Classic script tags have been around since JavaScript became a thing, and they make up the majority of script tags found on websites today. 
+Classic script tags have been around since JavaScript became a thing, and they make up the majority of script tags found on websites today.
 
 In spite of their age – or perhaps because of it – they are actually more complicated than the newer module type script tags.
 
-When the browser encounters a classic script tag as part of parsing a webpage, it will immediately fetch and execute its content synchronously, blocking the rest of the page from loading until it’s done. 
+When the browser encounters a classic script tag as part of parsing a webpage, it will immediately fetch and execute its content synchronously, blocking the rest of the page from loading until it’s done.
 
 This means that some or all of the page might not have loaded yet when the script executes.
 
-For instance, if you place the script before the `<body>` tag, you’ll find `document.body` to be `null`. If you place it before a `<div>`, that `<div>` won’t exist yet. 
+For instance, if you place the script before the `<body>` tag, you’ll find `document.body` to be `null`. If you place it before a `<div>`, that `<div>` won’t exist yet.
 
 Some elements, such as images and fonts, can be loaded asynchronously, which means the script might execute while the geometry of the page hasn’t settled yet, changing the results of functions such as `getClientRect`.
 
-Any top-level declarations made here will become page-wide globals, accessible from any other script tag. 
+Any top-level declarations made here will become page-wide globals, accessible from any other script tag.
 
 This is a particularly nasty and error-prone feature, and you’ll frequently see script tags use scoping constructs like self-executing functions in order to control it.
 
@@ -177,6 +179,7 @@ Here are examples of different kinds of classic script tags:
     type=""
 ></script>
 ```
+
 ### Client-side infrastructure
 The ES module system has replaced classic script tags for frontend development, but that doesn’t mean classic script tags are now obsolete.
 
@@ -186,7 +189,7 @@ For example, classic script tags that appear before the `<body>` tag will execut
 
 This technique is crucial for many pieces of client-side infrastructure, ranging from analytics packages to security systems, which must come online early to avoid missing security threats or events.
 
-That doesn’t mean they get a free pass to block the page for as long as they like, though. 
+That doesn’t mean they get a free pass to block the page for as long as they like, though.
 
 Rather, this power comes with the responsibility of ensuring as little disruption to the page as possible. If a security system blocks for too long, hurts user experience, and causes clients to lose KPIs — they will simply switch to something else.
 # Source axis
@@ -199,7 +202,7 @@ The source axis determines where a script’s JavaScript content comes from. Thi
 
 The group a script belongs to is determined by its `src` attribute.
 ## Inline scripts
-These kinds of scripts don’t have an `src` attribute and embed JavaScript content in the body of the tag. 
+These kinds of scripts don’t have an `src` attribute and embed JavaScript content in the body of the tag.
 
 The browser has special rules for parsing the bodies of script tags. These rules let you avoid escaping special characters like `&` or `<`. However, it’s not like the HTML parser tries to parse JavaScript either.
 
@@ -227,13 +230,14 @@ Here are examples of valid inline script tags:
 	import { myFunction } from './module.js'
 </script>
 ```
+
 ## External script
 These scripts have an `src` attribute that points to an HTTP/S URL.
 
 When compared to inline scripts, external scripts have a number of advantages that make them the most common type of script tag in use today.
 
 1. They let you avoid sending the same bit of JavaScript with every request, leveraging the browser’s caching mechanism and reducing overall bandwidth.
-2. They have an address that will appear in the stack trace, making them far easier to debug. 
+2. They have an address that will appear in the stack trace, making them far easier to debug.
 3. They mean you can use different hosting strategies for different parts of your site, optimizing delivery and potentially reducing costs.
 4. They allow for better code organization.
 
@@ -253,6 +257,7 @@ Here are some examples of external script tags:
     src="https://example.com/module.js"
 ></script>
 ```
+
 ## Data scripts
 Data scripts have an `src` attribute that points to a URI that uses the `data:` pseudo-protocol.
 
@@ -262,7 +267,7 @@ As a pseudo-protocol, `data:` doesn’t actually point to the location of a reso
 
 Data scripts use more consistent escaping rules than inline tags, and can use a wide variety of encodings and character sets, which are often specified as part of the data URI. One of the most popular options is base64, which avoids the need to escape anything.
 
-At the same time, data scripts have the massive disadvantage of usually being illegible. This makes them one of the vectors of choice when attackers inject malicious scripts. 
+At the same time, data scripts have the massive disadvantage of usually being illegible. This makes them one of the vectors of choice when attackers inject malicious scripts.
 
 Here are some examples of data script tags in action:
 
@@ -288,6 +293,7 @@ Here are some examples of data script tags in action:
     src="data:text/javascript,import './module.js'"
 ></script>
 ```
+
 ## Blob scripts
 Blob scripts can only be created from JavaScript. They’re pretty weird.
 
@@ -312,7 +318,7 @@ This URI looks something like this:
 `blob:http://localhost:1234/60e5ba14-5bd0-4333-bb19-7782bf17cf4a`
 ```
 
-There are solid reasons to use these, though I have to admit they’re pretty weird. 
+There are solid reasons to use these, though I have to admit they’re pretty weird.
 
 Because they must be constructed using JavaScript, they can’t be inserted using certain kinds of XSS attacks. This makes them somewhat more secure than `data:` URI.
 

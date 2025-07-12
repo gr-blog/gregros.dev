@@ -4,7 +4,7 @@ description: ...
 published: 2025-01-01
 updated: 2025-01-11
 ---
-What makes an object a DOM node? Is it the prototype or something else? 
+What makes an object a DOM node? Is it the prototype or something else?
 
 The answer turns out to be surprisingly complicated!
 
@@ -14,6 +14,7 @@ The best way to investigate what the browser sees as a DOM node is to use a func
 The classic example is `appendChild`. This method accepts a DOM node and inserts it as the child of another node. If you pass the method just a regular old object, it will error instead.
 
 Here is some code to illustrate this:
+
 ```js
 // Create an element
 var div = document.createElement("div")
@@ -31,7 +32,7 @@ document.body.appendChild({})
 # Mad web science
 Now let’s perform a series of bizarre experiments that subvert this code in strange and unusual ways, in the name of mad web science!
 ## Messing up a DOM node
-In this variation, we create the element as normal, but we then mess it up by removing its prototype and deleting all of its keys. 
+In this variation, we create the element as normal, but we then mess it up by removing its prototype and deleting all of its keys.
 
 This should result in an object that’s functionally indistinguishable from `{}`, something that should be completely non-functional.
 
@@ -52,6 +53,7 @@ for (const key of Reflect.ownKeys(div)) {
 // Insert it into the page
 document.body.appendChild(div)
 ```
+
 ## Trying to fake one
 Now, here is the second variation:
 
@@ -116,11 +118,11 @@ https://www.canva.com/design/DAGby_a3rDM/N8CbBV9kIAUZeGTcAXWw4A/view?utm_content
 
 The rendering engine does not follow the rules of JavaScript and generally *tries* not to know what JavaScript even is. It does know what a DOM Node is though. In fact, **one of the rendering engine’s primary jobs is to allocate and manage DOM nodes.**
 
-These DOM nodes don’t have anything to do with prototype chains or JavaScript. They are native C++ objects called `Node` that are passed by reference. They literally implement methods called `appendChild` and `insertBefore`. 
+These DOM nodes don’t have anything to do with prototype chains or JavaScript. They are native C++ objects called `Node` that are passed by reference. They literally implement methods called `appendChild` and `insertBefore`.
 
 The V8-Blink bindings form the link between the two. There, each JavaScript DOM node is mapped to a `Node` object, and this mapping just works by reference.
 
-When an operation like `appendChild` is invoked, each JavaScript DOM node is resolved to its native counterpart, and then everything is executed in Blink. This means, in turn, that **JavaScript DOM nodes are just handles to Blink DOM nodes.** 
+When an operation like `appendChild` is invoked, each JavaScript DOM node is resolved to its native counterpart, and then everything is executed in Blink. This means, in turn, that **JavaScript DOM nodes are just handles to Blink DOM nodes.**
 
 This is why removing the prototype of a DOM node didn’t break it — *it was never functional to begin with*. The only thing that matters is the mapping, which was created as soon as we called `createElement`.  The JavaScript properties of the object were always irrelevant.
 
@@ -128,7 +130,7 @@ Next, since DOM nodes are allocated by Blink, it’s impossible to create a DOM 
 
 The OS knows what files we opened, since it’s responsible for opening them; we’re not fooling anyone.
 # Conclusion
-JavaScript objects aren't actually DOM nodes at all. DOM nodes are native objects managed by the rendering engine, and JavaScript objects are just handles to those objects, kind of like pointers. 
+JavaScript objects aren't actually DOM nodes at all. DOM nodes are native objects managed by the rendering engine, and JavaScript objects are just handles to those objects, kind of like pointers.
 
 The browser gives out these *handles* and puts them on a list. To check if an object is a handle to a DOM node, all it needs to do is check if it’s on that list. The state of the object, like its prototype, is irrelevant.
 

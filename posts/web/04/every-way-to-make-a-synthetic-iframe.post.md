@@ -15,10 +15,12 @@ I define an iframe as *synthetic* if:
 2. That points to a web address.
 
 We can visualize it using a decision tree:
+
 ```canva size=540x420 ;; key=synthetic-iframe-decision-tree ;; alt=Synthetic iframe decision tree
 https://www.canva.com/design/DAGby_r5FO0/_WUVxhryforZ-iF7yI8ppA/view?utm_content=DAGby_r5FO0&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h64c24c39ab
 ```
-Synthetic iframes can have an `src` attribute, but one that contains a non-web address. They might also have no attributes at all. 
+
+Synthetic iframes can have an `src` attribute, but one that contains a non-web address. They might also have no attributes at all.
 
 Synthetic iframes are a bit strange, but they’re also simpler than non-synthetic ones. That’s because there are way fewer factors that can change their behavior.
 
@@ -32,7 +34,7 @@ Let’s take a look at every method for constructing a synthetic iframe and comp
 # srcdoc attribute
 A straight-forward method that probably resolves 90% of use-cases.
 
-The `srcdoc` attribute can be used to set the contents of a synthetic iframe verbatim. It can be specified as part of the HTML of the iframe tag, or can be set using JavaScript. 
+The `srcdoc` attribute can be used to set the contents of a synthetic iframe verbatim. It can be specified as part of the HTML of the iframe tag, or can be set using JavaScript.
 
 Note that we can set the attribute before we attach the frame to the page.
 
@@ -44,6 +46,7 @@ Here is an example of it being set using HTML:
 ```
 
 And here we set it via a JavaScript property:
+
 ```js
 // Create the iframe 
 var iframe = document.createElement("iframe")
@@ -61,6 +64,7 @@ A srcdoc iframe doesn’t have an origin. That means its origin defaults to the 
 - Can be inserted using JavaScript or be part of the HTML page itself
 - Loads synchronously
 - Not isolated from the parent page.
+
 # empty – no src or srcdoc
 An iframe with neither an `src` nor `srcdoc` attributes starts out empty. Its content is manually constructed using DOM operations and JavaScript, via the iframe element’s `contentWindow` property.
 
@@ -92,15 +96,18 @@ doc.body.appendChild(iframeH1)
 - Constructed using JavaScript.
 - Everything DOM update is applies synchronously.
 - Not isolated from the parent page.
+
 # data URI
 Another kind of iframe uses the `src` attribute, but with a data URI in it. This is very similar to the `srcdoc` attribute, in that it allows us to specify the iframe’s contents verbatim in the attribute.
 
 However, using a data URI is more flexible, since it allows different encodings. We can just use text:
+
 ```html
 <iframe src="data:text/html,<h1>hello world</h1>"></iframe>
 ```
 
 But we can also use base64:
+
 ```html
 <iframe src="data:text/html;base64,PGgxPmhlbGxvIHdvcmxkPC9oMT4="></iframe>
 ```
@@ -115,6 +122,7 @@ Something similar can be achieved for any iframe using the `sandbox` attribute, 
 - Content is specified verbatim using different encodings.
 - Securely isolated from the parent page.
 - Loads after an asynchronous delay
+
 # blob URI
 This kind of iframe can only be created using JavaScript. It uses a Blob URI, a really weird mechanism for generating a URI pointing to a dynamically allocated binary object.
 
@@ -144,12 +152,13 @@ The result looks something like this:
 <iframe src="blob:http://localhost/703363e4-f8a8-401f-90d7-b258264b4d60"></iframe>
 ```
 
-Unlike data URIs, iframes constructed like this actually do inherit the parent’s origin. 
+Unlike data URIs, iframes constructed like this actually do inherit the parent’s origin.
 
 - Constructed using JavaScript
 - Content specified verbatim as part of the blob
 - Loads after an asynchronous delay
 - Not isolated from the parent page
+
 # about URI
 Using an `src` attribute with the `about:` pseudo-protocol doesn’t actually construct an iframe. It sets its address without specifying what’s in it. Kind of like giving a nickname to a pet.
 
@@ -158,4 +167,3 @@ You can combine this with the [[#srcdoc attribute]] to set the frame’s locatio
 Synthetic iframes are simpler than non-synthetic ones, but there are lots of different ways to create them, each with its own sets of benefits and drawbacks.
 
 I’m pretty sure I covered literally every single method in this article. Please [contact me](mailto:gregros@gregros.dev) if I missed anything!
-

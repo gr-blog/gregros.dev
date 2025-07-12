@@ -42,7 +42,7 @@ Yup!
 
 It’s one of the reasons using iframes is generally a bad idea.
 
-That said, there are some things that only iframes can do, so they will probably never go away. 
+That said, there are some things that only iframes can do, so they will probably never go away.
 # Making an iframe
 Before can interact with an iframe, we need to create one and attach it to the page.
 
@@ -59,7 +59,7 @@ function makeIframe(contents) {
 }
 ```
 
-# Accessing the JS environment 
+# Accessing the JS environment
 It’s pretty easy to access an iframe’s JS environment, provided it’s not isolated by security features.
 
 We can do that using the iframe’s `contentWindow` property, which exposes *iframe*’s global `window` object. Let’s use it to run a few quick checks:
@@ -90,7 +90,7 @@ console.assert(
 )
 ```
 
-Great! Now let’s mess around with everything and see what happens. 
+Great! Now let’s mess around with everything and see what happens.
 
 We’ll start by creating an array using the iframe’s `Array` constructor.
 
@@ -125,7 +125,7 @@ For example, what about defining a function inside the iframe, and calling it fr
 
 Let’s find out!
 # Functions from other worlds
-We’ll run the experiment in two different ways and see if the results line up. 
+We’ll run the experiment in two different ways and see if the results line up.
 
 - We’ll create an iframe that just has a script tag with a function.
 - We’ll insert another function into the iframe from the outside.
@@ -188,7 +188,7 @@ I think the function example is pretty damn weird, but it’s just scratching th
 
 An iframe has its own copy of the DOM prototype chains, and every element within it is an instance of one of those prototypes. We can create these alien elements using the iframe’s `createElement` function.
 
-But what happens if we insert one of them into the DOM of the parent page? 
+But what happens if we insert one of them into the DOM of the parent page?
 
 ```js
 var iframe = makeIframe("")
@@ -209,7 +209,7 @@ This one is a bit tricky! Here are some possibilities:
 - It could clone the element, attach the correct prototype, and then insert the copy.
 
 ## What actually happens
-What ends up happening, though, is that Chrome inserts the element as-is. 
+What ends up happening, though, is that Chrome inserts the element as-is.
 
 We get an alien element in the DOM, and it’s just sitting there. We can even look it up!
 
@@ -227,7 +227,7 @@ console.assert(
 )
 ```
 
-This really took me for a spin, because it *feels* like something the browser shouldn’t allow. 
+This really took me for a spin, because it *feels* like something the browser shouldn’t allow.
 
 I’d expect the element to be broken or non-functional, the document to be in an invalid state, or… something like that.
 
@@ -246,7 +246,7 @@ console.log(i_div.outerHTML)
 
 It would all work just fine. If we didn’t know any better, we wouldn’t even know anything is wrong.
 
-So what’s going on? 
+So what’s going on?
 ## It’s not allowed to care
 The W3C specification, which describes everything about the DOM as we know it, very rarely uses the term *prototype*, but it does define the *DOM Interfaces*.
 
@@ -254,7 +254,7 @@ In JavaScript, these are represented by the constructors you know and love – `
 
 But as we learned back in my [[but-what-is-a-dom-node.post|article about DOM nodes]], DOM nodes and JavaScript objects aren’t the same thing. DOM nodes are managed by the rendering engine and follow a different set of rules.
 
-Specifically, the W3C’s set of rules. And according to the W3C, there is just one set of *DOM interfaces* — no copies. 
+Specifically, the W3C’s set of rules. And according to the W3C, there is just one set of *DOM interfaces* — no copies.
 
 Because of that, you should absolutely be able to create a DOM node in one *browsing context* and stick it in another *browsing context*, provided none of them are isolated by security features.
 
@@ -266,4 +266,4 @@ When two JavaScript environments interact, the result can get pretty weird and c
 
 Browsers will happily let you pollute your JS environment and even the DOM itself with alien objects that aren’t part of any prototype chain. And you won’t find out until everything breaks a few weeks later.
 
-More than the performance impact, the horrifying bugs that result from working with iframes are probably the best reason to stay away from them. 
+More than the performance impact, the horrifying bugs that result from working with iframes are probably the best reason to stay away from them.

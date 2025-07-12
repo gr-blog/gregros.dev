@@ -14,7 +14,7 @@ interface List<T> {
 }
 ```
 
-We want to define a constructor function `List` that creates an instance of `List<T>` from any number of elements. 
+We want to define a constructor function `List` that creates an instance of `List<T>` from any number of elements.
 
 Since the code `[x, y, z]` always compiles, no matter what `x`, `y`, and `z` happen to be, so should the code `List(x, y, z)`.
 
@@ -82,14 +82,15 @@ We can make use of this logic ourselves by rephrasing the signature using a gene
 declare function List<Ts extends readonly any[]>(...items: Ts): List<Ts[number]>
 ```
 
-This isn’t a completely different signature – we’re just being a bit more specific about how we want inference to happen. 
+This isn’t a completely different signature – we’re just being a bit more specific about how we want inference to happen.
 
 Defined like this, the following code compiles just fine, [giving us](https://www.typescriptlang.org/play/?#code/AQSwdgLgpgTgZgQwMZWAGRAZwgHgCoB8wA3gFDDAIQAUYAXMGAK4C2ARrAJQN4DcpAX1IATKEgA2CGKjhMwSCCAD2YdFlx5MwKAA9oYYVukJhK8QE9KYcwG0AugWoA6FyGgtMPTNzXZ8mG2Z2WAd+JBVsYHF1YABeXxpiSgYARmABABoSYDYGACZ0zjCIiCj1AviMbGoUrIAiAAsocXElYAB3JRhxYTqspIRUwuAgA) a clean disjunction of value and object types:
 
 ```ts
 List(1, "hello world", { a: 1 }) satisfies List<number | string | { a: number }>
 ```
+
 # Conclusion
 Using generics with rest parameters can sometimes cause type inference to fail. In this post, we’ve looked at a way of overcoming this problem using tuples – leading to more flexible variadic signatures.
 
-You should use this approach whenever you want to allow rest arguments to accept any combination of types, including some that seem incompatible with each other. 
+You should use this approach whenever you want to allow rest arguments to accept any combination of types, including some that seem incompatible with each other.

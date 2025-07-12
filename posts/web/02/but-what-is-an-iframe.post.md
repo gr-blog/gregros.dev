@@ -26,7 +26,7 @@ Iframes are incredibly complicated, but for all that complexity, they appear as 
 <iframe id="gregros" src="https://gregros.dev/iframe"></iframe>
 ```
 
-Iframe tags are always empty and don’t reflect their contents. Like an `img` tag, their content comes from _elsewhere_. That elsewhere happens to be another webpage.
+Iframe tags are always empty and don’t reflect their contents. Like an `img` tag, their content comes from *elsewhere*. That elsewhere happens to be another webpage.
 
 The webpage inside the iframe functions just like a normal webpage. It has its own CSS rules, JavaScript, and DOM. It can make its own requests from its own origin and use all standard web APIs.
 
@@ -103,9 +103,9 @@ An embed is a component from one site that’s integrated into another site. An 
 
 While some embeds can be done without using iframes, the benefits to the embed provider are usually so great that they will insist on using them, whether they’re needed or not.
 
-This is why the Facebook Like button is an iframe. It doesn’t _have_ to be one, but it gives enormous advantages to Facebook if it is.
+This is why the Facebook Like button is an iframe. It doesn’t *have* to be one, but it gives enormous advantages to Facebook if it is.
 
-While it’s tempting to try to categorize embeds into separate groups like _ads_, _content embeds_, _payment portals_, and so on, very few embeds actually do only a single thing.
+While it’s tempting to try to categorize embeds into separate groups like *ads*, *content embeds*, *payment portals*, and so on, very few embeds actually do only a single thing.
 
 There are clear-cut cases, but the same embed can also serve radically different purposes depending on who’s looking at it.
 

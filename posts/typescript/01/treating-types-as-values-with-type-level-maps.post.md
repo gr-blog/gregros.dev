@@ -3,7 +3,7 @@ title: Treating types as values with type-level maps
 published: 2025-07-14
 updated: 2025-07-14
 ---
-TypeScript is very good at talking about object structure. With a shift of perspective, we can use this ability to talk about dictionaries where types are values. 
+TypeScript is very good at talking about object structure. With a shift of perspective, we can use this ability to talk about dictionaries where types are values.
 
 Let’s see how that works!
 
@@ -28,7 +28,7 @@ $$
 \mathtt{Key4}&\Rightarrow\mathtt{object}
 \end{align*}
 $$
-When viewed like this, the types are actually *values*, like `42` or `"hello world"`. 
+When viewed like this, the types are actually *values*, like `42` or `"hello world"`.
 # Working with type-level maps
 TypeScript has some great tools for working with type-level maps – which makes sense, since this pattern is built right into the language.
 
@@ -47,6 +47,7 @@ The equivalent here is the `keyof` type operator:
 type Map = { Key_1: 42; Key_2: 123 }
 type Keys = keyof Map // "Key_1" | "Key_2"
 ```
+
 ## Look up values
 Looking up a property on an object can look like this:
 
@@ -67,6 +68,7 @@ This example shows what I like to call a *static lookup*. We can also do a *gene
 ```ts
 type MapValueOfKey<Key extends keyof Map> = Map[Key]
 ```
+
 ## Merging
 We can merge JS objects using the `...` spread operator:
 
@@ -86,6 +88,7 @@ type Map1 = { A: 1 }
 type Map2 = { B: 2 }
 type Result = Map1 & Map2 // {A: 1; B: 2}
 ```
+
 ## Mapping
 The mapped type lets us project every “type value” using an expression:
 
@@ -103,12 +106,13 @@ import { mapValues } from "lodash"
 const map = { key_1: 42, key_2: 123 }
 const result = mapValues(map, x => `${x}`) // {key_1: "42", key_2: "123"}
 ```
+
 # Use-cases
 Type-level maps are a cornerstone of modern TypeScript APIs. Most of the TypeScript packages you’re familiar with use them in one way or another.
 
 Let’s take a look at two simple use-cases.
 ## Automatic overloads
-Imagine we’re building a browser automation platform. Automation happens through command objects. 
+Imagine we’re building a browser automation platform. Automation happens through command objects.
 
 Every command object has three things:
 
@@ -195,7 +199,7 @@ declare class Browser {
 }
 ```
 
-Note how we combine a *generic lookup* into the `CommandsMap` with a *static lookup* into the command structure itself. 
+Note how we combine a *generic lookup* into the `CommandsMap` with a *static lookup* into the command structure itself.
 ## Simplifying types
 Let’s say we’re building a library for querying the DOM, kind of like JQuery.
 
@@ -206,6 +210,7 @@ So, for example, a query like `$("div")` will only return `div` elements, and we
 We clearly need a generic type to represent this, but there are several ways to define it. Let’s start by looking at an example *without* type-level maps.
 ### Using HTMLElement
 One way is to use the `HTMLElement` interface, which all HTML element types extend:
+
 ```ts
 interface Tag<TElement extends HTMLElement> {}
 ```
@@ -226,7 +231,7 @@ This isn’t just cosmetic – it will truncate compilation errors and make pars
 
 On top of that, the compilation messages produced won’t actually be that meaningful. TypeScript is a structural language, but [[but-what-is-a-dom-node.post|DOM nodes are not structural]]. Comparing DOM nodes structurally is pointless.
 ### Using tag names with a type-level map
-Instead of using explicit element types, we can reference elements by their tag names. 
+Instead of using explicit element types, we can reference elements by their tag names.
 
 We’ll need a type-level map to do this, but luckily one already exists. Namely, the `HTMLElementTagNameMap` which is built into the DOM type declarations. Here’s a snippet:
 
@@ -259,16 +264,17 @@ type Canvas = TagWrapper<"canvas">
 type Either = TagWrapper<"div" | "canvas">
 ```
 
-This solution is even better in terms of API design! We’re letting users reference each tag using its canonical HTML name, rather than the constructor name. 
+This solution is even better in terms of API design! We’re letting users reference each tag using its canonical HTML name, rather than the constructor name.
 
-We can even use the entire `TagNames` type to define a wrapper for _any_ element, but without considering element structure at all.
+We can even use the entire `TagNames` type to define a wrapper for *any* element, but without considering element structure at all.
 
 ```ts
 type Any = TagWrapper<TagNames>
 ```
+
 # Conclusion
 Type-level maps are a powerful TypeScript pattern that’s a staple of advanced type definitions.
 
-In this article, I tried to explain it by comparing it to regular object operations that we already know. 
+In this article, I tried to explain it by comparing it to regular object operations that we already know.
 
 I hope you liked it!
