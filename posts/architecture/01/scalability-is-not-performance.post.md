@@ -1,7 +1,7 @@
 ---
 title: Scalabilty is not performance
 published: "2025-07-08"
-updated: "2025-07-08"
+updated: "2025-07-13"
 ---
 Scalability is sometimes confused with performance, but it’s not at all the same thing.
 

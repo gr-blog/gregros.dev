@@ -3,7 +3,7 @@ title: What is an iframe? An overview
 series: web
 description: ""
 published: "2025-01-01"
-updated: "2025-01-11"
+updated: "2025-07-13"
 ---
 
 Iframes are omnipresent and very useful, yet they're also complicated and confusing.

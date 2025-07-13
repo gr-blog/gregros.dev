@@ -2,7 +2,7 @@
 title: "Every type of script tag: an overview"
 description: ""
 published: "2025-01-01"
-updated: "2025-01-11"
+updated: "2025-07-13"
 ---
 There used to be just one type of script tag, but after decades of web standards development, we have tons of them.
 
@@ -305,7 +305,7 @@ You can get Blobs as the result of `fetch` requests or from files uploaded by th
 var blob = new Blob(
     ['alert(1)'], 
     { 
-        type: 'text/javascript' 
+        type: "text/javascript" 
     }
 )
 ```
@@ -331,7 +331,7 @@ Here is some code that creates a script tag using this kind of URI:
 var blob = new Blob(
     ['alert(1)'], 
     { 
-        type: 'text/javascript' 
+        type: "text/javascript" 
     }
 )
 // Generate a blob URI for it
