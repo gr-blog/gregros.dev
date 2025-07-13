@@ -1,7 +1,7 @@
 ---
 title: Fixing type inference in generic rest parameters
-published: 2025-07-11
-updated: 2025-07-11
+published: 2025-07-25
+updated: 2025-07-25
 ---
 It turns out that combining generics with rest arguments is kind of tricky in TypeScript. Let’s see where the normal approach fails and how we can use tuples to fix it!
 

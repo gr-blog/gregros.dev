@@ -1,7 +1,7 @@
 ---
 title: Conditional overloads that work when conditional types fail
-published: 2025-07-08
-updated: 2025-07-08
+published: 2025-07-15
+updated: 2025-07-15
 description: ""
 ---
 How can we define methods that have different signatures depending on a type parameter? In this article, we’ll take a look at conditional types – but end up using a more subtle pattern using overload resolution.
