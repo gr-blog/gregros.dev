@@ -100,7 +100,7 @@ doc.body.appendChild(iframeH1)
 # Data URI
 Another kind of iframe uses the `src` attribute, but with a data URI in it. That's very similar to the `srcdoc` attribute, in that it allows us to specify the iframe’s contents verbatim in the attribute.
 
-However, using a data URI is more flexible, since it allows different encodings. We can just use text:
+But using a data URI is more flexible, since it allows different encodings. We can just use text:
 
 ```html
 <iframe src="data:text/html,<h1>hello world</h1>"></iframe>

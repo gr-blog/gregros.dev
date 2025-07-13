@@ -9,7 +9,7 @@ What makes an object a DOM node? Is it the prototype or something else?
 The answer turns out to be surprisingly complicated!
 
 ---
-The best way to investigate what the browser sees as a DOM node is to use a function that’s supposed to accept one, and pass it various things, and see what happens!
+To investigate what the browser sees as a DOM node, we'll find a function that accepts one, pass it different inputs, and see what it does.
 
 The classic example is `appendChild`. This method accepts a DOM node and inserts it as the child of another node. If you pass the method just a regular old object, it errors instead.
 

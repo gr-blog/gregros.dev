@@ -38,7 +38,7 @@ When people talk about the *performance* of a distributed system, they’re usua
 
 Low $\Latency$ automatically means having higher $\Throughput$. But in spite of that, software architecture typically focuses on increasing $\Throughput$ through other means.
 
-That's because reducing $\Latency$ is something you can only do on a per-component basis, it’s subject to severe diminishing returns, and there are inherent limits to how low you can go.
+That's because reducing $\Latency$ is something you can only do on a per-component basis. It's also subject to severe diminishing returns, and there are inherent limits to how low you can go.
 
 It’s much easier to increase $\Throughput$, even if it comes *at the expense* of $\Latency$. So that’s what our model is going to focus on.
 # Boxes and jobs
@@ -84,7 +84,7 @@ $$
 \Throughput=\Capacity\times\frac{1}{\Latency}
 
 $$
-While $\Latency$ is constant, $\Capacity$ isn’t. We can change it however we want. To increase $\Throughput$, we just get more $\Boxes$!
+While $\Latency$ is constant, $\Capacity$ isn’t. We can change it in any way we want. To increase $\Throughput$, we just get more $\Boxes$!
 
 Sadly, these $\Boxes$ aren’t free. They actually $\Cost$ money.
 
@@ -134,7 +134,7 @@ As jobs get queued, one of the following happens:
 
 - So many jobs get queued that they cause the messaging infrastructure to crash, leading to total system failure.
 
-The specifics don’t actually matter for the purposes of this article – in almost all cases, not handling jobs is a Very Bad Thing$\texttrademark$ and somewhere we really, really don’t wanna be.
+The specifics don’t actually matter for the purposes of this article. In almost all cases, not handling jobs is a Very Bad Thing$\texttrademark$ and somewhere we really, really don’t want to be.
 
 We’ll just consider it a fail state of the model.
 # Utilization
@@ -208,6 +208,6 @@ In short, *scalability* is being able to change your system’s throughput based
 
 Sometimes, people talk about *improving scalability* when they actually just mean making stuff run faster.
 
-That’s important too, but serverless platforms (and the cloud computing model in general) are proof that you can have scalability without high performance, and that people happily pay lots of money to have it.
+That’s important too, but serverless platforms are proof that you can have scalability without high performance, and that people happily pay lots of money to have it.
 
 I hope you’ll join me for future articles, in which we’ll use slightly more complicated models to look at more advanced qualities of distributed systems!

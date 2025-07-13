@@ -116,9 +116,9 @@ The idea here isn’t to use the security features of the iframe. In fact, this 
 
 Instead, it relies on the fact the iframe has its own JavaScript environment that’s independent from its parent, and so doesn’t have any of those changes.
 
-As I mentioned earlier, working with iframes, especially trying to run code across them, isn’t easy. However, other solutions tend to make the entire software development lifecycle more expensive.
+As I mentioned earlier, working with iframes, especially trying to run code across them, isn’t easy. But other solutions tend to make the entire software development lifecycle more expensive.
 
-There are alternative solutions to iframes that do something similar, such as web workers, but whether they’re applicable depends on what the script is trying to do and what APIs it needs access to.
+There are alternative solutions to iframes that do something similar. Web workers are one example of this, but whether they fit the bill depends on what the script is trying to do and what APIs it needs access to.
 
 ## Security zones
 
@@ -132,6 +132,6 @@ Some web platforms use this approach to separate the user's web app from the pla
 
 In this article, I’ve tried to give a general, top-down view of the benefits of iframes, how they work, and why you might want to use one.
 
-However, iframes aren’t like a function or event a development technique – they’re a major piece of client-side architecture, one that can be as complicated as the entire rest of the webpage.
+But iframes aren’t like a function or event – they’re a major piece of client-side architecture, one that can be as complicated as the entire rest of the webpage.
 
 I hope that you’ll join me on future deep dives into this topic, as I feel it’s the only way to do it justice.

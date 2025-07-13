@@ -121,13 +121,13 @@ Classic script tags have been around since JavaScript became a thing, and they m
 
 In spite of their age – or perhaps because of it – they're actually more complicated than the newer module type script tags.
 
-When the browser encounters a classic script tag as part of parsing a webpage, immediately fetches and executes its content synchronously, blocking the rest of the page from loading until it’s done.
+When the browser encounters a classic script tag as part of parsing a webpage, immediately fetches and executes its content synchronously. This blocks the rest of the page from loading.
 
 This means that some or all of the page might not have loaded yet when the script executes.
 
 For instance, if you place the script before the `<body>` tag, you’ll find `document.body` to be `null`. If you place it before a `<div>`, that `<div>` won’t exist yet.
 
-Some elements, such as images and fonts, can load asynchronously, which means the script might execute while the geometry of the page hasn’t settled yet, changing the results of functions such as `getClientRect`.
+Some elements, such as images and fonts, can load asynchronously. This means the script could execute while the geometry of the page hasn’t settled yet, changing the results of functions such as `getClientRect`.
 
 Any top-level declarations made here become page-wide globals, accessible from any other script tag.
 
@@ -185,7 +185,7 @@ The ES module system has replaced classic script tags for frontend development, 
 
 Instead, they’ve simply transformed into a specialized tool for low-level applications. While in the previous section I phrased it as a drawback, the ability to choose exactly when your code executes is actually very powerful.
 
-For example, classic script tags that appear before the `<body>` tag execute before any visible component of the page has loaded, which guarantees the user hasn’t had the chance to interact with anything yet.
+For example, classic script tags that appear before the `<body>` tag execute before any visible component of the page has loaded. That guarantees the user hasn’t had the chance to interact with anything yet.
 
 This technique is crucial for many pieces of client-side infrastructure, ranging from analytics packages to security systems, which must come online early to avoid missing security threats or events.
 
@@ -204,7 +204,7 @@ The `src` attribute of a script tag determines which group it belongs to.
 ## Inline scripts
 These kinds of scripts don’t have an `src` attribute and embed JavaScript content in the body of the tag.
 
-The browser has special rules for parsing the bodies of script tags. These rules let you avoid escaping special characters like `&` or `<`. However, it’s not like the HTML parser tries to parse JavaScript either.
+The browser has special rules for parsing the bodies of script tags. These rules let you avoid escaping special characters like `&` or `<`. But it’s not like the HTML parser tries to parse JavaScript either.
 
 Instead, it simply looks for the string `</script>` and closes the tag as soon as it finds it. It doesn’t matter if it appears in the middle of JavaScript code, as part of a string, or in a JavaScript comment.
 
@@ -322,7 +322,7 @@ There are solid reasons to use these, though I have to admit they’re pretty we
 
 For one, we can only construct them from JavaScript. This means attackers can't insert them using certain kinds of XSS attacks, making them somewhat more secure.
 
-However, they have some security risks too. They're sometimes used by attackers to obfuscate malicious scripts, since they’re harder to trace.
+But they have some security risks too. They're sometimes used by attackers to obfuscate malicious scripts, since they’re harder to trace.
 
 Here is some code that creates a script tag using this kind of URI:
 

@@ -10,7 +10,7 @@ Let’s see what horrifying things can happen when we interact with it!
 
 ---
 # What gets copied exactly?
-When the [[but-what-is-an-iframe.post|iframe]] attaches to its parent page, it gets a fresh copy of the JS web environment that doesn’t include any modifications made by the parent page.
+When the [[but-what-is-an-iframe.post|iframe]] attaches to its parent page, it gets a fresh copy of the JS web environment. This copy doesn’t include any modifications made by the parent page.
 
 That includes:
 
