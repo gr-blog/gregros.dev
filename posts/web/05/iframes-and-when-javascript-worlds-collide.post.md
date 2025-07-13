@@ -21,7 +21,7 @@ That includes:
 - Every prototype chain
 
 ## Can’t it just share?
-Not really. Pages modify their environments all the time, and these modifications can be incompatible with each other.
+Not really. Pages change their environments all the time, and these modifications can be incompatible with each other.
 
 For example, I prefer to set up my JS environment like this:
 

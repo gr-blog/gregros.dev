@@ -57,7 +57,7 @@ Each iframe has a complete DOM, which starts with having the base HTML structure
 </html>
 ```
 
-Some iframes don’t contain anything else, except maybe a `<script>` tag or two. These iframes are frequently invisible, constructed by the main page, and used for their JavaScript environment.
+Some iframes don’t contain anything else, except maybe a `<script>` tag or two. These iframes are often invisible, constructed by the main page, and used for their JavaScript environment.
 
 Other iframes, in particular all visible ones, contain something that looks more like a normal webpage. They have scripts tags, stylesheets, and normal elements like `<div>` and `<input>`.
 
@@ -108,7 +108,7 @@ Embeds are a really complicated topic, and I don’t feel I can give it justice 
 
 ## Integration
 
-A lot of webpages modify their global environment in ways that can be incompatible with third-party scripts.
+A lot of webpages change their global environment in ways that can be incompatible with third-party scripts.
 
 One straight-forward way to overcome this issue is to avoid running code in the main page as much as possible. Instead, a third-party script can create a dedicated, invisible iframe, and run the main body of its code there, only executing as much code outside the iframe as absolutely necessary.
 

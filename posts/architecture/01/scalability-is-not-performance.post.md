@@ -29,7 +29,7 @@ $$
 \def\Box{\term{Box}{PineGreen}}
 \def\Boxes{\term{Boxes}{PineGreen}}
 $$
-We’ll start by answering a more fundamental question. It'll allow us to determine the scope of our model.
+We’ll start by answering a more fundamental question. It'll allow us to decide the scope of our model.
 # What is performance?
 When people talk about the *performance* of a distributed system, they’re usually considering one of two metrics:
 
@@ -51,7 +51,7 @@ $\Jobs$ get processed by $\Boxes$. A $\Box$ could stand in for a VM, container, 
 The rules for how $\Boxes$ process jobs are very simple:
 
 - Every $\Job$ takes a fixed amount of $\Time$ to complete. In other words, we're fixing $\Latency$ in place.
-- Every $\Box$ is identical to any other. They all process $\Jobs$ at the same rate.
+- Every $\Box$ is the same as any other. They all process $\Jobs$ at the same rate.
 - Each $\Box$ can only process one job at a time.
 
 None of these things is true of real-world jobs, but these simplifications are what makes the model easy to reason about.
@@ -192,7 +192,7 @@ What’s more, as a system scales, its structure changes, and it becomes vulnera
 
 This kind of stuff happens whether you’re scaling up or down.
 ## The cloud
-In fact, scalability is so difficult that few companies attempt to achieve it by themselves.
+In fact, scalability is so difficult that few companies try to achieve it by themselves.
 
 Instead, they pay huge cloud providers to solve some parts of these problems for them, even if it means also paying a pretty steep markup on actual processing power – and $\Throughput$.
 

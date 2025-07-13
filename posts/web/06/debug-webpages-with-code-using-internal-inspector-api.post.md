@@ -45,7 +45,7 @@ kinds of things:
 - And if we get references to the right objects, call its internal API from
   the console!
 
-That internal API contains all the information about the *end-page* – the
+That internal API has all the information about the *end-page* – the
 webpage we actually want to debug – and it’s all in the form of juicy JavaScript
 objects.
 
@@ -81,7 +81,7 @@ hard to work with.
 
 You can view the source directly at the
 [project repo](https://github.com/ChromeDevTools/devtools-frontend/tree/main),
-though, and I’m going to link to it quite frequently in this post.
+though, and I’m going to link to it quite often in this post.
 
 ## Figuring stuff out
 
@@ -122,7 +122,7 @@ You might notice that the *meta-inspector* doesn’t refresh, even if you refres
 the end-page (the page we're inspecting) or navigate it somewhere else.
 
 On one hand, it’s quite convenient, since any functions and variables you
-defined previously remain available.
+defined earlier remain available.
 
 But it also means the *meta-inspector*’s memory is going to fill up with data
 from lots of different pages, which can lead to unbounded memory usage.
@@ -286,7 +286,7 @@ doesn’t work for searching inside *request* bodies. But using this technique, 
 can do it with code!
 
 Getting the request payload is actually an async operation, so our code is going
-to be a bit more complicated than the previous examples.
+to be a bit more complicated than the earlier examples.
 
 We’ll use the
 [`requestFormData`](https://github.com/ChromeDevTools/devtools-frontend/blob/4590d3a54ca7023ca9f61f0dc46f2d821401c118/front_end/core/sdk/NetworkRequest.ts#L988)
@@ -320,7 +320,7 @@ var searchPromises = NetworkLog.requests()
 There is a lot more you can do with this network data. For example:
 
 - Search for specific headers or header combinations.
-- Analyze network timing across multiple requests.
+- Analyze network timing across lots of requests.
 - Search for all requests with a specific script in the initiator chain.
 - Search for strings in responses from specific hosts
 

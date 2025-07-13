@@ -20,7 +20,7 @@ We can visualize it using a decision tree:
 https://www.canva.com/design/DAGby_r5FO0/_WUVxhryforZ-iF7yI8ppA/view?utm_content=DAGby_r5FO0&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h64c24c39ab
 ```
 
-Synthetic iframes can have an `src` attribute, but one that contains a non-web address. They might also have no attributes at all.
+Synthetic iframes can have an `src` attribute, but one that points to a non-web address. They might also have no attributes at all.
 
 Synthetic iframes are a bit strange, but they’re also simpler than non-synthetic ones. That’s because there are way fewer factors that can change their behavior.
 
@@ -28,7 +28,7 @@ You can also figure them out just by looking at the tag itself.
 
 Meanwhile, non-synthetic iframes always make an HTTP/S request, and that request can have headers that change how the page functions. That includes the Content Security Policy (CSP), but also the Permissions Policy and other stuff too.
 
-When a page builds a synthetic iframe, it also determines everything that's in it. That's why they can only provide security in one direction – the page is protected from the iframe, but not the other way around.
+When a page builds a synthetic iframe, it also determines everything that's in it. That's why they can only offer security in one direction – the page is protected from the iframe, but not the other way around.
 
 Let’s take a look at every method for constructing a synthetic iframe and compare their advantages.
 # srcdoc attribute

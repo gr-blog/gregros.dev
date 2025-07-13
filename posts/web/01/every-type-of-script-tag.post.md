@@ -38,7 +38,7 @@ You’ll get this kind of script tag if your `type` is present but **doesn’t**
 
 These script tags won’t execute and won’t fetch any resources. Instead, they’re used to embed data into the page through the body of the tag, usually in the form of JSON.
 
-It’s best practice to use the `type` attribute to indicate the type of data it contains.
+It’s best practice to use the `type` attribute to show what type of data it has.
 
 Some common values for the attribute include:
 
@@ -49,7 +49,7 @@ Some common values for the attribute include:
 In principle, you could use any HTML tag for this purpose, but script tags have several advantages over other types of tags.
 
 - They're invisible.
-- They can appear in the `<head>` portion of the page.
+- They can appear in the `<head>` part of the page.
 - They let you avoid escaping most special characters used in HTML, like `&` and `<`.
 
 Here is an example of a non-executable script tag:
@@ -131,7 +131,7 @@ Some elements, such as images and fonts, can load asynchronously. This means the
 
 Any top-level declarations made here become page-wide globals, accessible from any other script tag.
 
-That's a particularly nasty and error-prone feature, and you’ll frequently see script tags use scoping constructs like self-executing functions to control it.
+That's a particularly nasty and error-prone feature, and you’ll often see script tags use scoping constructs like self-executing functions to control it.
 
 Here is an example of a script tag using this technique:
 
@@ -183,7 +183,7 @@ Here are examples of different kinds of classic script tags:
 ### Client-side infrastructure
 The ES module system has replaced classic script tags for frontend development, but that doesn’t mean classic script tags are now obsolete.
 
-Instead, they’ve simply transformed into a specialized tool for low-level applications. While in the previous section I phrased it as a drawback, the ability to choose exactly when your code executes is actually very powerful.
+Instead, they’ve simply transformed into a specialized tool for low-level applications. While in the last section I phrased it as a drawback, the ability to choose exactly when your code executes is actually very powerful.
 
 For example, classic script tags that appear before the `<body>` tag execute before any visible component of the page has loaded. That guarantees the user hasn’t had the chance to interact with anything yet.
 
