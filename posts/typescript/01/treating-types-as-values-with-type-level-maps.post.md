@@ -30,7 +30,7 @@ $$
 $$
 When viewed like this, the types are actually *values*, like `42` or `"hello world"`.
 # Working with type-level maps
-TypeScript has some great tools for working with type-level maps – which makes sense, since this pattern is built right into the language.
+TypeScript has some great tools for working with type-level maps – which makes sense, since this pattern is built into the language.
 
 Since a type-level map is like a dictionary with types as values, we’ll compare each tool to JavaScript code that does the same thing to a dictionary object.
 ## List keys
@@ -120,13 +120,13 @@ Every command object has three things:
 - A set of named arguments bundled into a single **input object**.
 - A **return type**, which is always wrapped in a Promise.
 
-We invoke a command using the syntax `Browser.call(name, args)`.
+We run a command using the syntax `Browser.call(name, args)`.
 
 Let’s take a look at three possible commands:
 
-1. **Click:** Emulates a mouse click at position $(x, y)$.
-2. **Goto:** Navigates to a webpage at the address `url`. Returns the new URL after the page has loaded.
-3. **GetLocation:** Gets the current webpage address as a string.
+1. **`Click`** Emulates a mouse click at position $(x, y)$.
+2. **`Goto`** Navigates to a webpage at the address `url`. Returns the new URL after the page has loaded.
+3. **`GetLocation`** Gets the current webpage address as a string.
 
 How do we represent this API using TypeScript?
 ### Using overloads
@@ -153,7 +153,7 @@ This method works like this:
 1. Define one type-level map that acts as a source of truth, describing all the commands.
 2. Then create one generic method that behaves just like the overloads we saw earlier.
 
-The type-level map is keyed using the command name. Its value is another type-level map that always has the structure:
+The type-level map uses command names as it keys. Each one of its values is another type-level map that has the structure:
 
 ```ts
 type CommandType = {
@@ -217,9 +217,9 @@ interface Tag<TElement extends HTMLElement> {}
 
 This has a few issues, though.
 
-For one, `HTMLElement` is a pretty big object type. This generic signature means every instantiation must be compared to that object structurally, making type checking a lot slower.
+For one, `HTMLElement` is a pretty big object type. This generic signature means that TypeScript must compare it to every instantiation, making type checking a lot slower.
 
-Besides that, the canonical name of every element type has this `HTML*Element` structure. Naming types like this is good out of context, but in this case, it’s going to make the name of our `Tag` type very long.
+Besides that, the canonical name of every element type has this `HTML*Element` structure. Naming types like is generally a good thing, but in this case, it’s going to make the name of our `Tag` type very long.
 
 ```ts
 type Example = Tag<
@@ -233,7 +233,7 @@ On top of that, the compilation messages produced won’t actually be that meani
 ### Using tag names with a type-level map
 Instead of using explicit element types, we can reference elements by their tag names.
 
-We’ll need a type-level map to do this, but luckily one already exists. Namely, the `HTMLElementTagNameMap` which is built into the DOM type declarations. Here’s a snippet:
+We’ll need a type-level map to do this, but luckily one already exists. Namely, the `HTMLElementTagNameMap` built into the DOM type declarations. Here’s a snippet:
 
 ```ts
 interface HTMLElementTagNameMap {

@@ -172,13 +172,13 @@ It turns out that:
 - `getArray1` returns `i_win.Array`.
 - `getArray2` returns `Array`.
 
-That seems confusing, until you consider the critical difference between the two functions: where their code is written.
+That seems confusing, until you consider the critical difference between the two functions: where we wrote their code.
 
 It turns out that when a script loaded by a webpage, it’s **permanently bound** to that webpage’s environment. Any functions defined by that script are part of it, and therefore use the same environment.
 
 When we defined `getArray1`, we created a new script inside the iframe, but `getArray2` was actually created in the parent page. The fact we assigned it to the iframe afterwards didn’t change its origin.
 
-This makes sense, but it also means that far from being worried *just* about alien objects, we should be more concerned about alien functions!
+This makes sense, but it also means that far from worrying *just* about alien objects, we should be more concerned about alien functions!
 
 If we put a function defined in one environment into another, it'll keep producing alien objects, and it might break if we pass it any parameters of our own.
 
@@ -250,11 +250,11 @@ So what’s going on?
 ## It’s not allowed to care
 The W3C specification, which describes everything about the DOM as we know it, very rarely uses the term *prototype*, but it does define the *DOM Interfaces*.
 
-In JavaScript, these are represented by the constructors you know and love – `Node`, `Element`, `HTMLElement`, and so forth.
+JavaScript represents them as the constructors we all know and love – `Node`, `Element`, `HTMLElement`, and so forth.
 
-But as we learned back in my [[but-what-is-a-dom-node.post|article about DOM nodes]], DOM nodes and JavaScript objects aren’t the same thing. DOM nodes are managed by the rendering engine and follow a different set of rules.
+But as we learned back in my [[but-what-is-a-dom-node.post|article about DOM nodes]], DOM nodes and JavaScript objects aren’t the same thing. The rendering engine manages DOM nodes, and it follows a different set of rules.
 
-Specifically, the W3C’s set of rules. And according to the W3C, there is just one set of *DOM interfaces* — no copies.
+Specifically, the W3C’s set of rules. And according to the W3C, there is just one set of *DOM interfaces* – no copies.
 
 Because of that, you should absolutely be able to create a DOM node in one *browsing context* and stick it in another *browsing context*, provided none of them are isolated by security features.
 

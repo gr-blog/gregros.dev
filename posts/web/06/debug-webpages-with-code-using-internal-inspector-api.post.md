@@ -5,7 +5,7 @@ updated: 2025-07-08
 description: ""
 ---
 
-Using the right approach, we can get past the Chrome inspector’s UI and invoke
+Using the right approach, we can get past the Chrome inspector’s UI and call
 its internal API directly.
 
 This lets us debug live webpages using JavaScript instead of buttons!
@@ -42,11 +42,11 @@ kinds of things:
 
 - Examine the inspector’s UI
 - Put breakpoints in its code
-- And if we get references to the right objects, invoke its internal API from
+- And if we get references to the right objects, call its internal API from
   the console!
 
-That internal API contains all the information about the *end-page* — the
-webpage we actually want to debug — and it’s all in the form of juicy JavaScript
+That internal API contains all the information about the *end-page* – the
+webpage we actually want to debug – and it’s all in the form of juicy JavaScript
 objects.
 
 ## But why?
@@ -89,9 +89,9 @@ The code doesn’t have much documentation. It’s well-organized, but if you wa
 to figure out how it works, your best bet is to start with the UI.
 
 The inspector UI is divided into individual Panels, such as the
-[NetworkPanel](https://github.com/ChromeDevTools/devtools-frontend/blob/main/front_end/panels/network/NetworkPanel.ts),
+[`NetworkPanel`](https://github.com/ChromeDevTools/devtools-frontend/blob/main/front_end/panels/network/NetworkPanel.ts),
 the
-[ConsolePanel](https://github.com/ChromeDevTools/devtools-frontend/blob/main/front_end/panels/console/ConsolePanel.ts),
+[`ConsolePanel`](https://github.com/ChromeDevTools/devtools-frontend/blob/main/front_end/panels/console/ConsolePanel.ts),
 and so forth. Most display elements that can be dragged, toggled, or resized are
 Panels of some sort.
 
@@ -106,7 +106,7 @@ JavaScript. Your workflow is going to look something like this:
 
 So when I was trying to figure out how to get the network data, I first went to
 the `NetworkPanel` and quickly saw it uses the
-[NetworkLog](https://github.com/ChromeDevTools/devtools-frontend/blob/main/front_end/models/logs/NetworkLog.ts)
+[`NetworkLog`](https://github.com/ChromeDevTools/devtools-frontend/blob/main/front_end/models/logs/NetworkLog.ts)
 to get most of its information.
 
 Whenever I got lost, I just went to the specific UI related to the thing I
@@ -114,12 +114,12 @@ wanted.
 
 For example, when I had trouble figuring out where to get the request payload, I
 went to the
-[RequestPayloadView](https://github.com/ChromeDevTools/devtools-frontend/blob/ed19c1e8985293025be2e812b86ea7619185fcfd/front_end/panels/network/RequestPayloadView.ts#L119).
+[`RequestPayloadView`](https://github.com/ChromeDevTools/devtools-frontend/blob/ed19c1e8985293025be2e812b86ea7619185fcfd/front_end/panels/network/RequestPayloadView.ts#L119).
 
 ## Quick tip
 
 You might notice that the *meta-inspector* doesn’t refresh, even if you refresh
-the end-page being inspected or navigate it somewhere else.
+the end-page (the page we're inspecting) or navigate it somewhere else.
 
 On one hand, it’s quite convenient, since any functions and variables you
 defined previously remain available.
@@ -163,7 +163,7 @@ The inspector API largely consists of singleton classes. These classes mostly
 follow the same structure, which makes them easy to work with.
 
 For example, we can access the
-[NetworkLog](https://github.com/ChromeDevTools/devtools-frontend/blob/main/front_end/models/logs/NetworkLog.ts)
+[`NetworkLog`](https://github.com/ChromeDevTools/devtools-frontend/blob/main/front_end/models/logs/NetworkLog.ts)
 instance from the `Logs` module we imported earlier using:
 
 ```js
@@ -184,10 +184,10 @@ https://www.canva.com/design/DAGb1HApUCg/RoKVEOP8aBwFgYfxUbn7tQ/view?utm_content
 
 # Processing network data
 
-Let’s take a look at the first use case of this technique — filtering and
+Let’s take a look at the first use case of this technique – filtering and
 processing network data using JavaScript.
 
-We do this using the `NetworkLog` I showed in the last section — it’s actually
+We do this using the `NetworkLog` I showed in the last section – it’s actually
 the source of all the data in the Network panel. To access its data, we just
 need to call:
 
@@ -196,7 +196,7 @@ NetworkLog.requests()
 ```
 
 Which returns an array of
-[NetworkRequest](https://github.com/ChromeDevTools/devtools-frontend/blob/main/front_end/core/sdk/NetworkRequest.ts)
+[`NetworkRequest`](https://github.com/ChromeDevTools/devtools-frontend/blob/main/front_end/core/sdk/NetworkRequest.ts)
 objects. These are mutable objects that get updated in real-time as network data
 arrives.
 
@@ -220,8 +220,8 @@ Let’s take a look at some code examples!
 
 ## Traffic volume by host
 
-If you’re looking at a complicated web application with lots of dependencies,
-each making tons of different requests — you might want to know where most of
+If you’re looking at a complicated web app with lots of dependencies,
+each making tons of different requests – you might want to know where most of
 the traffic is coming from.
 
 Using the *meta-inspector*, you can figure it out using JavaScript. We just
@@ -330,7 +330,7 @@ Accessing the inspector’s internal API is a little complicated, but it’s a
 powerful debugging technique. If used correctly, it can literally save you hours
 of work.
 
-In this post, I’ve mainly tackled how it can be used for processing network
+In this post, I’ve mainly tackled how to use it for processing network
 data. In the future, I’ll tackle advanced DOM searches, automating breakpoints,
 and more!
 

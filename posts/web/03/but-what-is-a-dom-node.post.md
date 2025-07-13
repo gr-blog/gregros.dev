@@ -65,7 +65,7 @@ var div = Object.create(HTMLDivElement.prototype)
 document.body.appendChild(div)
 ```
 
-In this variation, we use the `Object.create` function to make a new JavaScript object with the `HTMLDivElement` prototype. It’s the opposite of what we did in the previous variation — we’re making something that looks like a functional JavaScript object, but we’re not using the correct API to do so.
+In this variation, we use the `Object.create` function to make a new JavaScript object with the `HTMLDivElement` prototype. It’s the opposite of what we did in the previous variation – we’re making something that looks like a functional JavaScript object, but we’re not using the correct API to do so.
 
 ## The question
 So… which variation actually works?
@@ -76,11 +76,11 @@ So… which variation actually works?
 
 Feel free to try to run the code in your browser console and check for yourself!
 ## The answer
-It turns out that the first object — the empty one — **is** recognized as a DOM node, but the second one isn’t. That means the browser doesn’t use an object’s prototype to recognize DOM nodes at all. It’s doing something else.
+It turns out that the first object – the empty one – **is** recognized as a DOM node, but the second one isn’t. That means the browser doesn’t use an object’s prototype to recognize DOM nodes at all. It’s doing something else.
 
 That’s not to say getting rid of the prototype doesn’t do anything. You can no longer call instance methods, for example, since they're defined on the prototype and that prototype is missing.
 
-But no matter how you screw up a DOM node, if you get a reference to one of those methods, you can still invoke it and it'll work just fine. Here is an example:
+But no matter how you screw up a DOM node, if you get a reference to one of those methods, you can still call it and it'll work just fine. Here is an example:
 
 ```js
 // Create a div elemenmt
@@ -99,7 +99,7 @@ const { setAttribute } = HTMLElement.prototype
 setAttribute.call(div, "id", "this-actually-works")
 ```
 
-Weird, right? Don’t worry, this is going to make more sense once we zoom out a bit.
+Weird, right? Don’t worry, it's going to make more sense once we zoom out a bit.
 # Beyond JavaScript
 And by *a bit*, I actually mean a lot. Because to truly understand this weirdness, we have to leave the realm of JavaScript altogether and take a look at browser architecture instead.
 
@@ -110,7 +110,7 @@ Browsers are complicated things with many separate systems that interact in lots
 
 In the Chrome browser, these are called V8 and Blink, respectively. These two separate systems are connected by the JavaScript Web API. This takes the form of a thin layer of bindings embedded in V8 that translate JavaScript function calls to native method calls on Blink objects.
 
-These bindings do very little; the point is that, once a DOM operation is invoked, JavaScript is mostly out of the picture and everything resolves in native code.
+These bindings do very little. Once we call a DOM operation, JavaScript is mostly out of the picture and everything resolves in native code.
 
 ```canva size=380x320 ;; key=chromium-architecture ;; alt=Browser architecture diagram
 https://www.canva.com/design/DAGby_a3rDM/N8CbBV9kIAUZeGTcAXWw4A/view?utm_content=DAGby_a3rDM&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hbc0c0bb1df
@@ -122,11 +122,11 @@ These DOM nodes don’t have anything to do with prototype chains or JavaScript.
 
 The V8-Blink bindings form the link between the two. There, each JavaScript DOM node is mapped to a `Node` object, and this mapping just works by reference.
 
-When an operation like `appendChild` is invoked, each JavaScript DOM node is resolved to its native counterpart, and then everything is executed in Blink. This means, in turn, that **JavaScript DOM nodes are just handles to Blink DOM nodes.**
+When we call `appendChild`, each JavaScript DOM node gets resolved to its native counterpart, and then Blink executes the operation. This means, in turn, that **JavaScript DOM nodes are just handles to Blink DOM nodes.**
 
-This is why removing the prototype of a DOM node didn’t break it — *it was never functional to begin with*. The only thing that matters is the mapping, which was created as soon as we called `createElement`.  The JavaScript properties of the object were always irrelevant.
+That's why removing the prototype of a DOM node didn’t break it – *it was never functional to begin with*. The only thing that matters is the mapping. Blink created it as soon as we called `createElement`.  The JavaScript properties of the object were always irrelevant.
 
-Next, since DOM nodes are allocated by Blink, it’s impossible to create a DOM node within JavaScript — which is what we tried to do using `Object.create`. That’s kind of like trying to use a random number as the handle to a file.
+Next, Blink allocates DOM nodes, it’s impossible to create a DOM node within JavaScript – which is what we tried to do using `Object.create`. That’s kind of like trying to use a random number as the handle to a file.
 
 The OS knows what files we opened, since it’s responsible for opening them; we’re not fooling anyone.
 # Conclusion

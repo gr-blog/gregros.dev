@@ -13,7 +13,7 @@ Let’s take a broad look at how they work.
 ---
 
 # But what is an iframe?
-An iframe is a box with another webpage in it — a webpage within a webpage.
+An iframe is a box with another webpage in it – a webpage within a webpage.
 
 Some iframes are visible and obvious, used for social media components, payment portals, and embedded videos.
 
@@ -70,7 +70,7 @@ They don't by themselves solve all client-side security issues, but they're an i
 
 Iframe security is based on the browser’s same-origin policy, which means that resources from different websites shouldn’t be able to interact with each other.
 
-This means that an iframe from another website — such as a payment provider — can’t be accessed from outside, has its own cookies and local storage, and runs isolated JavaScript. This security feature can also be enabled for iframes from the same site.
+This means that a parent page can't access an iframe that comes from another website, like a payment provider. It also has its own cookies and local storage, and runs isolated JavaScript.
 
 These security features are sometimes used by attackers to run malicious code out of sight of the main page.
 
@@ -94,9 +94,9 @@ An embed is a component from one site that’s integrated into another site. An 
 - A social media feed
 - An advertisement
 
-While some embeds can be done without using iframes, the benefits to the embed provider are usually so great that they'll insist on using them, whether they’re needed or not.
+While some embeds don't require iframes, the benefits to the embed provider are usually so great that they'll insist on using them, whether they’re needed or not.
 
-This is why the Facebook Like button is an iframe. It doesn’t *have* to be one, but it gives enormous advantages to Facebook if it is.
+That's why the Facebook Like button is an iframe. It doesn’t *have* to be one, but it gives enormous advantages to Facebook if it is.
 
 While it’s tempting to try to categorize embeds into separate groups like *ads*, *content embeds*, *payment portals*, and so on, very few embeds actually do only a single thing.
 
@@ -124,18 +124,14 @@ There are alternative solutions to iframes that do something similar, such as we
 
 While the security features of iframes normally only work between different sites, it’s possible to enable them for the same site too.
 
-This can be used to isolate different areas of the same webpage from each other. Each area can have its own codebase and security standards, and some areas can be used to run less-trusted code in a kind of sandbox, out of which said code shouldn’t be able to escape from.
+This lets us isolate different areas of the same webpage from each other. Each area can have its own codebase and security standards.
 
-Another variant on the security zone architecture is used by some web development platforms, where a single webpage is going to contain content from both the platform as a whole, as well as content from specific web application. That can include custom JavaScript.
-
-Such platforms frequently make use of iframes to separate the two, so that a user’s web application can’t be used as an attack vector for the platform as a whole.
-
-Other times, iframes are used for browser-based development platforms in order to execute potentially untrusted code in a closed-off environment.
+Some web platforms use this approach to separate the user's web app from the platform's own infrastructure. This stops web apps from being attack vectors for the platform as a whole.
 
 # Conclusion
 
 In this article, I’ve tried to give a general, top-down view of the benefits of iframes, how they work, and why you might want to use one.
 
-However, iframes aren’t like a function or event a development technique — they’re a major piece of client-side architecture, one that can be as complicated as the entire rest of the webpage.
+However, iframes aren’t like a function or event a development technique – they’re a major piece of client-side architecture, one that can be as complicated as the entire rest of the webpage.
 
 I hope that you’ll join me on future deep dives into this topic, as I feel it’s the only way to do it justice.

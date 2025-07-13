@@ -32,8 +32,8 @@ Let’s take a closer look at each one.
 ## Non-executable
 You’ll get this kind of script tag if your `type` is present but **doesn’t** have one of the recognized values for executable scripts:
 
-- A JavaScript MIME type — `"text/javascript"`
-- Module — `"module"`
+- A JavaScript MIME type – `"text/javascript"`
+- Module – `"module"`
 - No value or the empty string `""`
 
 These script tags won’t execute and won’t fetch any resources. Instead, they’re used to embed data into the page through the body of the tag, usually in the form of JSON.
@@ -103,7 +103,7 @@ Nowadays, pretty much everyone uses module script tags.
 
 While porting old code that uses classic script tags can be a thorny proposition, you should absolutely use these if you’re building something new.
 
-One drawback they do have is **compatibility.** They’ve been supported by major browsers since around 2017, but some users continue to use obsolete browsers that don’t support them.
+One drawback they do have is **compatibility.** Major browsers have supported them since around 2017, but some users continue to use obsolete browsers that don’t support them.
 
 This includes the infamous IE11, but also some built-in mobile browsers.
 
@@ -127,11 +127,11 @@ This means that some or all of the page might not have loaded yet when the scrip
 
 For instance, if you place the script before the `<body>` tag, you’ll find `document.body` to be `null`. If you place it before a `<div>`, that `<div>` won’t exist yet.
 
-Some elements, such as images and fonts, can be loaded asynchronously, which means the script might execute while the geometry of the page hasn’t settled yet, changing the results of functions such as `getClientRect`.
+Some elements, such as images and fonts, can load asynchronously, which means the script might execute while the geometry of the page hasn’t settled yet, changing the results of functions such as `getClientRect`.
 
 Any top-level declarations made here become page-wide globals, accessible from any other script tag.
 
-This is a particularly nasty and error-prone feature, and you’ll frequently see script tags use scoping constructs like self-executing functions in order to control it.
+That's a particularly nasty and error-prone feature, and you’ll frequently see script tags use scoping constructs like self-executing functions to control it.
 
 Here is an example of a script tag using this technique:
 
@@ -191,7 +191,7 @@ This technique is crucial for many pieces of client-side infrastructure, ranging
 
 That doesn’t mean they get a free pass to block the page for as long as they like, though.
 
-Rather, this power comes with the responsibility of ensuring as little disruption to the page as possible. If a security system blocks for too long, hurts user experience, and causes clients to lose KPIs — they'll simply switch to something else.
+Rather, this power comes with the responsibility of ensuring as little disruption to the page as possible. If a security system blocks for too long, hurts user experience, and causes clients to lose KPIs – they'll simply switch to something else.
 # Source axis
 The source axis determines where a script’s JavaScript content comes from. This axis has four possibilities:
 
@@ -200,7 +200,7 @@ The source axis determines where a script’s JavaScript content comes from. Thi
 - **Data scripts**, which use a URI with the `data:` pseudo-protocol.
 - **Blob scripts**, which use a URI with the `blob:` pseudo-protocol.
 
-The group a script belongs to is determined by its `src` attribute.
+The `src` attribute of a script tag determines which group it belongs to.
 ## Inline scripts
 These kinds of scripts don’t have an `src` attribute and embed JavaScript content in the body of the tag.
 
@@ -263,7 +263,7 @@ Data scripts have an `src` attribute that points to a URI that uses the `data:` 
 
 As a pseudo-protocol, `data:` doesn’t actually point to the location of a resource. Instead, this pseudo-protocol lets you embed content verbatim into the URI itself, and have the browser load that content as though it came from the network.
 
-`data:` URIs are extremely handy for many purposes, and you’ll occasionally see scripts loaded this way. These kinds of scripts should be compared with inline scripts, rather than external scripts, since they embed JavaScript content instead of referencing another resource.
+`data:` URIs are extremely handy for many purposes, and you’ll occasionally see scripts loaded this way. We should compare then with inline scripts, rather than external scripts, since they embed JavaScript content instead of referencing another resource.
 
 Data scripts use more consistent escaping rules than inline tags, and can use a wide variety of encodings and character sets, which are often specified as part of the data URI. One of the most popular options is base64, which avoids the need to escape anything.
 
@@ -295,11 +295,11 @@ Here are some examples of data script tags in action:
 ```
 
 ## Blob scripts
-Blob scripts can only be created from JavaScript. They’re pretty weird.
+You can only create Blob scripts from JavaScript. They’re pretty weird.
 
 In JavaScript, a Blob is kind of like a Stream. It represents a bunch of data, without specifying its source or shape.
 
-You can get Blobs as the result of `fetch` requests or from files uploaded by the user, but they can also be created explicitly using the `Blob` constructor, like this:
+You can get Blobs as the result of `fetch` requests or from files uploaded by the user. You can also create them using the `Blob` constructor, like this:
 
 ```ts
 var blob = new Blob(
@@ -320,7 +320,7 @@ This URI looks something like this:
 
 There are solid reasons to use these, though I have to admit they’re pretty weird.
 
-Because they must be constructed using JavaScript, they can’t be inserted using certain kinds of XSS attacks. This makes them somewhat more secure than `data:` URI.
+For one, we can only construct them from JavaScript. This means attackers can't insert them using certain kinds of XSS attacks, making them somewhat more secure.
 
 However, they have some security risks too. They're sometimes used by attackers to obfuscate malicious scripts, since they’re harder to trace.
 

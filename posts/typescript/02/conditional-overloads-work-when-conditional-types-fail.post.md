@@ -106,7 +106,7 @@ It’s a pretty obscure feature – but we can use it to get some interesting re
 ## Methods with a this annotation
 Strangely, a `this` annotation on a method works the same as on a function – it doesn’t take into account where the method is actually defined.
 
-This means we can define a method on a class that can’t be called normally:
+This means we can define a method on a class that we can't call normally:
 
 ```ts
 declare class Example {
@@ -163,7 +163,7 @@ Although these signatures seem different, they actually end up behaving in exact
 
 Type parameter inference works at the point of call, using the types of the value parameters to figure out what the type parameters should be.
 
-Since the `this` argument is treated as just another argument by TypeScript, it’s also part of this inference process. It goes like this:
+Since TypeScript treats `this` as just another argument, it’s also part of this inference process. It goes like this:
 
 - The value of `this` has the type `List<T>`
 - The `this` annotation on the method is `List<S>`

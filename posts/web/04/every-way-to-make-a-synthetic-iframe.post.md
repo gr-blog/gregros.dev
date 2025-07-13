@@ -28,24 +28,24 @@ You can also figure them out just by looking at the tag itself.
 
 Meanwhile, non-synthetic iframes always make an HTTP/S request, and that request can have headers that change how the page functions. That includes the Content Security Policy (CSP), but also the Permissions Policy and other stuff too.
 
-Because the contents of synthetic iframes are determined by the pages that built them, they can only provide security in one direction — the page can be protected from what’s happening in the iframe, but not the other way around.
+When a page builds a synthetic iframe, it also determines everything that's in it. That's why they can only provide security in one direction – the page is protected from the iframe, but not the other way around.
 
 Let’s take a look at every method for constructing a synthetic iframe and compare their advantages.
 # srcdoc attribute
 A straight-forward method that probably resolves 90% of use-cases.
 
-The `srcdoc` attribute can be used to set the contents of a synthetic iframe verbatim. It can be specified as part of the HTML of the iframe tag, or can be set using JavaScript.
+We can use the `srcdoc` attribute to set the contents of a synthetic iframe verbatim. We can do that as part of the iframe's HTML or using JavaScript.
 
 Note that we can set the attribute before we attach the frame to the page.
 
-Here is an example of it being set using HTML:
+Here, we're setting it via HTML:
 
 ```html
 <!-- srcdoc attribute via HTML -->
 <iframe id="myFrame" srcdoc="<h1>hello world</h1>"></iframe>
 ```
 
-And here we set it via a JavaScript property:
+And here we set it via JavaScript:
 
 ```js
 // Create the iframe 
@@ -68,7 +68,7 @@ A srcdoc iframe doesn’t have an origin. That means its origin defaults to the 
 # Empty – no src or srcdoc
 An iframe with neither an `src` nor `srcdoc` attributes starts out empty. Its content is manually constructed using DOM operations and JavaScript, via the iframe element’s `contentWindow` property.
 
-You can only do this once the iframe is attached to the page. Before that, its `contentWindow` property is empty.
+The iframe generates its `contentWindow` property when it's attached to the page. Before this happens, the property is empty.
 
 You can use pretty much any method you want, but if you use DOM objects, make sure to use the iframe’s `createElement` function. (-- ref iframes)
 
@@ -98,7 +98,7 @@ doc.body.appendChild(iframeH1)
 - Not isolated from the parent page.
 
 # Data URI
-Another kind of iframe uses the `src` attribute, but with a data URI in it. This is very similar to the `srcdoc` attribute, in that it allows us to specify the iframe’s contents verbatim in the attribute.
+Another kind of iframe uses the `src` attribute, but with a data URI in it. That's very similar to the `srcdoc` attribute, in that it allows us to specify the iframe’s contents verbatim in the attribute.
 
 However, using a data URI is more flexible, since it allows different encodings. We can just use text:
 
@@ -112,16 +112,16 @@ But we can also use base64:
 <iframe src="data:text/html;base64,PGgxPmhlbGxvIHdvcmxkPC9oMT4="></iframe>
 ```
 
-An iframe with a data URI is considered to have an “opaque” origin, which means it’s isolated from everything. It doesn’t have any persistent storage and can’t access the parent page.
+An iframe with a data URI has an “opaque” origin, which means it’s isolated from everything. It doesn’t have any persistent storage and can’t access the parent page.
 
-This restriction also goes the other way — the parent page can’t access it either — but this doesn’t protect the iframe since the parent page created it in the first place.
+This restriction also goes the other way – the parent page can’t access it either – but this doesn’t protect the iframe since the parent page created it in the first place.
 
-Something similar can be achieved for any iframe using the `sandbox` attribute, but the parent can remove that attribute at any time, whereas this method provides more thorough protection.
+We can achieve something similar using the `sandbox` attribute, but the parent can remove that attribute at any time, whereas this method provides more thorough protection.
 
 - Inserted using JavaScript or part of the page.
-- Content is specified verbatim using different encodings.
+- We can specify content verbatim using any encoding we choose.
 - Securely isolated from the parent page.
-- Loads after an asynchronous delay
+- Loads after an asynchronous delay.
 
 # Blob URI
 This kind of iframe can only be created using JavaScript. It uses a Blob URI, a really weird mechanism for generating a URI pointing to a dynamically allocated binary object.

@@ -38,19 +38,19 @@ When people talk about the *performance* of a distributed system, they’re usua
 
 Low $\Latency$ automatically means having higher $\Throughput$. But in spite of that, software architecture typically focuses on increasing $\Throughput$ through other means.
 
-This is because reducing $\Latency$ is something that can only be done on a per-component basis, it’s subject to severe diminishing returns, and there are inherent limits to how low you can go.
+That's because reducing $\Latency$ is something you can only do on a per-component basis, it’s subject to severe diminishing returns, and there are inherent limits to how low you can go.
 
 It’s much easier to increase $\Throughput$, even if it comes *at the expense* of $\Latency$. So that’s what our model is going to focus on.
 # Boxes and jobs
-This model involves just two entities — $\Boxes$ and $\Jobs$.
+This model involves just two entities – $\Boxes$ and $\Jobs$.
 
-A $\Job$ stands for pretty much anything a server could be doing — like answering an HTTP request, processing a credit card transaction, or running a database query.
+A $\Job$ stands for pretty much anything a server could be doing – like answering an HTTP request, processing a credit card transaction, or running a database query.
 
-$\Jobs$ are processed by $\Boxes$. A $\Box$ could stand in for a VM, container, or maybe even a process inside a single machine.
+$\Jobs$ get processed by $\Boxes$. A $\Box$ could stand in for a VM, container, or maybe even a process inside a single machine.
 
 The rules for how $\Boxes$ process jobs are very simple:
 
-- Every $\Job$ takes a fixed amount of $\Time$ to complete. That is, $\Latency$ is fixed.
+- Every $\Job$ takes a fixed amount of $\Time$ to complete. In other words, we're fixing $\Latency$ in place.
 - Every $\Box$ is identical to any other. They all process $\Jobs$ at the same rate.
 - Each $\Box$ can only process one job at a time.
 
@@ -84,7 +84,7 @@ $$
 \Throughput=\Capacity\times\frac{1}{\Latency}
 
 $$
-While $\Latency$ is fixed, $\Capacity$ isn’t. We can change it however we want. To increase $\Throughput$, we just get more $\Boxes$!
+While $\Latency$ is constant, $\Capacity$ isn’t. We can change it however we want. To increase $\Throughput$, we just get more $\Boxes$!
 
 Sadly, these $\Boxes$ aren’t free. They actually $\Cost$ money.
 
@@ -105,9 +105,9 @@ So we have this system and jobs are coming in. But *how fast are they going?*
 
 Having a $\Throughput$ of, say, $100$ means we have the $\Capacity$ to handle $100$ jobs per second (or something). But are we getting $100$ jobs per second?
 
-Maybe we’re getting $10$ or $10,000$. This is the $\JobRate$, and whatever it is, our system must be prepared to handle it.
+Maybe we’re getting $10$ or $10,000$. That's the $\JobRate$, and whatever it is, our system needs to handle it.
 
-The $\JobRate$ isn't constant — it’s actually a function of time, or $\JobRate(\Time)$, and in almost all cases we can neither predict nor control it. It could be a flat line or it could fluctuate like crazy.
+The $\JobRate$ isn't constant – it’s actually a function of time, or $\JobRate(\Time)$, and in almost all cases we can neither predict nor control it. It could be a flat line or it could fluctuate like crazy.
 
 Here are some examples of how it might look like:
 
@@ -116,9 +116,11 @@ https://www.canva.com/design/DAGlG86qqak/lKUMM69vLfs-Aqqc3pvnzQ/view?utm_content
 ```
 
 ## Missed jobs
-If $\Throughput\;<\;\JobRate$, there are jobs that aren’t being handled.
+If $\Throughput\;<\;\JobRate$, we're not handling some of the jobs.
 
-This usually means the jobs end up being queued somewhere (possibly multiple *somewhere*s). For example:
+In a well-designed system, this usually means the jobs pile up in a queue somewhere (possibly several places).
+
+For example:
 
 1. Your HTTP server.
 2. The user’s web browser.
@@ -132,7 +134,7 @@ As jobs get queued, one of the following happens:
 
 - So many jobs get queued that they cause the messaging infrastructure to crash, leading to total system failure.
 
-The specifics don’t actually matter for the purposes of this article — in almost all cases, not handling jobs is a Very Bad Thing$\texttrademark$ and somewhere we really, really don’t wanna be.
+The specifics don’t actually matter for the purposes of this article – in almost all cases, not handling jobs is a Very Bad Thing$\texttrademark$ and somewhere we really, really don’t wanna be.
 
 We’ll just consider it a fail state of the model.
 # Utilization
@@ -145,7 +147,7 @@ $$
 $$
 That sounds nice, but since $\Cost$ is proportional to $\Throughput$, it basically means we’re paying for infrastructure that's going to waste.
 
-We can get a figure for $\Utilization$ — how much of our system is actually being used to process these jobs, versus standing idle and racking up money.
+We can get a figure for $\Utilization$ – how much of our system is actually used to process these jobs, versus standing idle and racking up money.
 
 It’s simply:
 
@@ -158,7 +160,7 @@ $$
 
 - $\Utilization<1$ is the scenario we’re just described. We have *more than enough* $\Capacity$ to handle jobs. We’re still paying for that extra $\Capacity$ though.
 
-- $\Utilization=1$ means we’re right on the money — every cent we’re pumping into our system is translated into jobs that get processed. It’s the ideal scenario. It’s also dangerously close to failure.
+- $\Utilization=1$ means we’re right on the money – we're translating every cent we’re pumping into our system into processing jobs. It’s the ideal scenario. It’s also dangerously close to failure.
 
 - $\Utilization>1$ just means we’re not handling jobs, which is a Very Bad Thing$\texttrademark$ and something we’re not considering right now.
 
@@ -170,21 +172,21 @@ Which is why we’ll answer a different question instead. How would you want $\U
 
 **The answer is that you don’t!**
 
-If you can keep $\Utilization$ at $0.5$ whether the $\JobRate$ is $10$ or $10,000$, you’re playing it safe — half of your infrastructure is idling — but you’re still winning!
+If you can keep $\Utilization$ at $0.5$ whether the $\JobRate$ is $10$ or $10,000$, you’re playing it safe – half of your infrastructure is idling – but you’re still winning!
 
-On the other hand, failure looks like $\Utilization$ going down into $0.01$ or above $1$. Both of those should be avoided.
+On the other hand, failure looks like $\Utilization$ going down into $0.01$ or above $1$. We should try to avoid both of those.
 
-Of course, if $\JobRate$ keeps changing, the only way to keep $\Utilization$ the same is changing your $\Throughput$ to match. $\Latency$ is fixed, so we have to change $\Capacity$ instead.
+Of course, if $\JobRate$ keeps changing, the only way to keep $\Utilization$ the same is changing your $\Throughput$ to match. We're fixing $\Latency$ in place, so we have to change $\Capacity$ instead.
 
 That’s *scaling*. Being able to do that is called *scalability*.
 # The point of it all
-The goal of scaling your system is to meet your target $\Utilization$. That doesn’t just mean getting more $\Throughput$ — it also means getting less of it as needed.
+The goal of scaling your system is to meet your target $\Utilization$. That doesn’t just mean getting more $\Throughput$ – it also means getting less of it as needed.
 
 People tend to focus on the *getting more* part. I think that’s because it’s more glamorous, in the same way people tend to talk about climbing up mountains, even though climbing back down is often harder.
 
 In any case, building a system like that is much harder than just getting high $\Throughput$. A real-world system is a heterogenous mass of different components that have very different scaling characteristics.
 
-In some cases, it may not be obvious how some of these components can be scaled at all.
+In some cases, it's not obvious how to scale some of them at all.
 
 What’s more, as a system scales, its structure changes, and it becomes vulnerable to different sorts of issues. Problems that occur at one level of scale may not occur in another, making such issues hard to debug.
 
@@ -192,13 +194,13 @@ This kind of stuff happens whether you’re scaling up or down.
 ## The cloud
 In fact, scalability is so difficult that few companies attempt to achieve it by themselves.
 
-Instead, they pay huge cloud providers to solve some parts of these problems for them, even if it means also paying a pretty steep markup on actual processing power — and $\Throughput$.
+Instead, they pay huge cloud providers to solve some parts of these problems for them, even if it means also paying a pretty steep markup on actual processing power – and $\Throughput$.
 
-The best example of all of this is the **serverless platform**.
+The **serverless platform** is the best example of this.
 
 One paper^[https://arxiv.org/pdf/1812.03651] found that, when compared to a virtual machine, serverless platforms cost $100$ times more for the same $\Throughput$, with $20$ times the $\Latency$.
 
-That would be lunacy from a *performance* standpoint, but it makes perfect sense when considering *scalability* — your $\JobRate$ might vary by a factor of $100,000$ over a single day.
+That would be lunacy from a *performance* standpoint, but it makes perfect sense when considering *scalability* – your $\JobRate$ might vary by a factor of $100,000$ over a single day.
 
 Compared to that, even a factor of $100$ might not be so scary, especially if it lets you avoid paying for so many engineers.
 # Conclusion

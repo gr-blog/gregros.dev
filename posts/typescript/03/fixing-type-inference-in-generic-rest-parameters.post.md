@@ -34,7 +34,7 @@ It [fails](https://www.typescriptlang.org/play/?#code/AQSwdgLgpgTgZgQwMZWAGRAZwg
 
 ```ts
 const list = List(1, "hello world")
-// ⛔ Argument of type `string` isn't assignable to parameter of type `number`
+// ⛔ Argument of type `string` is not assignable to parameter of type `number`
 ```
 
 We get a different version of this problem if we instead pass unrelated object types:
@@ -53,7 +53,7 @@ Why is this happening, and is there a way to fix it?
 # When type inference fails
 Because we’re not specifying the type parameter `T`, we’re asking TypeScript to figure out what it should be on its own.
 
-In other words, we’re asking the compiler to *infer* it – figure out what it should be based on the types it does know about.
+In other words, we’re asking the compiler to *infer* it – use the types it does know about to figure out what it should be.
 
 Type inference is a convenience feature, so it can get pretty murky. TypeScript can basically choose whatever method it wants.
 
@@ -64,7 +64,7 @@ In fact, I’m not exactly sure how inference works in this case. Here’s what 
 - It widens types, but only up to a point.
 - Literal types, objects, and primitive types are all treated differently.
 - The order in which the parameters appear can matter.
-- But in other cases, that order is ignored.
+- But in other cases, TypeScript ignores it.
 
 Here are some [tests](https://www.typescriptlang.org/play/?importHelpers=true&experimentalDecorators=true#code/CYUwxgNghgTiAEkoGdnwDIEtkBcA8AKgHzwDeAUPPFDgBQB2AXPPQK4C2ARiDAJTMEA3OQC+5UEjjwAZq3pgcmAPb0M2fMVoA6HbADmyAQG0AuvzW5CRYeTArcLDtxjwAvPACM1NGy49b9jjwAPpe7l4ongH0DsEATG7wCZFx0Q5QGYlGHgA0SXkARAAWIBAQSgUmaUFyANb0SgDuqu4ADN7wdQ3N5Fi4tKF58bzwAPSjnvAAPkm96gO5ZCIj45OAMuRz-YPwBQUrE14bfXTbu0Nx++vkm3SkUMweInmknMxxy2MTpDpaYscLhQKeS6TXovButDOIUWw0+kyAA) – if you manage to piece it together, I’d love to hear about it in the [Discord](https://discord.gg/ePjFUSRfPh)!
 
