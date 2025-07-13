@@ -1,6 +1,6 @@
 ---
 title: "Every way to make a synthetic iframe: an overview"
-description: ...
+description: ""
 published: 2025-01-01
 updated: 2025-01-11
 ---
@@ -65,10 +65,10 @@ A srcdoc iframe doesn’t have an origin. That means its origin defaults to the 
 - Loads synchronously
 - Not isolated from the parent page.
 
-# empty – no src or srcdoc
+# Empty – no src or srcdoc
 An iframe with neither an `src` nor `srcdoc` attributes starts out empty. Its content is manually constructed using DOM operations and JavaScript, via the iframe element’s `contentWindow` property.
 
-You can only do this once the iframe is attached to the page. Otherwise its `contentWindow` property will be empty.
+You can only do this once the iframe is attached to the page. Before that, its `contentWindow` property is empty.
 
 You can use pretty much any method you want, but if you use DOM objects, make sure to use the iframe’s `createElement` function. Inserting elements created by the parent page into the iframe will result in undefined behavior.
 
@@ -97,7 +97,7 @@ doc.body.appendChild(iframeH1)
 - Everything DOM update is applies synchronously.
 - Not isolated from the parent page.
 
-# data URI
+# Data URI
 Another kind of iframe uses the `src` attribute, but with a data URI in it. This is very similar to the `srcdoc` attribute, in that it allows us to specify the iframe’s contents verbatim in the attribute.
 
 However, using a data URI is more flexible, since it allows different encodings. We can just use text:
@@ -123,7 +123,7 @@ Something similar can be achieved for any iframe using the `sandbox` attribute, 
 - Securely isolated from the parent page.
 - Loads after an asynchronous delay
 
-# blob URI
+# Blob URI
 This kind of iframe can only be created using JavaScript. It uses a Blob URI, a really weird mechanism for generating a URI pointing to a dynamically allocated binary object.
 
 To create one, we need to create a Blob object with the contents we want the iframe to have:
@@ -159,7 +159,7 @@ Unlike data URIs, iframes constructed like this actually do inherit the parent�
 - Loads after an asynchronous delay
 - Not isolated from the parent page
 
-# about URI
+# About URI
 Using an `src` attribute with the `about:` pseudo-protocol doesn’t actually construct an iframe. It sets its address without specifying what’s in it. Kind of like giving a nickname to a pet.
 
 You can combine this with the [[#srcdoc attribute]] to set the frame’s location to something meaningful. Can be helpful when debugging.

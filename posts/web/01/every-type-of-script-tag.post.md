@@ -1,6 +1,6 @@
 ---
 title: "Every type of script tag: an overview"
-description: ...
+description: ""
 published: 2025-01-01
 updated: 2025-01-11
 ---
@@ -48,7 +48,7 @@ Some common values for the attribute include:
 
 In principle, you could use any HTML tag for this purpose, but script tags have several advantages over other types of tags.
 
-- They are invisible.
+- They're invisible.
 - They can appear in the `<head>` portion of the page.
 - They let you avoid escaping most special characters used in HTML, like `&` and `<`.
 
@@ -119,9 +119,9 @@ You’ll get this kind of script tag if the `type` attribute:
 
 Classic script tags have been around since JavaScript became a thing, and they make up the majority of script tags found on websites today.
 
-In spite of their age – or perhaps because of it – they are actually more complicated than the newer module type script tags.
+In spite of their age – or perhaps because of it – they're actually more complicated than the newer module type script tags.
 
-When the browser encounters a classic script tag as part of parsing a webpage, it will immediately fetch and execute its content synchronously, blocking the rest of the page from loading until it’s done.
+When the browser encounters a classic script tag as part of parsing a webpage, immediately fetches and executes its content synchronously, blocking the rest of the page from loading until it’s done.
 
 This means that some or all of the page might not have loaded yet when the script executes.
 
@@ -129,7 +129,7 @@ For instance, if you place the script before the `<body>` tag, you’ll find `do
 
 Some elements, such as images and fonts, can be loaded asynchronously, which means the script might execute while the geometry of the page hasn’t settled yet, changing the results of functions such as `getClientRect`.
 
-Any top-level declarations made here will become page-wide globals, accessible from any other script tag.
+Any top-level declarations made here become page-wide globals, accessible from any other script tag.
 
 This is a particularly nasty and error-prone feature, and you’ll frequently see script tags use scoping constructs like self-executing functions in order to control it.
 
@@ -183,15 +183,15 @@ Here are examples of different kinds of classic script tags:
 ### Client-side infrastructure
 The ES module system has replaced classic script tags for frontend development, but that doesn’t mean classic script tags are now obsolete.
 
-Instead, they’ve simply transformed into a specialized tool for low-level applications. While in the previous section I phrased it as a drawback, the ability to choose exactly when your code will execute is actually very powerful.
+Instead, they’ve simply transformed into a specialized tool for low-level applications. While in the previous section I phrased it as a drawback, the ability to choose exactly when your code executes is actually very powerful.
 
-For example, classic script tags that appear before the `<body>` tag will execute before any visible component of the page has loaded, which guarantees the user hasn’t had the chance to interact with anything yet.
+For example, classic script tags that appear before the `<body>` tag execute before any visible component of the page has loaded, which guarantees the user hasn’t had the chance to interact with anything yet.
 
 This technique is crucial for many pieces of client-side infrastructure, ranging from analytics packages to security systems, which must come online early to avoid missing security threats or events.
 
 That doesn’t mean they get a free pass to block the page for as long as they like, though.
 
-Rather, this power comes with the responsibility of ensuring as little disruption to the page as possible. If a security system blocks for too long, hurts user experience, and causes clients to lose KPIs — they will simply switch to something else.
+Rather, this power comes with the responsibility of ensuring as little disruption to the page as possible. If a security system blocks for too long, hurts user experience, and causes clients to lose KPIs — they'll simply switch to something else.
 # Source axis
 The source axis determines where a script’s JavaScript content comes from. This axis has four possibilities:
 
@@ -208,7 +208,7 @@ The browser has special rules for parsing the bodies of script tags. These rules
 
 Instead, it simply looks for the string `</script>` and closes the tag as soon as it finds it. It doesn’t matter if it appears in the middle of JavaScript code, as part of a string, or in a JavaScript comment.
 
-So, for example, the following content will cause the script to break:
+So, for example, the following content causes the script to break:
 
 ```html
 <script type="module">
@@ -237,11 +237,11 @@ These scripts have an `src` attribute that points to an HTTP/S URL.
 When compared to inline scripts, external scripts have a number of advantages that make them the most common type of script tag in use today.
 
 1. They let you avoid sending the same bit of JavaScript with every request, leveraging the browser’s caching mechanism and reducing overall bandwidth.
-2. They have an address that will appear in the stack trace, making them far easier to debug.
+2. They have an address that appears in the stack trace, making them far easier to debug.
 3. They mean you can use different hosting strategies for different parts of your site, optimizing delivery and potentially reducing costs.
 4. They allow for better code organization.
 
-The main disadvantage they have against inline scripts is the extra indirection, which increases latency, at least on the first page load. Whether they are more or less secure than inline scripts is a thorny question that’s hard to answer.
+The main disadvantage they have against inline scripts is the extra indirection, which increases latency, at least on the first page load. Whether they're more or less secure than inline scripts is a thorny question that’s hard to answer.
 
 Here are some examples of external script tags:
 
@@ -322,7 +322,7 @@ There are solid reasons to use these, though I have to admit they’re pretty we
 
 Because they must be constructed using JavaScript, they can’t be inserted using certain kinds of XSS attacks. This makes them somewhat more secure than `data:` URI.
 
-However, they have some security risks too. They are sometimes used by attackers to obfuscate malicious scripts, since they’re harder to trace.
+However, they have some security risks too. They're sometimes used by attackers to obfuscate malicious scripts, since they’re harder to trace.
 
 Here is some code that creates a script tag using this kind of URI:
 

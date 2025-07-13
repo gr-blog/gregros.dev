@@ -153,7 +153,7 @@ This method works like this:
 1. Define one type-level map that acts as a source of truth, describing all the commands.
 2. Then create one generic method that behaves just like the overloads we saw earlier.
 
-The type-level map will be keyed using the command name. Its value will *also* be a type-level map that always has the structure:
+The type-level map is keyed using the command name. Its value is another type-level map that always has the structure:
 
 ```ts
 type CommandType = {
@@ -205,7 +205,7 @@ Let’s say we’re building a library for querying the DOM, kind of like JQuery
 
 This library lets us search the DOM, yielding either individual elements or collections. In both cases, we want to keep track of the possible element types a given object can represent.
 
-So, for example, a query like `$("div")` will only return `div` elements, and we want to make that part of its return type.
+So, for example, a query like `$("div")` only returns `div` elements, and we want to make that part of its return type.
 
 We clearly need a generic type to represent this, but there are several ways to define it. Let’s start by looking at an example *without* type-level maps.
 ### Using HTMLElement
@@ -217,7 +217,7 @@ interface Tag<TElement extends HTMLElement> {}
 
 This has a few issues, though.
 
-For one, `HTMLElement` is a pretty big object type. This generic signature means every instantiation must be compared to that object structurally, which will make type checking a lot slower.
+For one, `HTMLElement` is a pretty big object type. This generic signature means every instantiation must be compared to that object structurally, making type checking a lot slower.
 
 Besides that, the canonical name of every element type has this `HTML*Element` structure. Naming types like this is good out of context, but in this case, it’s going to make the name of our `Tag` type very long.
 
@@ -227,9 +227,9 @@ type Example = Tag<
 >
 ```
 
-This isn’t just cosmetic – it will truncate compilation errors and make parsing out the names of these types basically impossible.
+This isn’t just cosmetic – it'll truncate compilation errors and make parsing out the names of these types basically impossible.
 
-On top of that, the compilation messages produced won’t actually be that meaningful. TypeScript is a structural language, but [[but-what-is-a-dom-node.post|DOM nodes are not structural]]. Comparing DOM nodes structurally is pointless.
+On top of that, the compilation messages produced won’t actually be that meaningful. TypeScript is a structural language, but [[but-what-is-a-dom-node.post|DOM nodes aren't structural]]. Comparing DOM nodes structurally is pointless.
 ### Using tag names with a type-level map
 Instead of using explicit element types, we can reference elements by their tag names.
 

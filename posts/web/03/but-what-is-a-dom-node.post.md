@@ -1,6 +1,6 @@
 ---
 title: What is a DOM node? A peek under the hood
-description: ...
+description: ""
 published: 2025-01-01
 updated: 2025-01-11
 ---
@@ -11,7 +11,7 @@ The answer turns out to be surprisingly complicated!
 ---
 The best way to investigate what the browser sees as a DOM node is to use a function that’s supposed to accept one, and pass it various things, and see what happens!
 
-The classic example is `appendChild`. This method accepts a DOM node and inserts it as the child of another node. If you pass the method just a regular old object, it will error instead.
+The classic example is `appendChild`. This method accepts a DOM node and inserts it as the child of another node. If you pass the method just a regular old object, it errors instead.
 
 Here is some code to illustrate this:
 
@@ -78,9 +78,9 @@ Feel free to try to run the code in your browser console and check for yourself!
 ## The answer
 It turns out that the first object — the empty one — **is** recognized as a DOM node, but the second one isn’t. That means the browser doesn’t use an object’s prototype to recognize DOM nodes at all. It’s doing something else.
 
-That’s not to say getting rid of the prototype doesn’t do anything. You can no longer call instance methods, for example, since they are defined on the prototype and that prototype is missing.
+That’s not to say getting rid of the prototype doesn’t do anything. You can no longer call instance methods, for example, since they're defined on the prototype and that prototype is missing.
 
-But no matter how you screw up a DOM node, if you get a reference to one of those methods, you can still invoke it and it will work just fine. Here is an example:
+But no matter how you screw up a DOM node, if you get a reference to one of those methods, you can still invoke it and it'll work just fine. Here is an example:
 
 ```js
 // Create a div elemenmt
@@ -99,7 +99,7 @@ const { setAttribute } = HTMLElement.prototype
 setAttribute.call(div, "id", "this-actually-works")
 ```
 
-Weird, right? Don’t worry, this will actually make more sense once we zoom out a bit.
+Weird, right? Don’t worry, this will make more sense once we zoom out a bit.
 # Beyond JavaScript
 And by *a bit*, I actually mean a lot. Because to truly understand this weirdness, we have to leave the realm of JavaScript altogether and take a look at browser architecture instead.
 
@@ -116,9 +116,9 @@ These bindings do very little; the point is that, once a DOM operation is invoke
 https://www.canva.com/design/DAGby_a3rDM/N8CbBV9kIAUZeGTcAXWw4A/view?utm_content=DAGby_a3rDM&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hbc0c0bb1df
 ```
 
-The rendering engine does not follow the rules of JavaScript and generally *tries* not to know what JavaScript even is. It does know what a DOM Node is though. In fact, **one of the rendering engine’s primary jobs is to allocate and manage DOM nodes.**
+The rendering engine doesn't follow the rules of JavaScript and generally *tries* not to know what JavaScript even is. It does know what a DOM Node is though. In fact, **one of the rendering engine’s primary jobs is to allocate and manage DOM nodes.**
 
-These DOM nodes don’t have anything to do with prototype chains or JavaScript. They are native C++ objects called `Node` that are passed by reference. They literally implement methods called `appendChild` and `insertBefore`.
+These DOM nodes don’t have anything to do with prototype chains or JavaScript. They're native C++ objects called `Node` that are passed by reference. They literally implement methods called `appendChild` and `insertBefore`.
 
 The V8-Blink bindings form the link between the two. There, each JavaScript DOM node is mapped to a `Node` object, and this mapping just works by reference.
 

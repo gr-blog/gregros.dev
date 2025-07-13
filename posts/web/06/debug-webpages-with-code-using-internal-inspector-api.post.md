@@ -2,7 +2,7 @@
 title: Debug webpages with code using the inspector's internal API
 published: 2025-07-08
 updated: 2025-07-08
-description: ...
+description: ""
 ---
 
 Using the right approach, we can get past the Chrome inspector’s UI and invoke
@@ -19,25 +19,25 @@ browser. If we could interact with its code using a console, we could access the
 API behind its interface.
 
 The inspector’s own console can’t do that, since it’s just a fancy textbox
-that’s part of the webpage. It can run commands on the _end-page_ it’s
+that’s part of the webpage. It can run commands on the *end-page* it’s
 inspecting, but that’s about it.
 
-That means all we need to do is _inspect_ the inspector using another instance
+That means all we need to do is *inspect* the inspector using another instance
 of itself!
 
-I call this technique _meta-inspection_, and here is how it works:
+I call this technique *meta-inspection*, and here is how it works:
 
 ```canva key=meta-inspection ;; size=570x370 ;; alt=Illustrates the end-page, an inspector, and the meta-inspector
 https://www.canva.com/design/DAGb7Bi_Ezk/vgeH-J7-CSHwTsrEz28HpQ/view?utm_content=DAGb7Bi_Ezk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hb2b009fec8
 ```
 
-- First, press `Ctrl + Shift + I` on the page you want to _meta-inspect_.
+- First, press `Ctrl + Shift + I` on the page you want to *meta-inspect*.
 - Detach the inspector into its own window.
 - Press `Ctrl + Shift + I` again on the inspector window, opening up a second
-  inspector. We’ll call it the _meta-inspector!_
+  inspector. We’ll call it the *meta-inspector!*
 - Now you can reattach the first inspector, but don’t close it.
 
-Now, just like with any other webpage, we can use the _meta-inspector_ to do all
+Now, just like with any other webpage, we can use the *meta-inspector* to do all
 kinds of things:
 
 - Examine the inspector’s UI
@@ -45,7 +45,7 @@ kinds of things:
 - And if we get references to the right objects, invoke its internal API from
   the console!
 
-That internal API contains all the information about the _end-page_ — the
+That internal API contains all the information about the *end-page* — the
 webpage we actually want to debug — and it’s all in the form of juicy JavaScript
 objects.
 
@@ -118,13 +118,13 @@ went to the
 
 ## Quick tip
 
-You might notice that the _meta-inspector_ doesn’t refresh, even if you refresh
+You might notice that the *meta-inspector* doesn’t refresh, even if you refresh
 the end-page being inspected or navigate it somewhere else.
 
 On one hand, it’s quite convenient, since any functions and variables you
-defined previously will still be available.
+defined previously remain available.
 
-But it also means the _meta-inspector_’s memory is going to fill up with data
+But it also means the *meta-inspector*’s memory is going to fill up with data
 from lots of different pages, which can lead to unbounded memory usage.
 
 You should be careful to refresh it every so often with a quick `Ctrl + R`.
@@ -132,7 +132,7 @@ You should be careful to refresh it every so often with a quick `Ctrl + R`.
 ## Importing stuff
 
 The inspector uses ES modules, and we’ll need to dynamically import them in the
-_meta-inspector_’s console if we want to use its code.
+*meta-inspector*’s console if we want to use its code.
 
 While the modules themselves don’t change often, their import paths can change a
 lot, depending on the Chrome version and how it was built.
@@ -140,7 +140,7 @@ lot, depending on the Chrome version and how it was built.
 For example, the `logs.js` module might be imported using one of the following
 paths:
 
-```
+```txt
 ./models/logs/logs.js
 ./devtools-frontend/front_end/models/logs/logs.js
 ```
@@ -224,7 +224,7 @@ If you’re looking at a complicated web application with lots of dependencies,
 each making tons of different requests — you might want to know where most of
 the traffic is coming from.
 
-Using the _meta-inspector_, you can figure it out using JavaScript. We just
+Using the *meta-inspector*, you can figure it out using JavaScript. We just
 group the log entries by
 [`domain`](https://github.com/ChromeDevTools/devtools-frontend/blob/4590d3a54ca7023ca9f61f0dc46f2d821401c118/front_end/core/sdk/NetworkRequest.ts#L911)
 and sum by
@@ -282,7 +282,7 @@ https://www.canva.com/design/DAGb7Dkn3BU/8HS2t1_K3sM0K3lk2vcxMg/view?utm_content
 ## Searching in request bodies
 
 While we can search for stuff in response bodies using the inspector UI, that
-doesn’t work for searching inside _request_ bodies. But using this technique, we
+doesn’t work for searching inside *request* bodies. But using this technique, we
 can do it with code!
 
 Getting the request payload is actually an async operation, so our code is going

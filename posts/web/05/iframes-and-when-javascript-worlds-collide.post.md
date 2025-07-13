@@ -1,6 +1,6 @@
 ---
 title: iframes and when JavaScript worlds collide
-description: ...
+description: ""
 published: 2025-01-11
 updated: 2025-01-11
 ---
@@ -42,7 +42,7 @@ Yup!
 
 It’s one of the reasons using iframes is generally a bad idea.
 
-That said, there are some things that only iframes can do, so they will probably never go away.
+That said, there are some things that only iframes can do, so they'll probably never go away.
 # Making an iframe
 Before can interact with an iframe, we need to create one and attach it to the page.
 
@@ -104,7 +104,7 @@ console.assert(
 )
 ```
 
-The result seems to work like a normal array, but don’t be fooled. Any check involving the array’s prototype will reveal the alien array’s true nature:
+The result seems to work like a normal array, but don’t be fooled. Any check involving the array’s prototype reveals the alien array’s true nature:
 
 ```js
 console.assert(
@@ -130,7 +130,7 @@ We’ll run the experiment in two different ways and see if the results line up.
 - We’ll create an iframe that just has a script tag with a function.
 - We’ll insert another function into the iframe from the outside.
 
-Both functions will just return an array literal, and we’ll check to see which function returned which version of `Array`!
+Both functions will return an array literal, and we’ll check to see which function returned which version of `Array`!
 
 ```js
 var iframe = makeIframe(`
@@ -180,7 +180,7 @@ When we defined `getArray1`, we created a new script inside the iframe, but `get
 
 This makes sense, but it also means that far from being worried *just* about alien objects, we should be more concerned about alien functions!
 
-If we put a function defined in one environment into another, it will keep producing alien objects, and it might break if we pass it any parameters of our own.
+If we put a function defined in one environment into another, it'll keep producing alien objects, and it might break if we pass it any parameters of our own.
 
 Scary!
 # Tags from other worlds!
@@ -205,7 +205,7 @@ This one is a bit tricky! Here are some possibilities:
 
 - It might throw an exception because doing this makes no sense.
 - Maybe it won’t do anything.
-- Possibly, it will switch out the element’s prototype before inserting it.
+- Possibly, it'll switch out the element’s prototype before inserting it.
 - It could clone the element, attach the correct prototype, and then insert the copy.
 
 ## What actually happens
@@ -264,6 +264,6 @@ When it comes down to DOM operations, they have to give way to what the spec say
 # Conclusion
 When two JavaScript environments interact, the result can get pretty weird and confusing.
 
-Browsers will happily let you pollute your JS environment and even the DOM itself with alien objects that aren’t part of any prototype chain. And you won’t find out until everything breaks a few weeks later.
+Browsers happily let you pollute your JS environment and even the DOM itself with alien objects that aren’t part of any prototype chain. And you won’t find out until everything breaks a few weeks later.
 
 More than the performance impact, the horrifying bugs that result from working with iframes are probably the best reason to stay away from them.

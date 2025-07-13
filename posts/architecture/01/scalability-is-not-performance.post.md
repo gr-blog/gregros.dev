@@ -29,7 +29,7 @@ $$
 \def\Box{\term{Box}{PineGreen}}
 \def\Boxes{\term{Boxes}{PineGreen}}
 $$
-We’ll start by answering a more fundamental question. It will allow us to determine the scope of our model.
+We’ll start by answering a more fundamental question. It'll allow us to determine the scope of our model.
 # What is performance?
 When people talk about the *performance* of a distributed system, they’re usually considering one of two metrics:
 
@@ -107,7 +107,7 @@ Having a $\Throughput$ of, say, $100$ means we have the $\Capacity$ to handle $1
 
 Maybe we’re getting $10$ or $10,000$. This is the $\JobRate$, and whatever it is, our system must be prepared to handle it.
 
-The $\JobRate$ is not constant — it’s actually a function of time, or $\JobRate(\Time)$, and in almost all cases we can neither predict nor control it. It could be a flat line or it could fluctuate like crazy.
+The $\JobRate$ isn't constant — it’s actually a function of time, or $\JobRate(\Time)$, and in almost all cases we can neither predict nor control it. It could be a flat line or it could fluctuate like crazy.
 
 Here are some examples of how it might look like:
 
@@ -206,6 +206,6 @@ In short, *scalability* is being able to change your system’s throughput based
 
 Sometimes, people talk about *improving scalability* when they actually just mean making stuff run faster.
 
-That’s important too, but serverless platforms (and the cloud computing model in general) are proof that you can have scalability without high performance, and that people will happily pay lots of money to have it.
+That’s important too, but serverless platforms (and the cloud computing model in general) are proof that you can have scalability without high performance, and that people happily pay lots of money to have it.
 
 I hope you’ll join me for future articles, in which we’ll use slightly more complicated models to look at more advanced qualities of distributed systems!

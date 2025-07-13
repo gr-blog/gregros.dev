@@ -2,7 +2,7 @@
 title: Conditional overloads that work when conditional types fail
 published: 2025-07-08
 updated: 2025-07-08
-description: ...
+description: ""
 ---
 How can we define methods that have different signatures depending on a type parameter? In this article, we’ll take a look at conditional types – but end up using a more subtle pattern using overload resolution.
 
@@ -64,11 +64,11 @@ List<(T extends Promise<any> ? Promise<T extends Promise<infer S> ? S : T> : T e
 
 Even though it *looks* like some of these conditionals should simplify, TypeScript doesn’t even try. Instead, it lets them build on themselves until we get this thing.
 
-TypeScript *will* resolve all these conditionals if we call the method as `example<number>`. But if we keep the code generic, we’re going to end up with these unreadable types just lying around all over the place.
+TypeScript *does* resolve all these conditionals if we call the method as `example<number>`. But if we keep the code generic, we’re going to end up with these unreadable types just lying around all over the place.
 
 The only way to deal with these things is to use lots of type assertions and `any`, which probably won’t pass code review.
 
-Is there a better approach? Turns out, yes! But it involves a clever trick that combines three TypeScript features in a way you might not expect...
+Is there a better approach? Turns out, yes! But it involves a clever trick that combines three TypeScript features in a way you might not expect.
 # The conditional overload
 The three features are:
 
@@ -90,7 +90,7 @@ function example(this: { a: 1 }) {
 
 TypeScript treats that `this` parameter just like any other argument. It only gets checked when you actually call the function.
 
-So the following code, for example, will fail to compile because the `this` argument is missing:
+So the following code, for example, fails to compile because the `this` argument is missing:
 
 ```ts
 example()
@@ -145,7 +145,7 @@ declare class Example {
 }
 ```
 
-TypeScript will pick the first overload that matches – in other words, order matters here. We need to put the specialized overloads first and the relaxed overloads last.
+TypeScript picks the first overload that matches – in other words, order matters here. We need to put the specialized overloads first and the relaxed overloads last.
 
 Now we’re finally close to a solution, but we’re not quite there yet. Let’s take a look at how conditional overloads interact with type parameters!
 ## Rephrasing type parameters
@@ -184,11 +184,11 @@ declare class List<T> {
 Based on what we know about the `this` argument:
 
 - `this` must be assignable to `List<Promise<_T>>` for some `_T`.
-- Inference will figure out what `_T` should be.
+- Inference figures out what `_T` should be.
 
 In other words, this approach lets us “look inside” `T`, shaping the signature of `map` depending on what it happens to be.
 
-Notice how the declared type parameter `T` is not used in the signature. Worse, using it will actually break type checking! That’s why I recommend shadowing the original `T` when doing this:
+Notice how the declared type parameter `T` isn't used in the signature. Worse, using it actually breaks type checking! That’s why I recommend shadowing the original `T` when doing this:
 
 ```ts
 declare class List<T> {
@@ -199,7 +199,7 @@ declare class List<T> {
 }
 ```
 
-To top it off, we just add a second overload to cover the case when `T` is not actually a promise:
+To top it off, we just add a second overload to cover the case when `T` isn't actually a promise:
 
 ```ts
 declare class List<T> {

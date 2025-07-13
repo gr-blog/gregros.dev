@@ -1,19 +1,18 @@
 ---
 title: What is an iframe? An overview
 series: web
-description: ...
+description: ""
 published: 2025-01-01
 updated: 2025-01-11
 ---
 
-Iframes are omnipresent and extremely useful, yet they are also complicated and confusing.
+Iframes are omnipresent and extremely useful, yet they're also complicated and confusing.
 
 Let’s take a broad look at how they work.
 
 ---
 
 # But what is an iframe?
-
 An iframe is a box with another webpage in it — a webpage within a webpage.
 
 Some iframes are visible and obvious, used for social media components, payment portals, and embedded videos.
@@ -37,8 +36,7 @@ Some iframes are isolated from the pages they’re embedded in, while others are
 Meanwhile, the parent page can control the kinds of things code in the iframe can do. For example, it can prevent the iframe from using the microphone and limit its scripts to a certain domain.
 
 # What do they look like?
-
-Like most elements iframes appear as rectangular areas with stuff inside them. Unlike other elements, though, that stuff can’t affect their size, which is entirely determined by the styling rules applied by the parnet page.
+Like most elements iframes appear as rectangular areas with stuff inside them. Unlike other elements, though, that stuff can’t affect their size, which is entirely determined by the styling rules applied by the parent page.
 
 Iframes don’t overflow like normal elements. They’re more like a small browser window stuck inside a webpage.
 
@@ -49,7 +47,6 @@ Webpages inside iframes are also unaffected by most CSS rules in the parent page
 All of these qualities tend to make iframes stand out from the page they’re embedded in, which is often the point. Other times a lot of work has to go into making them blend in with everything.
 
 # What’s inside them?
-
 Each iframe has a complete DOM, which starts with having the base HTML structure of:
 
 ```html
@@ -62,15 +59,14 @@ Each iframe has a complete DOM, which starts with having the base HTML structure
 
 Some iframes don’t contain anything else, except maybe a `<script>` tag or two. These iframes are frequently invisible, constructed by the main page, and used for their JavaScript environment.
 
-Other iframes, in particular all visible ones, will contain something that looks more like a normal webpage. They will have scripts tags, stylesheets, and normal elements like `<div>` and `<input>`.
+Other iframes, in particular all visible ones, contain something that looks more like a normal webpage. They have scripts tags, stylesheets, and normal elements like `<div>` and `<input>`.
 
 Some iframes also contain other iframes.
 
 # Are they secure?
-
 Iframes are generally regarded as secure and are a core component of the web as we know it. Payment portals, for instance, wouldn’t be possible without their involvement.
 
-They do not by themselves solve all client-side security issues, but they are an important component of anything that tries to do so.
+They don't by themselves solve all client-side security issues, but they're an important component of anything that tries to do so.
 
 Iframe security is based on the browser’s same-origin policy, which means that resources from different websites shouldn’t be able to interact with each other.
 
@@ -79,21 +75,18 @@ This means that an iframe from another website — such as a payment provider �
 These security features are sometimes used by attackers to run malicious code out of sight of the main page.
 
 # Anything to look out for?
-
 Iframes aren’t a simple technology, and using them has both performance and development costs.
 
 The performance cost comes from having the browser create this entirely new webpage inside of an existing webpage, increasing the page’s overall memory footprint.
 
 Plus, since it runs on the same thread, anything it does can stall the main page, depriving it of resources.
 
-There are also specific kinds of bugs that can only happen if you’re trying to run code in both an iframe and the main page. Doing so is quite tricky, and the browser will actually let you screw up your web environment in terrible ways.
+There are also specific kinds of bugs that can only happen if you’re trying to run code in both an iframe and the main page. Doing so is quite tricky, and the browser actually lets you screw up your web environment in terrible ways.
 
 # Use-cases
-
 Let's take a broad look at the different ways iframes are used.
 
 ## Embeds
-
 An embed is a component from one site that’s integrated into another site. An embed can be any kind of component, whether interactive or not, including:
 
 - A video player
@@ -101,7 +94,7 @@ An embed is a component from one site that’s integrated into another site. An 
 - A social media feed
 - An advertisement
 
-While some embeds can be done without using iframes, the benefits to the embed provider are usually so great that they will insist on using them, whether they’re needed or not.
+While some embeds can be done without using iframes, the benefits to the embed provider are usually so great that they'll insist on using them, whether they’re needed or not.
 
 This is why the Facebook Like button is an iframe. It doesn’t *have* to be one, but it gives enormous advantages to Facebook if it is.
 

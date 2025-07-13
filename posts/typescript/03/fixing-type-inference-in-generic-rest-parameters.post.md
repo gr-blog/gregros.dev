@@ -34,7 +34,7 @@ It [fails](https://www.typescriptlang.org/play/?#code/AQSwdgLgpgTgZgQwMZWAGRAZwg
 
 ```ts
 const list = List(1, "hello world")
-// ⛔ Argument of type `string` is not assignable to parameter of type `number`
+// ⛔ Argument of type `string` isn't assignable to parameter of type `number`
 ```
 
 We get a different version of this problem if we instead pass unrelated object types:
@@ -61,10 +61,10 @@ Some of these methods always succeed – like always inferring `unknown` – but
 
 In fact, I’m not exactly sure how inference works in this case. Here’s what I’ve learned:
 
-- It will widen types, but only up to a point.
+- It widens types, but only up to a point.
 - Literal types, objects, and primitive types are all treated differently.
-- The order in which the parameters appear can also matter…
-- But in some cases, it will also be ignored.
+- The order in which the parameters appear can matter.
+- But in other cases, that order is ignored.
 
 Here are some [tests](https://www.typescriptlang.org/play/?importHelpers=true&experimentalDecorators=true#code/CYUwxgNghgTiAEkoGdnwDIEtkBcA8AKgHzwDeAUPPFDgBQB2AXPPQK4C2ARiDAJTMEA3OQC+5UEjjwAZq3pgcmAPb0M2fMVoA6HbADmyAQG0AuvzW5CRYeTArcLDtxjwAvPACM1NGy49b9jjwAPpe7l4ongH0DsEATG7wCZFx0Q5QGYlGHgA0SXkARAAWIBAQSgUmaUFyANb0SgDuqu4ADN7wdQ3N5Fi4tKF58bzwAPSjnvAAPkm96gO5ZCIj45OAMuRz-YPwBQUrE14bfXTbu0Nx++vkm3SkUMweInmknMxxy2MTpDpaYscLhQKeS6TXovButDOIUWw0+kyAA) – if you manage to piece it together, I’d love to hear about it in the [Discord](https://discord.gg/ePjFUSRfPh)!
 
