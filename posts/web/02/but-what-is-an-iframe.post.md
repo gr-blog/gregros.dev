@@ -6,7 +6,7 @@ published: 2025-01-01
 updated: 2025-01-11
 ---
 
-Iframes are omnipresent and extremely useful, yet they're also complicated and confusing.
+Iframes are omnipresent and very useful, yet they're also complicated and confusing.
 
 Let’s take a broad look at how they work.
 
@@ -17,7 +17,7 @@ An iframe is a box with another webpage in it – a webpage within a webpage.
 
 Some iframes are visible and obvious, used for social media components, payment portals, and embedded videos.
 
-Others are completely invisible, created by third-party scripts for a variety of purposes.
+Others are totally invisible, created by third-party scripts for a variety of purposes.
 
 Iframes are incredibly complicated, but for all that complexity, they appear as just another HTML tag. Here is an example of one:
 
@@ -33,7 +33,7 @@ JavaScript inside the iframe runs on the same thread as the main page, but in a 
 
 Some iframes are isolated from the pages they’re embedded in, while others aren’t. If an iframe isn’t isolated from its parent, the webpage inside it can run JavaScript that [[iframes-and-when-javascript-worlds-collide.post|directly interacts with the parent page]].
 
-Meanwhile, the parent page can control the kinds of things code in the iframe can do. For example, it can prevent the iframe from using the microphone and limit its scripts to a certain domain.
+Meanwhile, the parent page can control the kinds of things code in the iframe can do. For example, it can stop the iframe from using the microphone and limit its scripts to a certain domain.
 
 # What do they look like?
 Like most elements iframes appear as rectangular areas with stuff inside them. Unlike other elements, though, that stuff can’t affect their size, which is entirely determined by the styling rules applied by the parent page.
@@ -44,7 +44,7 @@ The webpage can try to fill its boundaries, but it can’t make the window large
 
 Webpages inside iframes are also unaffected by most CSS rules in the parent page, just like a webpage isn’t directly affected by the user’s browser theme.
 
-All of these qualities tend to make iframes stand out from the page they’re embedded in, which is often the point. Other times a lot of work has to go into making them blend in with everything.
+All these qualities tend to make iframes stand out from the page they’re embedded in, which is often the point. Other times a lot of work has to go into making them blend in with everything.
 
 # What’s inside them?
 Each iframe has a complete DOM, which starts with having the base HTML structure of:
@@ -77,7 +77,7 @@ These security features are sometimes used by attackers to run malicious code ou
 # Anything to look out for?
 Iframes aren’t a simple technology, and using them has both performance and development costs.
 
-The performance cost comes from having the browser create this entirely new webpage inside of an existing webpage, increasing the page’s overall memory footprint.
+The performance cost comes from having the browser create this entirely new webpage inside of an existing webpage, increasing the page’s total memory footprint.
 
 Plus, since it runs on the same thread, anything it does can stall the main page, depriving it of resources.
 
@@ -98,7 +98,7 @@ While some embeds don't require iframes, the benefits to the embed provider are 
 
 That's why the Facebook Like button is an iframe. It doesn’t *have* to be one, but it gives enormous advantages to Facebook if it is.
 
-While it’s tempting to try to categorize embeds into separate groups like *ads*, *content embeds*, *payment portals*, and so on, very few embeds actually do only a single thing.
+While it’s tempting to try to categorize embeds into separate groups like *ads*, *content embeds*, *payment portals*, and so on, few embeds actually do only a single thing.
 
 There are clear-cut cases, but the same embed can also serve radically different purposes depending on who’s looking at it.
 

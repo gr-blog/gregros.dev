@@ -207,7 +207,7 @@ This library lets us search the DOM, yielding either individual elements or coll
 
 So, for example, a query like `$("div")` only returns `div` elements, and we want to make that part of its return type.
 
-We clearly need a generic type to represent this, but there are several ways to define it. Let’s start by looking at an example *without* type-level maps.
+We need a generic type to represent this, but there are a few ways to define it. Let’s start by looking at an example *without* type-level maps.
 ### Using HTMLElement
 One way is to use the `HTMLElement` interface, which all HTML element types extend:
 
@@ -219,7 +219,7 @@ This has a few issues, though.
 
 For one, `HTMLElement` is a pretty big object type. This generic signature means that TypeScript must compare it to every instantiation, making type checking a lot slower.
 
-Besides that, the canonical name of every element type has this `HTML*Element` structure. Naming types like is generally a good thing, but in this case, it’s going to make the name of our `Tag` type very long.
+Besides that, the canonical name of every element type has this `HTML*Element` structure. Naming types like is generally a good thing, but in this case, it’s going to make the name of our `Tag` type quite long.
 
 ```ts
 type Example = Tag<
@@ -264,7 +264,7 @@ type Canvas = TagWrapper<"canvas">
 type Either = TagWrapper<"div" | "canvas">
 ```
 
-This solution is even better in terms of API design! We’re letting users reference each tag using its canonical HTML name, rather than the constructor name.
+This solution is even better for API design! We’re letting users reference each tag using its canonical HTML name, rather than the constructor name.
 
 We can even use the entire `TagNames` type to define a wrapper for *any* element, but without considering element structure at all.
 

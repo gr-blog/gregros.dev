@@ -46,7 +46,7 @@ Some common values for the attribute include:
 - `"application/yaml"`
 - `"application/xml"`
 
-In principle, you could use any HTML tag for this purpose, but script tags have several advantages over other types of tags.
+In principle, you could use any HTML tag for this purpose, but script tags have a few advantages over other types of tags.
 
 - They're invisible.
 - They can appear in the `<head>` part of the page.
@@ -107,7 +107,7 @@ One drawback they do have is **compatibility.** Major browsers have supported th
 
 This includes the infamous IE11, but also some built-in mobile browsers.
 
-Overall, these browsers account for up to 5% of active users, but this percentage can be much lower or much higher, depending on the specific demographics your product is targeting.
+These browsers account for up to 5% of active users, but this percentage can be much lower or much higher, depending on the specific demographics your product is targeting.
 
 If you’re, say, writing a tech blog, it’s not something you have to worry about. But a government service, a pension fund, or a bank might have stricter requirements.
 ## Classic
@@ -123,7 +123,7 @@ In spite of their age – or perhaps because of it – they're actually more com
 
 When the browser encounters a classic script tag as part of parsing a webpage, immediately fetches and executes its content synchronously. This blocks the rest of the page from loading.
 
-This means that some or all of the page might not have loaded yet when the script executes.
+This means that some of the page might not have loaded yet when the script executes.
 
 For instance, if you place the script before the `<body>` tag, you’ll find `document.body` to be `null`. If you place it before a `<div>`, that `<div>` won’t exist yet.
 
@@ -234,9 +234,9 @@ Here are examples of valid inline script tags:
 ## External script
 These scripts have an `src` attribute that points to an HTTP/S URL.
 
-When compared to inline scripts, external scripts have a number of advantages that make them the most common type of script tag in use today.
+When compared to inline scripts, external scripts have some advantages that make them the most common type of script tag in use today.
 
-1. They let you avoid sending the same bit of JavaScript with every request, leveraging the browser’s caching mechanism and reducing overall bandwidth.
+1. They let you avoid sending the same bit of JavaScript with every request, leveraging the browser’s caching mechanism and reducing total bandwidth.
 2. They have an address that appears in the stack trace, making them far easier to debug.
 3. They mean you can use different hosting strategies for different parts of your site, optimizing delivery and potentially reducing costs.
 4. They allow for better code organization.
@@ -263,7 +263,7 @@ Data scripts have an `src` attribute that points to a URI that uses the `data:` 
 
 As a pseudo-protocol, `data:` doesn’t actually point to the location of a resource. Instead, this pseudo-protocol lets you embed content verbatim into the URI itself, and have the browser load that content as though it came from the network.
 
-`data:` URIs are extremely handy for many purposes, and you’ll occasionally see scripts loaded this way. We should compare then with inline scripts, rather than external scripts, since they embed JavaScript content instead of referencing another resource.
+`data:` URIs are very handy for many purposes, and you’ll occasionally see scripts loaded this way. We should compare then with inline scripts, rather than external scripts, since they embed JavaScript content instead of referencing another resource.
 
 Data scripts use more consistent escaping rules than inline tags, and can use a wide variety of encodings and character sets, which are often specified as part of the data URI. One of the most popular options is base64, which avoids the need to escape anything.
 
@@ -356,4 +356,4 @@ The resulting script tag looks like this:
 ```
 
 # Conclusion
-Decades of development have given us a huge range of script tags of different types. There is a lot more I didn’t have the time to cover, of course, and I hope you’ll join me on future deep dives into the subject.
+Decades of development have given us a huge range of script tags of different types. There's a lot more I didn’t have the time to cover, of course, and I hope you’ll join me on future deep dives into the subject.

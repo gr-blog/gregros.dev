@@ -24,7 +24,7 @@ This seems like a classic use case for a rest argument. Something like this:
 declare function List<T>(...args: T[]): List<T>
 ```
 
-But there is a problem here. While this approach does work if we just use values like `1` and `2`:
+But there's a problem here. While this approach does work if we just use values like `1` and `2`:
 
 ```ts
 const list: List<number> = List(1, 2)
@@ -68,7 +68,7 @@ In fact, I’m not exactly sure how inference works in this case. Here’s what 
 
 Here are some [tests](https://www.typescriptlang.org/play/?importHelpers=true&experimentalDecorators=true#code/CYUwxgNghgTiAEkoGdnwDIEtkBcA8AKgHzwDeAUPPFDgBQB2AXPPQK4C2ARiDAJTMEA3OQC+5UEjjwAZq3pgcmAPb0M2fMVoA6HbADmyAQG0AuvzW5CRYeTArcLDtxjwAvPACM1NGy49b9jjwAPpe7l4ongH0DsEATG7wCZFx0Q5QGYlGHgA0SXkARAAWIBAQSgUmaUFyANb0SgDuqu4ADN7wdQ3N5Fi4tKF58bzwAPSjnvAAPkm96gO5ZCIj45OAMuRz-YPwBQUrE14bfXTbu0Nx++vkm3SkUMweInmknMxxy2MTpDpaYscLhQKeS6TXovButDOIUWw0+kyAA) – if you manage to piece it together, I’d love to hear about it in the [Discord](https://discord.gg/ePjFUSRfPh)!
 
-I understand the overall motivation, though – TypeScript is trying to avoid inferring a `T` that’s “too broad”. It’s a general solution that probably works for most APIs. That means it fails for some, and our array-like List constructor is just one example.
+I understand the motivation, though – TypeScript is trying to avoid inferring a `T` that’s “too broad”. It’s a general solution that probably works for most APIs. That means it fails for some, and our array-like List constructor is just one example.
 # Where tuples come in
 Since defining an array always works, TypeScript uses different logic for inferring its type – it just takes the disjunction of all the element types. Since we want to reproduce this logic, we’d like TypeScript to do the same with `List`.
 
@@ -82,7 +82,7 @@ We can make use of this logic ourselves by rephrasing the signature using a gene
 declare function List<Ts extends readonly any[]>(...items: Ts): List<Ts[number]>
 ```
 
-This isn’t a completely different signature – we’re just being a bit more specific about how we want inference to happen.
+This isn’t a totally different signature – we’re just being a bit more specific about how we want inference to happen.
 
 Defined like this, the following code compiles just fine, [giving us](https://www.typescriptlang.org/play/?#code/AQSwdgLgpgTgZgQwMZWAGRAZwgHgCoB8wA3gFDDAIQAUYAXMGAK4C2ARrAJQN4DcpAX1IATKEgA2CGKjhMwSCCAD2YdFlx5MwKAA9oYYVukJhK8QE9KYcwG0AugWoA6FyGgtMPTNzXZ8mG2Z2WAd+JBVsYHF1YABeXxpiSgYARmABABoSYDYGACZ0zjCIiCj1AviMbGoUrIAiAAsocXElYAB3JRhxYTqspIRUwuAgA) a clean disjunction of value and object types:
 

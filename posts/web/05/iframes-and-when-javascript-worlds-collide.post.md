@@ -48,7 +48,7 @@ Before can interact with an iframe, we need to create one and attach it to the p
 
 While we can use a separate webpage, it’s faster and easier to create a [[every-way-to-make-a-synthetic-iframe.post|synthetic iframe]] using JavaScript and populate it using the `srcdoc` property.
 
-We’ll encapsulate all of that in a function, and also have that function insert the iframe into the page, since otherwise things won’t work properly.
+We’ll encapsulate all that in a function, and also have that function insert the iframe into the page, since otherwise things won’t work properly.
 
 ```js
 function makeIframe(contents) {
@@ -174,7 +174,7 @@ It turns out that:
 
 That seems confusing, until you consider the critical difference between the two functions: where we wrote their code.
 
-It turns out that when a script loaded by a webpage, it’s **permanently bound** to that webpage’s environment. Any functions defined by that script are part of it, and therefore use the same environment.
+It turns out that when a script loaded by a webpage, it’s **permanently bound** to that webpage’s environment. Any functions defined by that script are part of it, and so use the same environment.
 
 When we defined `getArray1`, we created a new script inside the iframe, but `getArray2` was actually created in the parent page. The fact we assigned it to the iframe afterwards didn’t change its origin.
 
@@ -254,7 +254,7 @@ JavaScript represents them as the constructors we all know and love – `Node`, 
 
 But as we learned back in my [[but-what-is-a-dom-node.post|article about DOM nodes]], DOM nodes and JavaScript objects aren’t the same thing. The rendering engine manages DOM nodes, and it follows a different set of rules.
 
-Specifically, the W3C’s set of rules. And according to the W3C, there is just one set of *DOM interfaces* – no copies.
+Specifically, the W3C’s set of rules. And according to the W3C, there's just one set of *DOM interfaces* – no copies.
 
 Because of that, you should absolutely be able to create a DOM node in one *browsing context* and stick it in another *browsing context*, provided none of them are isolated by security features.
 

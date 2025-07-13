@@ -32,9 +32,9 @@ document.body.appendChild({})
 # Mad web science
 Now let’s perform a series of bizarre experiments that subvert this code in strange and unusual ways, in the name of mad web science!
 ## Messing up a DOM node
-In this variation, we create the element as normal, but we then mess it up by removing its prototype and deleting all of its keys.
+In this variation, we create the element as normal, but we then mess it up by removing its prototype and deleting all its keys.
 
-This should result in an object that’s functionally indistinguishable from `{}`, something that should be completely non-functional.
+This should result in an object that’s functionally indistinguishable from `{}`, something that should be totally non-functional.
 
 Here is the code:
 
@@ -70,7 +70,7 @@ In this variation, we use the `Object.create` function to make a new JavaScript 
 ## The question
 So… which variation actually works?
 
-- Does the first one work, in spite of the object being completely empty?
+- Does the first one work, in spite of the object being totally empty?
 - Does the second one work, in spite of how we created it?
 - Do neither of them work, because an object needs to have both the correct prototype and be created in the right way for it to count?
 

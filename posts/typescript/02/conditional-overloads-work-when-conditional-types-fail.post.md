@@ -230,7 +230,7 @@ function example<T>() {
 ```
 
 # Conclusion
-Conditional types can be a bit fragile, especially when generic code is involved.
+Conditional types can be a bit fragile, especially in generic code.
 
 In this post, we looked at a way of having conditional logic without conditional types, using TypeScript’s overloads feature together with `this` annotations.
 

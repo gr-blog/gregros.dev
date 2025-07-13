@@ -118,7 +118,7 @@ https://www.canva.com/design/DAGlG86qqak/lKUMM69vLfs-Aqqc3pvnzQ/view?utm_content
 ## Missed jobs
 If $\Throughput\;<\;\JobRate$, we're not handling some of the jobs.
 
-In a well-designed system, this usually means the jobs pile up in a queue somewhere (possibly several places).
+In a well-designed system, this usually means the jobs pile up in a queue somewhere (possibly a few places).
 
 For example:
 
@@ -164,7 +164,7 @@ $$
 
 - $\Utilization>1$ just means we’re not handling jobs, which is a Very Bad Thing$\texttrademark$ and something we’re not considering right now.
 
-The theoretical maximum here is $1$, but having lower $\Utilization$ is almost always better than missing jobs, so you usually want to have some $\Capacity$ left over. That translates to having a $\Utilization$ that’s a little less than $1$, like $0.8$.
+The theoretical maximum here is $1$, but having lower $\Utilization$ is almost always better than missing jobs, so you usually want to have some $\Capacity$ left over. That translates to having a $\Utilization$ that’s a bit less than $1$, like $0.8$.
 
 The exact amount of headroom you want is a hard question to answer and really depends on what you’re actually doing.
 

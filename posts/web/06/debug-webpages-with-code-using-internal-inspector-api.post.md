@@ -76,7 +76,7 @@ That said, I want to keep the examples working, so if they break do
 The inspector itself is written in TypeScript (surprise!), but you’ll only see
 the compiled JavaScript.
 
-It might also be bundled and minified to some extent, which makes it a little
+It might also be bundled and minified to some extent, which makes it a bit
 hard to work with.
 
 You can view the source directly at the
@@ -121,7 +121,7 @@ went to the
 You might notice that the *meta-inspector* doesn’t refresh, even if you refresh
 the end-page (the page we're inspecting) or navigate it somewhere else.
 
-On one hand, it’s quite convenient, since any functions and variables you
+On one hand, it’s very convenient, since any functions and variables you
 defined earlier remain available.
 
 But it also means the *meta-inspector*’s memory is going to fill up with data
@@ -145,7 +145,7 @@ paths:
 ./devtools-frontend/front_end/models/logs/logs.js
 ```
 
-Luckily, there is a pretty stable API that lets us import modules using the same
+Luckily, there's a pretty stable API that lets us import modules using the same
 path. Here is how it works:
 
 ```js
@@ -159,7 +159,7 @@ files. Nothing fancy. But convenient!
 
 ## Object architecture
 
-The inspector API largely consists of singleton classes. These classes mostly
+The inspector API mostly consists of singleton classes. These classes mostly
 follow the same structure, which makes them easy to work with.
 
 For example, we can access the
@@ -316,8 +316,7 @@ var searchPromises = NetworkLog.requests()
 ```
 
 ## Other stuff
-
-There is a lot more you can do with this network data. For example:
+There's a lot more you can do with this network data. For example:
 
 - Search for specific headers or header combinations.
 - Analyze network timing across lots of requests.
@@ -326,11 +325,11 @@ There is a lot more you can do with this network data. For example:
 
 # Conclusion
 
-Accessing the inspector’s internal API is a little complicated, but it’s a
+Accessing the inspector’s internal API is a bit complicated, but it’s a
 powerful debugging technique. If used correctly, it can literally save you hours
 of work.
 
-In this post, I’ve mainly tackled how to use it for processing network
+In this post, I’ve mostly tackled how to use it for processing network
 data. In the future, I’ll tackle advanced DOM searches, automating breakpoints,
 and more!
 
