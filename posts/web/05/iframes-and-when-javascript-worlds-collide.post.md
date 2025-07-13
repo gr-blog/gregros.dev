@@ -59,7 +59,7 @@ function makeIframe(contents) {
 }
 ```
 
-# Accessing the JS environment
+# Accessing the JavaScript environment
 It’s pretty easy to access an iframe’s JS environment, provided it’s not isolated by security features.
 
 We can do that using the iframe’s `contentWindow` property, which exposes *iframe*’s global `window` object. Let’s use it to run a few quick checks:

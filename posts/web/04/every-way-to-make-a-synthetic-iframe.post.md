@@ -70,7 +70,7 @@ An iframe with neither an `src` nor `srcdoc` attributes starts out empty. Its co
 
 You can only do this once the iframe is attached to the page. Before that, its `contentWindow` property is empty.
 
-You can use pretty much any method you want, but if you use DOM objects, make sure to use the iframe’s `createElement` function. Inserting elements created by the parent page into the iframe will result in undefined behavior.
+You can use pretty much any method you want, but if you use DOM objects, make sure to use the iframe’s `createElement` function. (-- ref iframes)
 
 ```js
 // Create the iframe
