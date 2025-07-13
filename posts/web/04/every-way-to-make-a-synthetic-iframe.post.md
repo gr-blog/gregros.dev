@@ -138,7 +138,7 @@ Then we need to create a URI for it:
 var uri = URL.createObjectURL(blob)
 ```
 
-And finally, we can set the iframe’s `src` attribute to that URL:
+Finally, we can set the iframe’s `src` attribute to that URL:
 
 ```js
 var iframe = document.createElement("iframe")

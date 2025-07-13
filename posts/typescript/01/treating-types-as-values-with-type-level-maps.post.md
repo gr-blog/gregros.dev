@@ -256,7 +256,7 @@ export type TagNames = keyof HTMLElementTagNameMap
 export interface TagWrapper<Tag extends TagNames> {}
 ```
 
-And here’s what using it looks like:
+Here’s what using it looks like:
 
 ```ts
 type Div = TagWrapper<"div">

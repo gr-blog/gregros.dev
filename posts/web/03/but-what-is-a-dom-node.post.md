@@ -101,7 +101,7 @@ setAttribute.call(div, "id", "this-actually-works")
 
 Weird, right? Don’t worry, it's going to make more sense once we zoom out a bit.
 # Beyond JavaScript
-And by *a bit*, I actually mean a lot. Because to truly understand this weirdness, we have to leave the realm of JavaScript altogether and take a look at browser architecture instead.
+But by *a bit*, I actually mean a lot. Because to truly understand this weirdness, we have to leave the realm of JavaScript altogether and take a look at browser architecture instead.
 
 Browsers are complicated things with many separate systems that interact in lots of different ways. In particular, they all include two critical yet separate components:
 
