@@ -1,8 +1,8 @@
 ---
 title: "Every type of script tag: an overview"
 description: ""
-published: 2025-01-01
-updated: 2025-01-11
+published: "2025-01-01"
+updated: "2025-01-11"
 ---
 There used to be just one type of script tag, but after decades of web standards development, we have tons of them.
 

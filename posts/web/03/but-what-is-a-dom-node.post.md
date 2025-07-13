@@ -1,8 +1,8 @@
 ---
 title: What is a DOM node? A peek under the hood
 description: ""
-published: 2025-01-01
-updated: 2025-01-11
+published: "2025-01-01"
+updated: "2025-01-11"
 ---
 What makes an object a DOM node? Is it the prototype or something else?
 

@@ -1,7 +1,7 @@
 ---
 title: Treating types as values with type-level maps
-published: 2025-07-20
-updated: 2025-07-20
+published: "2025-07-20"
+updated: "2025-07-20"
 ---
 TypeScript is very good at talking about object structure. With a shift of perspective, we can use this ability to talk about dictionaries where types are values.
 

@@ -1,8 +1,8 @@
 ---
 title: iframes and when JavaScript worlds collide
 description: ""
-published: 2025-01-11
-updated: 2025-01-11
+published: "2025-01-11"
+updated: "2025-01-11"
 ---
 Every iframe gets a complete copy of the JS web environment, down to every prototype chain.
 
