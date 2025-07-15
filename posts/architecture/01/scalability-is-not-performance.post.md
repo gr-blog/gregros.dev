@@ -10,7 +10,7 @@ In this post, we’ll take a closer look at what both of those things mean, with
 %%
 $$
 %! style=hidden
-\def\term[2]{\textcolor{#2}{\mathbf{\textrm{#1}}}}
+\def\term#1#2{\textcolor{#2}{\mathbf{\textrm{#1}}}}
 \def\Job{\term{Job}{yellow}}
 \def\Jobs{\term{Jobs}{yellow}}
 \def\System{\term{System}{ProcessBlue}}
@@ -189,8 +189,8 @@ In fact, scalability is so difficult that few companies try to achieve it by the
 Instead, they pay huge cloud providers to solve some parts of these problems for them, even if it means also paying a pretty steep markup on actual processing power – and $\Throughput$.
 
 The **serverless platform** is the best example of this.
-
-One paper^[https://arxiv.org/pdf/1812.03651] found that, when compared to a virtual machine, serverless platforms cost $100$ times more for the same $\Throughput$, with $20$ times the $\Latency$.
+    q
+One paper^[https://arxiv.org/pdf/1812.03651] found that, when compared to a virtual machine, serverless platforms cost $100$ times more for the same $\Throughput$.
 
 That would be lunacy from a *performance* standpoint, but it makes perfect sense when considering *scalability* – your $\JobRate$ might vary by a factor of $100,000$ over a single day.
 
