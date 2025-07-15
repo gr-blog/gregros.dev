@@ -1,7 +1,7 @@
 ---
 title: Conditional overloads that work when conditional types fail
-published: "2025-07-15"
-updated: "2025-07-15"
+published: "2025-07-20"
+updated: "2025-07-20"
 description: ""
 ---
 %%%?
