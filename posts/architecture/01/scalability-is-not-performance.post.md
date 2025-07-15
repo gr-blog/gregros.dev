@@ -161,7 +161,7 @@ $$
 
 - $\Utilization<1$ is the scenario we’ve just described. We have *more than enough* $\Capacity$ to handle jobs. We’re still paying for that extra $\Capacity$ though.
 
-- $\Utilization=1$ means we’re right on the money. We're translating every cent we’re pumping into our system into processing jobs. It’s the ideal scenario.
+- $\Utilization=1$ means we’re right on the money. We're translating every cent we’re pumping into our system into processing jobs. It’s the ideal scenario, but it's also very close to failure.
 
 - $\Utilization>1$ just means we’re not handling jobs, which is a Very Bad Thing$\texttrademark$ and something we’re not considering right now.
 
