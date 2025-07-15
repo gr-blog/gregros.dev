@@ -2,7 +2,7 @@
 title: iframes and when JavaScript worlds collide
 description: ""
 published: "2025-01-11"
-updated: "2025-07-13"
+updated: "2025-07-15"
 ---
 %%%?
 Every iframe gets a complete copy of the JS web environment, down to every prototype chain.
@@ -60,7 +60,7 @@ function makeIframe(contents) {
 ```
 
 # Accessing the JavaScript environment
-It’s pretty easy to access an iframe’s JS environment, provided it’s not isolated by security features.
+It’s pretty easy to access an iframe’s JS environment, as long as it’s not isolated by security features.
 
 We can do that using the iframe’s `contentWindow` property, which exposes *iframe*’s global `window` object. Let’s use it to run a few quick checks:
 
@@ -184,7 +184,7 @@ If we put a function defined in one environment into another, it'll keep produci
 
 Scary!
 # Tags from other worlds!
-I think the function example is pretty damn weird, but it’s just scratching the surface when it comes to weird iframe behavior.
+The function example is pretty damn weird, but it’s just scratching the surface when it comes to weird iframe behavior.
 
 An iframe has its own copy of the DOM prototype chains, and every element within it is an instance of one of those prototypes. We can create these alien elements using the iframe’s `createElement` function.
 
@@ -252,11 +252,11 @@ The W3C specification, which describes everything about the DOM as we know it, v
 
 JavaScript represents them as the constructors we all know and love – `Node`, `Element`, `HTMLElement`, and so forth.
 
-But as we learned back in my [[but-what-is-a-dom-node.post|article about DOM nodes]], DOM nodes and JavaScript objects aren’t the same thing. The rendering engine manages DOM nodes, and it follows a different set of rules.
+But as we learned back in my [[but-what-is-a-dom-node.post|post about DOM nodes]], DOM nodes and JavaScript objects aren’t the same thing. The rendering engine manages DOM nodes, and it follows a different set of rules.
 
 Specifically, the W3C’s set of rules. And according to the W3C, there's just one set of *DOM interfaces* – no copies.
 
-Because of that, you should absolutely be able to create a DOM node in one *browsing context* and stick it in another *browsing context*, provided none of them are isolated by security features.
+That's why you should be able to create a DOM node in one *browsing context* and stick it in another *browsing context*. At least, as long as none of them are isolated by security features.
 
 In fact, copying prototype chains is actually something web browsers do *by convention*, not according to any sort of spec.
 

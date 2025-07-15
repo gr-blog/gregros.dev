@@ -2,7 +2,7 @@
 title: "Every way to make a synthetic iframe: an overview"
 description: ""
 published: "2025-01-01"
-updated: "2025-07-13"
+updated: "2025-07-15"
 ---
 %%%?
 A synthetic iframe is one that doesn’t have web address. It's filled by its parent page instead.
@@ -166,4 +166,4 @@ You can combine this with the [[#srcdoc attribute]] to set the frame’s locatio
 # Conclusion
 Synthetic iframes are simpler than non-synthetic ones, but there are lots of different ways to create them, each with its own sets of benefits and drawbacks.
 
-I’m pretty sure I covered literally every single method in this article. Please [contact me](mailto:gregros@gregros.dev) if I missed anything!
+I’m pretty sure I covered literally every single method in this post. Please [contact me](mailto:gregros@gregros.dev) if I missed anything!

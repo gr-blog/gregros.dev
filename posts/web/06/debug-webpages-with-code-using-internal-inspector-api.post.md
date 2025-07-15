@@ -11,7 +11,7 @@ its internal API directly.
 This lets us debug live webpages using JavaScript instead of buttons!
 %%
 
-The Chrome inspector is actually just a webpage hosted locally inside the
+The Chrome inspector is just a webpage hosted locally inside the
 browser. If we could interact with its code using a console, we could access the
 API behind its interface.
 
@@ -60,7 +60,7 @@ before. That opens up a world of possibilities:
 Now, as an internal API, a lot of the code I’m going to show you might break in
 the future.
 
-But the point of this article is the technique itself, not the specific code I’m
+But the point of this post is the technique itself, not the specific code I’m
 going to use. The code is just an example of what’s possible!
 
 I’ll show you exactly how I figured it out, so you can do the same if it breaks.

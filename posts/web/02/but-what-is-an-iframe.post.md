@@ -3,7 +3,7 @@ title: What is an iframe? An overview
 series: web
 description: ""
 published: "2025-01-01"
-updated: "2025-07-13"
+updated: "2025-07-15"
 ---
 %%%?
 Iframes are omnipresent and very useful, yet they're also complicated and confusing.
@@ -128,8 +128,8 @@ Some web platforms use this approach to separate the user's web app from the pla
 
 # Conclusion
 
-In this article, I’ve tried to give a general, top-down view of the benefits of iframes, how they work, and why you might want to use one.
+In this post, I’ve tried to give a general, top-down view of the benefits of iframes, how they work, and why you might want to use one.
 
 But iframes aren’t like a function or event – they’re a major piece of client-side architecture, one that can be as complicated as the entire rest of the webpage.
 
-I hope that you’ll join me on future deep dives into this topic, as I feel it’s the only way to do it justice.
+I hope that you’ll join me on future deep dives into this topic. It’s the only way to do it justice.

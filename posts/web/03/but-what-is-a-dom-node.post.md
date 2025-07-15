@@ -2,7 +2,7 @@
 title: What is a DOM node? A peek under the hood
 description: ""
 published: "2025-01-01"
-updated: "2025-07-13"
+updated: "2025-07-15"
 ---
 %%%?
 What makes an object a DOM node? Is it the prototype or something else?
@@ -66,7 +66,9 @@ var div = Object.create(HTMLDivElement.prototype)
 document.body.appendChild(div)
 ```
 
-In this variation, we use the `Object.create` function to make a new JavaScript object with the `HTMLDivElement` prototype. It’s the opposite of what we did in the last variation – we’re making something that looks like a functional JavaScript object, but we’re not using the correct API to do so.
+In this variation, we use the `Object.create` function to make a new JavaScript object with the `HTMLDivElement` prototype. 
+
+It’s the opposite of what we did in the last variation. We’re making something that looks like a functional JavaScript object, but we’re not using the correct API to do so.
 
 ## The question
 So… which variation actually works?

@@ -4,15 +4,15 @@ published: "2025-07-15"
 updated: "2025-07-15"
 ---
 %%%?
-With a shift of perspective, we can view TypeScript’s complex types as another kind of code. Code where types are values.
+With a shift in perspective, we can view complex type declarations as another kind of code. Code where types are values.
 
 There’s no better example of this than the type-level map. Let’s take a closer look!
 %%
-TypeScript is famous for its complex type system.
+TypeScript is famous for its complex types and what they allow framework authors to achieve.
 
-In this article, I’d like to introduce a different approach for thinking about these complex types: as another kind of code that happens to execute during compilation.
+In this post, I’d like to introduce a different approach for thinking about these complex types: as **type-level code**, code that happens to execute during compilation.
 
-This approach contrasts **runtime code** with **type-level code**, while looking at the similarities between them.
+We'll contrast it with **runtime code** – the normal code that gets stuff done.
 
 Runtime code has strings, numbers, and objects as values; meanwhile, in type-level code, the **values are types themselves.**
 
@@ -21,12 +21,9 @@ In type-level code, we:
 - Apply type-level operators.
 - Call type-level functions (these are simply generic types).
 - Define type-level interfaces, which we enforce using generic constraints.
+- Make use of type-level data structures.
 
-TypeScript’s type-level code has lots of **data structures** it can use. These data structures are types that have grown so much functionality that they double as a data structure in every way that matters.
-
-They didn't start out as type-level data structures. But that’s what they’ve grown into.
-
-Let’s take a look at one of them – the type-level map.
+In this post, I’d like to focus on **type-level data structures**, and specifically **type-level maps**. They’re a great example of what type-level code really means.
 # What is a type-level map?
 A type-level map is just an object type. We typically define it using an interface:
 
@@ -52,7 +49,7 @@ const a = {
 
 When we’re looking at it as a type-level map, it becomes an *immutable dictionary*. In this dictionary, *types are values* and *the keys are strings*.
 
-We emphasize this change of perspective by changing naming conventions. Where normal objects have keys in `camelCase`, here we might use `Pascal_Snake_Case` .
+We show this shift of perspective by changing naming conventions. Where normal objects have keys in `camelCase`, here we might use `Pascal_Snake_Case` .
 
 We might visualize it like this:
 $$
@@ -72,7 +69,7 @@ To justify the shift to “type-level maps”, we need to find operations on obj
 - Merging two maps
 - Transforming a map
 
-If we were doing math, we’d call this an *isomorphism* between dictionaries and object types. That means we can regard one as the other.
+If we were doing math, we’d call this an **isomorphism** between dictionaries and object types. That means we can regard one as the other.
 ## Listing keys
 We can list the keys in a type-level map using the `keyof` operator:
 
@@ -82,7 +79,7 @@ type Map = { Key_1: 42; Key_2: 123 }
 type Keys = keyof Map // "Key_1" | "Key_2"
 ```
 
-The union type we get is actually a **type-level set**. But that’s outside the scope of this article.
+The union type we get is really a **type-level set**. But that’s outside the scope of this post.
 
 Instead, let’s compare it to listing keys on a JavaScript object:
 
@@ -91,7 +88,6 @@ const map = { key1: 42, key2: 123 }
 
 const result = Object.keys(map) // ["key1", "key2"]
 ```
-
 ## Lookups
 We look up values by key using TypeScript’s lookup types:
 
@@ -114,7 +110,6 @@ const map = { key: 42 }
 
 const result = map["key"] // 42
 ```
-
 ## Merging
 We can merge two type-level maps using the `&` operator:
 
@@ -136,7 +131,6 @@ const result = {
     ...map2
 } // {a: 1, b: 2}
 ```
-
 ## Transforming
 Since type-level maps are immutable, we can’t change them like we would a JavaScript dictionary. But we can still transform one map into another map.
 
@@ -158,8 +152,7 @@ const map = { key1: 42, key2: 123 }
 
 const result = mapValues(map, x => `${x}`) // {key1: "42", key2: "123"}
 ```
-
-# A example use-case
+# An example use-case
 Imagine we’re building a browser automation platform. This platform tells the browser what to do using `Command` objects.
 ## Command objects
 Every command object has three things:
@@ -176,7 +169,6 @@ Let’s take a look at three possible commands:
 1. **`Click`** Emulates a mouse click at position $(x, y)$.
 2. **`Goto`** Navigates to a webpage at the address `url`. Returns the new URL after the page has loaded.
 3. **`GetLocation`** Gets the current webpage address as a string.
-
 ## Implementation
 There are a few different ways to *implement* this API at the type level.
 ### Using overloads
@@ -256,9 +248,10 @@ browser.call("Click", {
 })
 ```
 
+This signature combines listing the map’s keys and performing some lookups.
 # Conclusion
 Type-level code is another way of looking at type declarations. This approach lets us explain complexity using the same principles and tools we’ve learned to deal with runtime code.
 
-In this article, we’ve taken a look at a type-level map. We saw how it corresponds to a runtime dictionary, and how using one can solve fundamental design issues at the type level.
+In this post, we’ve taken a look at type-level maps. We saw how it corresponds to a runtime dictionary, and how using one can solve design issues at the type level.
 
 I hope you’ll join me in exploring these concepts in the future!

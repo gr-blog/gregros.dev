@@ -27,7 +27,7 @@ type Example = Tag<
 
 This isn’t just cosmetic – it'll truncate compilation errors and make parsing out the names of these types basically impossible.
 
-On top of that, the compilation messages produced won’t actually be that meaningful. TypeScript is a structural language, but [[but-what-is-a-dom-node.post|DOM nodes aren't structural]]. Comparing DOM nodes structurally is pointless.
+On top of that, the compilation messages produced won’t be that meaningful. TypeScript is a structural language, but [[but-what-is-a-dom-node.post|DOM nodes aren't structural]]. Comparing DOM nodes structurally is pointless.
 ### Using tag names with a type-level map
 Instead of using explicit element types, we can reference elements by their tag names.
 
@@ -73,7 +73,7 @@ type Any = TagWrapper<TagNames>
 # Conclusion
 Type-level maps are a powerful TypeScript pattern that’s a staple of advanced type definitions.
 
-In this article, I tried to explain it by comparing it to regular object operations that we already know.
+In this post, I tried to explain it by comparing it to regular object operations that we already know.
 
 I hope you liked it!
 
