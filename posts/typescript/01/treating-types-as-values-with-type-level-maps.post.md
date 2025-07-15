@@ -88,6 +88,7 @@ const map = { key1: 42, key2: 123 }
 
 const result = Object.keys(map) // ["key1", "key2"]
 ```
+
 ## Lookups
 We look up values by key using TypeScript’s lookup types:
 
@@ -110,6 +111,7 @@ const map = { key: 42 }
 
 const result = map["key"] // 42
 ```
+
 ## Merging
 We can merge two type-level maps using the `&` operator:
 
@@ -131,6 +133,7 @@ const result = {
     ...map2
 } // {a: 1, b: 2}
 ```
+
 ## Transforming
 Since type-level maps are immutable, we can’t change them like we would a JavaScript dictionary. But we can still transform one map into another map.
 
@@ -152,6 +155,7 @@ const map = { key1: 42, key2: 123 }
 
 const result = mapValues(map, x => `${x}`) // {key1: "42", key2: "123"}
 ```
+
 # An example use-case
 Imagine we’re building a browser automation platform. This platform tells the browser what to do using `Command` objects.
 ## Command objects
@@ -169,6 +173,7 @@ Let’s take a look at three possible commands:
 1. **`Click`** Emulates a mouse click at position $(x, y)$.
 2. **`Goto`** Navigates to a webpage at the address `url`. Returns the new URL after the page has loaded.
 3. **`GetLocation`** Gets the current webpage address as a string.
+
 ## Implementation
 There are a few different ways to *implement* this API at the type level.
 ### Using overloads

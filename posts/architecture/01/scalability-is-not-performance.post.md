@@ -38,7 +38,7 @@ When people talk about the *performance* of a distributed system, they’re usua
 - $\Latency$, which is the time it takes the system to process a single job (on average).
 - $\Throughput$, which is the number of jobs the system can process in a given period.
 
-Low $\Latency$ automatically means having higher $\Throughput$. But in spite of that, distributed systems generally ignore it. 
+Low $\Latency$ automatically means having higher $\Throughput$. But in spite of that, distributed systems generally ignore it.
 
 That's because reducing $\Latency$ is very hard. It can require a lot of effort and has severe diminishing returns.
 

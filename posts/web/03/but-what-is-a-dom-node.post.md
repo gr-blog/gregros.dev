@@ -66,7 +66,7 @@ var div = Object.create(HTMLDivElement.prototype)
 document.body.appendChild(div)
 ```
 
-In this variation, we use the `Object.create` function to make a new JavaScript object with the `HTMLDivElement` prototype. 
+In this variation, we use the `Object.create` function to make a new JavaScript object with the `HTMLDivElement` prototype.
 
 It’s the opposite of what we did in the last variation. We’re making something that looks like a functional JavaScript object, but we’re not using the correct API to do so.
 
