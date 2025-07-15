@@ -77,7 +77,7 @@ In this article, I tried to explain it by comparing it to regular object operati
 
 I hope you liked it!
 
-Type-level maps are a cornerstone of modern TypeScript APIs. Most of the TypeScript packages you’re familiar with use them in one way or another. 
+Type-level maps are a cornerstone of modern TypeScript APIs. Most of the TypeScript packages you’re familiar with use them in one way or another.
 
 Some of the use-cases include:
 
