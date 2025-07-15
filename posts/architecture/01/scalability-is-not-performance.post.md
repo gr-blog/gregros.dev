@@ -10,7 +10,7 @@ In this post, we’ll take a closer look at what both of those things mean, with
 %%
 $$
 %! style=hidden
-\newcommand{\term}[2]{\textcolor{#2}{\mathbf{\textrm{#1}}}}
+\def\term[2]{\textcolor{#2}{\mathbf{\textrm{#1}}}}
 \def\Job{\term{Job}{yellow}}
 \def\Jobs{\term{Jobs}{yellow}}
 \def\System{\term{System}{ProcessBlue}}
