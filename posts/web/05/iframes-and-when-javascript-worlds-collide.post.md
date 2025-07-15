@@ -4,11 +4,11 @@ description: ""
 published: "2025-01-11"
 updated: "2025-07-13"
 ---
+%%%?
 Every iframe gets a complete copy of the JS web environment, down to every prototype chain.
 
 Let’s see what horrifying things can happen when we interact with it!
-
----
+%%
 # What gets copied exactly?
 When the [[but-what-is-an-iframe.post|iframe]] attaches to its parent page, it gets a fresh copy of the JS web environment. This copy doesn’t include any modifications made by the parent page.
 

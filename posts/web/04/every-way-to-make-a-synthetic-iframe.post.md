@@ -4,11 +4,11 @@ description: ""
 published: "2025-01-01"
 updated: "2025-07-13"
 ---
+%%%?
 A synthetic iframe is one that doesn’t have web address. It's filled by its parent page instead.
 
 Let’s take a look at every single way you can create one.
-
----
+%%
 I define an iframe as *synthetic* if:
 
 1. It has an `src` attribute.

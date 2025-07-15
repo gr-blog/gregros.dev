@@ -4,11 +4,11 @@ published: "2025-07-15"
 updated: "2025-07-15"
 description: ""
 ---
+%%%?
 How can we define methods that have different signatures depending on a type parameter? In this article, we’ll take a look at conditional types – but end up using a more subtle pattern using overload resolution.
 
 Let’s take a look!
-
----
+%%
 
 Let’s say we have a `List<T>`, and we want a `map` method that maps each element of the list to something else. We can define it like this:
 

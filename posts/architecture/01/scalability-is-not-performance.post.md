@@ -3,11 +3,11 @@ title: Scalabilty is not performance
 published: "2025-07-08"
 updated: "2025-07-13"
 ---
+%%%?
 Scalability is sometimes confused with performance, but it’s not at all the same thing.
 
 In this article, we’ll explore the differences between them using a simple model!
-
----
+%%
 $$
 %! style=hidden
 \newcommand{\term}[2]{\textcolor{#2}{\mathbf{\textrm{#1}}}}
@@ -29,6 +29,8 @@ $$
 \def\Box{\term{Box}{PineGreen}}
 \def\Boxes{\term{Boxes}{PineGreen}}
 $$
+Scalability is sometimes confused with performance, but it’s not at all the same thing. In this article, we’ll explore the differences between them using a simple model!
+
 We’ll start by answering a more fundamental question. It'll allow us to decide the scope of our model.
 # What is performance?
 When people talk about the *performance* of a distributed system, they’re usually considering one of two metrics:

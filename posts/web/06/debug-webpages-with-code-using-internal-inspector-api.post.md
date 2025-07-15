@@ -4,15 +4,12 @@ published: "2025-07-08"
 updated: "2025-07-13"
 description: ""
 ---
-
+%%%?
 Using the right approach, we can get past the Chrome inspector’s UI and call
 its internal API directly.
 
 This lets us debug live webpages using JavaScript instead of buttons!
-
----
-
-# How it works
+%%
 
 The Chrome inspector is actually just a webpage hosted locally inside the
 browser. If we could interact with its code using a console, we could access the

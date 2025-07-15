@@ -4,12 +4,12 @@ description: ""
 published: "2025-01-01"
 updated: "2025-07-13"
 ---
+%%%?
 There used to be just one type of script tag, but after decades of web standards development, we have tons of them.
 
 Let’s take a look at every single one!
+%%
 
----
-# Two categories
 I like to divide script tags based on two primary classifications.
 
 1. The **type axis**, which describes **how a script tag executes.**

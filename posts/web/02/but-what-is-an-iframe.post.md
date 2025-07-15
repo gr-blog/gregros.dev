@@ -5,14 +5,12 @@ description: ""
 published: "2025-01-01"
 updated: "2025-07-13"
 ---
-
+%%%?
 Iframes are omnipresent and very useful, yet they're also complicated and confusing.
 
 Let’s take a broad look at how they work.
+%%
 
----
-
-# But what is an iframe?
 An iframe is a box with another webpage in it – a webpage within a webpage.
 
 Some iframes are visible and obvious, used for social media components, payment portals, and embedded videos.
