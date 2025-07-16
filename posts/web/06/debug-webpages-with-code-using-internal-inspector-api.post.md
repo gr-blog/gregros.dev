@@ -330,7 +330,6 @@ In this post, I’ve mostly tackled how to use it for processing network
 data. In the future, I’ll tackle advanced DOM searches, automating breakpoints,
 and more!
 
-[I’d love to know](mailto:gregros@gregros.dev) what you think I should tackle
-next.
+What should I explore next? Let me know in the [Discord](https://discord.gg/698antxq)!
 
 Good luck, and have fun!
