@@ -54,7 +54,7 @@ function example<T>() {
 }
 ```
 
-Intuitively, we would expect the return type of `example<T>` to be `List<T>`, since we basically just added a few no-ops.
+Intuitively, we would expect the return type of `example<T>` to be `List<T>`, since we just added a few no-ops.
 
 Unfortunately, TypeScript disagrees. Instead, its return type turns out to be:
 <!-- eslint-skip -->

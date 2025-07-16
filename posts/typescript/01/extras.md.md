@@ -25,7 +25,7 @@ type Example = Tag<
 >
 ```
 
-This isn’t just cosmetic – it'll truncate compilation errors and make parsing out the names of these types basically impossible.
+This isn’t just cosmetic – it'll truncate compilation errors and make parsing out the names of these types impossible.
 
 On top of that, the compilation messages produced won’t be that meaningful. TypeScript is a structural language, but [[but-what-is-a-dom-node.post|DOM nodes aren't structural]]. Comparing DOM nodes structurally is pointless.
 ### Using tag names with a type-level map

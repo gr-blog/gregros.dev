@@ -1,11 +1,11 @@
 ---
 title: Debug webpages with code using the inspector's internal API
-published: "2025-07-15"
-updated: "2025-07-15"
+published: 2025-07-15
+updated: 2025-07-16
 description: ""
 ---
 %%%?
-Using the right approach, we can get past the Chrome inspector’s UI and call
+Using the right approach, you can get past the Chrome inspector’s UI and call
 its internal API directly.
 
 This lets us debug live webpages using JavaScript instead of buttons!
@@ -57,7 +57,7 @@ before. That opens up a world of possibilities:
 - Perform complex searches on live network data
 - And do lots of other stuff!
 
-Now, as an internal API, a lot of the code I’m going to show you might break in
+Since it's an internal API, a lot of the code I’m going to show you might break in
 the future.
 
 But the point of this post is the technique itself, not the specific code I’m

@@ -1,7 +1,7 @@
 ---
 title: Treating types as values with type-level maps
-published: "2025-07-15"
-updated: "2025-07-15"
+published: 2025-07-14
+updated: 2025-07-16
 ---
 %%%?
 With a shift in perspective, we can view complex type declarations as another kind of code. Code where types are values.

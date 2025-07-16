@@ -56,7 +56,7 @@ Because we’re not specifying the type parameter `T`, we’re asking TypeScript
 
 In other words, we’re asking the compiler to *infer* it – use the types it does know about to figure out what it should be.
 
-Type inference is a convenience feature, so it can get pretty murky. TypeScript can basically choose whatever method it wants.
+Type inference is a convenience feature, so it can get pretty murky. TypeScript can choose whatever method it wants.
 
 Some of these methods always succeed – like always inferring `unknown` – but others can lead to compilation errors. That’s what happened here.
 
