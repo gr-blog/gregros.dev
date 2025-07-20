@@ -2,7 +2,9 @@
 title: "Every way to make a synthetic iframe: an overview"
 description: ""
 published: "2025-01-01"
-updated: "2025-07-15"
+updated: "2025-07-20"
+figure: synthetic-iframe-decision-tree
+
 ---
 %%%?
 A synthetic iframe is one that doesn’t have web address. It's filled by its parent page instead.

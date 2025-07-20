@@ -1,7 +1,8 @@
 ---
 title: Scalability is not performance
 published: 2025-07-16
-updated: 2025-07-16
+updated: 2025-07-20
+figure: example-job-rates
 ---
 %%%?
 Scalability is sometimes confused with performance, but it’s not at all the same thing.
