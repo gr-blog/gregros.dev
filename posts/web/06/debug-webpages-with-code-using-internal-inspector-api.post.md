@@ -1,7 +1,7 @@
 ---
 title: Debug webpages with code using the inspector's internal API
-published: 2025-07-15
-updated: 2025-07-20
+published: "2025-07-15"
+updated: "2025-07-20"
 description: ""
 figure: meta-inspection
 ---
