@@ -262,13 +262,17 @@ We can then use local utility types, which are like variables in type-level code
 type ButtonEventNames = keyof ButtonEventMap
 
 // Transform each key to create a map of handlers:
-export type ButtonEventHandlerMap = {
+type ButtonEventHandlerMap = {
 	[Name in ButtonEventNames]: Handler<
 		Name, 
 		ButtonEventMap[Name]
 	>
 }
+```
 
+Finally, we can declare the `Button` class itself, using our utility types together with the map operations we talked about earlier:
+
+```ts
 declare class Button {
 	// A generic lookup to get a handler:
 	on<Name extends ButtonEventNames>(
@@ -286,137 +290,6 @@ declare class Button {
 	off(handler: ButtonEventHandlerMap[ButtonEventNames]): void
 }
 ```
-	
-Now, in order to build the signatures of the `on`, `emit`, and `off` methods, we use the operators we talked about earlier. 
-
-Let’s take a look at the `on` method first:
-```ts
-declare class Button {
-  on<Name extends keyof ButtonEvents>(
-    name: Name,
-    handler: Handler<Events[Name]>
-  ): void;
-}
-```
-
-Even better, we can extract these methods into their own interface, with a type parameter standing in for the event map. This encapsulates the type-level event logic and lets us reuse it with ease.
-
-```ts
-interface SupportsEvent<Events extends Record<string, object>> {
-  on<Name extends keyof Events>(
-    name: Name,
-    handler: Handler<Events[Name]>
-  ): void;
-  off<Name extends keyof Events>(
-    name: Name,
-    handler: Handler<Events[Name]>
-  ): void;
-  emit<Name extends keyof Events>(
-    name: Name,
-    handler: Handler<Events[Name]>
-  ): void;
-}
-```
-
-
-
-
-Imagine we’re building a browser automation platform. This platform tells the browser what to do using `Command` objects.
-## Command objects
-Every command object has three things:
-
-- A string **name** which is its unique identifier.
-- A set of named arguments bundled into a single **input object**.
-- A **return type**, which is always wrapped in a Promise.
-
-### Running a command
-We run a command using the syntax `Browser.call(name, args)`.
-### Possible commands
-Let’s take a look at three possible commands:
-
-1. **`Click`** Emulates a mouse click at position $(x, y)$.
-2. **`Goto`** Navigates to a webpage at the address `url`. Returns the new URL after the page has loaded.
-3. **`GetLocation`** Gets the current webpage address as a string.
-
-## Implementation
-There are a few different ways to *implement* this API at the type level.
-### Using overloads
-One way is to define an overload for every command, like this:
-
-```ts
-declare class Browser {
-    call(name: "Click", args: { x: number, y: number }): Promise<void>
-    call(name: "Goto", args: { url: string }): Promise<string>
-    call(name: "GetLocation", args: {}): Promise<string>
-}
-```
-
-This has quite a few problems, though:
-
-- We keep repeating ourselves.
-- We can’t reference the input or return types of a command.
-- Extending the list of commands is error-prone.
-
-Notice how these are the same design issues that we might find in runtime code. They also have similar solutions.
-### Using type-level maps
-This approach works like this:
-
-1. Define one type-level map that acts as a source of truth, describing all the commands.
-2. Then create one generic method that behaves just like the overloads we saw earlier.
-
-The type-level map uses command names as it keys. Each one of its values is another type-level map that matches the type-level interface:
-
-```ts
-type CommandType = {
-    Args: Record<string, unknown>
-    Returns: unknown
-}
-```
-
-Here’s the entire map:
-
-```ts
-export interface CommandsMap {
-    Click: {
-        Args: {
-            x: number
-            y: number
-        }
-        Returns: void
-    }
-    Goto: {
-        Args: {
-            url: string
-        }
-        Returns: string
-    }
-    GetLocation: {
-        Args: {}
-        Returns: string
-    }
-}
-```
-
-Now we can define a `call` function with a computed signature that accesses the type-level map:
-
-```ts
-declare class Browser {
-    call<Name extends keyof CommandsMap>( // Key list
-        name: Name,
-        args: CommandsMap[Name]["Args"] // A lookup
-    ): Promise<
-        CommandsMap[Name]["Returns"] // Another lookup
-    >
-}
-
-const browser = new Browser()
-
-browser.call("Click", {
-    x: 100,
-    y: 500
-})
-```
-
 # Conclusion
 Type-level code is another way of looking at type declarations. This approach lets us explain complexity using the same principles and tools we’ve learned to deal with runtime code.
  
