@@ -14,9 +14,9 @@ An iframe is a box with another webpage in it – a webpage within a webpage.
 
 Some iframes are visible and obvious, used for social media components, payment portals, and embedded videos.
 
-Others are totally invisible, created by third-party scripts for a variety of purposes.
+Others are totally invisible, created by third-party scripts for different purposes.
 
-Iframes are incredibly complicated, but for all that complexity, they appear as just another HTML tag. Here is an example of one:
+Iframes are incredibly complicated, but for all that complexity, they appear as just another HTML tag. Here's an example of one:
 
 ```html
 <iframe id="gregros" src="https://gregros.dev/iframe"></iframe>

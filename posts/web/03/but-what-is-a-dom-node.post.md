@@ -15,7 +15,7 @@ To investigate what the browser sees as a DOM node, we'll find a function that a
 
 The classic example is `appendChild`. This method accepts a DOM node and inserts it as the child of another node. If you pass the method just a regular old object, it errors instead.
 
-Here is some code to illustrate this:
+Here's some code to illustrate this:
 
 ```js
 // Create an element
@@ -33,12 +33,13 @@ document.body.appendChild({})
 
 # Mad web science
 Now let’s perform a series of bizarre experiments that subvert this code in strange and unusual ways, in the name of mad web science!
+
 ## Messing up a DOM node
 In this variation, we create the element as normal, but we then mess it up by removing its prototype and deleting all its keys.
 
 This should result in an object that’s functionally indistinguishable from `{}`, something that should be totally non-functional.
 
-Here is the code:
+Here's the code:
 
 ```js
 // Create an element

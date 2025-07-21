@@ -324,7 +324,7 @@ For one, we can only construct them from JavaScript. This means attackers can't 
 
 But they have some security risks too. They're sometimes used by attackers to obfuscate malicious scripts, since they’re harder to trace.
 
-Here is some code that creates a script tag using this kind of URI:
+Here's some code that creates a script tag using this kind of URI:
 
 ```js
 // Construct the blob

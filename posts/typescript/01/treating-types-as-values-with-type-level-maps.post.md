@@ -149,10 +149,11 @@ const map = { key1: 42, key2: 123 }
 const result = mapValues(map, x => `${x}`) // {key1: "42", key2: "123"}
 ```
 
+Next, we’ll take a look at a use-case.
 # Use-case: handling events
-Type-level maps have lots of use-cases. One of the most common ones is **handling events**. In fact, you might have encountered it yourself.
+Type-level maps have lots of use-cases. One of the most common ones is **handling events**. In fact, you might’ve encountered it yourself.
 
-In this example, we have a `Button` object that has a bunch of events, and every event comes with its own information object:
+Let’s say we have a `Button` object that has a bunch of events. Every event comes with its own information object:
 
 - `click` says which button the user clicked, either `"left"` or `"right"`.
 - `hover` gives the $(x,y)$ of the pointer.
@@ -169,7 +170,7 @@ There are a few ways we can implement this pattern at the type level.
 We could define all three methods with no type information. Like this:
 
 ```ts
-export type Handler = (name: string, info: object) => void
+export type Handler = (info: object) => void
 
 declare class Button {
     emit(name: string, info: object): void
@@ -193,13 +194,13 @@ type ClickEventInfo = { button: "left" | "right" }
 
 type HoverEventInfo = { x: number; y: number }
 
-type Handler<Name, Info> = (name: Name, info: Info) => void
+type Handler<Info> = (info: Info) => void
 
 declare class Button {
     // click events:
     emit(name: "click", info: ClickEventInfo): void
-    on(name: "click", handler: Handler<"click", ClickEventInfo>): void
-    off(handler: Handler<"click", ClickEventInfo>): void
+    on(name: "click", handler: Handler<ClickEventInfo>): void
+    off(handler: Handler<ClickEventInfo>): void
 
     // hover events:
     emit(name: "hover", info: HoverEventInfo): void
@@ -210,8 +211,8 @@ declare class Button {
 This solution shows that many of the problems we meet in runtime code are also present in type-level code. In this case, **we’re not DRY** – we keep repeating ourselves.
 
 That makes expanding the `Button` with more events time consuming and error-prone, and it also means we can’t easily extend the event infrastructure to cover other types of elements.
-## Approach C: using a type-level map
-We can compare the last approach to copy-pasting the runtime code for registering an event handler:
+
+We can compare this approach to copy-pasting the runtime code for registering an event handler:
 
 ```js
 class Button {
@@ -249,7 +250,7 @@ class Button {
 ```
 
 We can do the same thing with our type-level code!
-
+## Approach C: using a type-level map
 We start by defining a type-level map that maps every event name to its information object:
 
 ```ts
@@ -266,13 +267,12 @@ This type-level map also keeps track of all the valid event names.
 We can then use local utility types, which are like variables in type-level code, to store the results of operations on the map:
 
 ```ts
-// Get the map's keys, convert to lowercase
+// Get the map's keys:
 type ButtonEventNames = keyof ButtonEventMap
 
 // Transform each key to create a map of handlers:
 type ButtonEventHandlerMap = {
     [Name in ButtonEventNames]: Handler<
-        Name, 
         ButtonEventMap[Name]
     >
 }
@@ -299,6 +299,33 @@ declare class Button {
 }
 ```
 
+Let’s try it out!
+### Trying it out
+First, we create a button:
+```ts
+const button = new Button()
+
+```
+
+
+```ts
+button.on("click", obj => {
+    console.log(`User clicked the ${obj.button} button!`)
+})
+
+button.on("hover", obj => {
+    console.log(`Mouse pointer is in (${obj.x}, ${obj.y})!`)
+})
+
+// @ts-expect-error clikc is not a valid event
+button.on("clikc", obj => {})
+
+// @ts-expect-error Missing property 'y'
+button.emit("hover", {
+    x: 1
+})
+
+```
 # Conclusion
 Type-level code is another way of looking at type declarations. This approach lets us explain complexity using the same principles and tools we’ve learned to deal with runtime code.
 
