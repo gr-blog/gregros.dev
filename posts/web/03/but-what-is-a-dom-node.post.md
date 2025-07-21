@@ -57,7 +57,7 @@ document.body.appendChild(div)
 ```
 
 ## Trying to fake one
-Now, here is the second variation:
+Now, here's the second variation:
 
 ```js
 // Create an object with the HTMLDivElement prototype
@@ -84,7 +84,7 @@ It turns out that the first object – the empty one – **is** recognized as a 
 
 That’s not to say getting rid of the prototype doesn’t do anything. You can no longer call instance methods, for example, since they're defined on the prototype and that prototype is missing.
 
-But no matter how you screw up a DOM node, if you get a reference to one of those methods, you can still call it and it'll work just fine. Here is an example:
+But no matter how you screw up a DOM node, if you get a reference to one of those methods, you can still call it and it'll work just fine. Here's an example:
 
 ```js
 // Create a div elemenmt

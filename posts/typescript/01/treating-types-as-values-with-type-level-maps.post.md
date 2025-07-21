@@ -55,7 +55,8 @@ Here’s how we can visualize it:
 ```canva size=580x330 ;; key=type-level-map ;; alt=A diagram showing strings mapped to types
 https://www.canva.com/design/DAGtzwsCdfc/CUBX4Z0ZkUGew5-exmTVUA/view
 ```
-That’s a nice diagram, but how do we use them? 
+
+That’s a nice diagram, but how do we use them?
 # Working with type-level maps
 To justify the shift to “type-level maps”, we need to find operations on object types that mimic how we might work with maps in runtime code. That means:
 
@@ -106,8 +107,10 @@ const map = { key: 42 }
 
 const result = map["key"] // 42
 ```
+
+TypeScript has an extra feature, though – you can look up lots of values at once!
 ### Multi-value lookups
-TypeScript let’s us look up more than one value, though! By passing a union of several keys, we can get a union type of several values:
+TypeScript let’s us look up more than one value, though! We can do that by passing a union of keys, getting a union of values back:
 
 ```ts
 type Map = { a: 1; b: 2; c: 3 }
@@ -123,6 +126,7 @@ type Map = { a: 1; b: 2; c: 3 }
 
 type Vals = Map[keyof Map] // 1 | 2 | 3
 ```
+
 ## Transforming
 Since type-level maps are immutable, we can’t change them like we would a JavaScript dictionary. But we can still transform one map into another map.
 
@@ -136,7 +140,7 @@ type Result = {
 } // {key1: "42"; key2: "123"}
 ```
 
-The closest JavaScript equivalent here is the `mapValues` function from `lodash`:
+The closest JavaScript equivalent is the `mapValues` function from `lodash`:
 
 ```ts
 import { mapValues } from "lodash"
@@ -144,22 +148,23 @@ const map = { key1: 42, key2: 123 }
 
 const result = mapValues(map, x => `${x}`) // {key1: "42", key2: "123"}
 ```
+
 # Use-case: handling events
-Type-level maps have a wide variety of use-cases. One of the most common ones is **handling events**. In fact, you might have encountered this one yourself! 
+Type-level maps have lots of use-cases. One of the most common ones is **handling events**. In fact, you might have encountered it yourself.
 
-In this example, we have a `Button` object that has a bunch of events, like `click`, `mount`, and `hover`. Every event comes with a distinct information object:
+In this example, we have a `Button` object that has a bunch of events, and every event comes with its own information object:
 
-- `click` says which button was clicked, either `"left"` or `"right"`.
+- `click` says which button the user clicked, either `"left"` or `"right"`.
 - `hover` gives the $(x,y)$ of the pointer.
 - `mount` doesn’t have any special information.
 
-As is customary, events are managed using three main methods:
+As is customary, we manage events using three main methods:
 
 - `on` defines a handler for an event.
 - `off` removes a handler.
 - `emit` emits an event together with an information object.
 
-There are several ways we can implement this pattern at the type level. Let’s take a closer look!
+There are a few ways we can implement this pattern at the type level.
 ## Approach A: loosely typed
 We could define all three methods with no type information. Like this:
 
@@ -177,9 +182,9 @@ button.emit("clikc", {
 })
 ```
 
-This works, but we’re not type checking anything, introducing the possibility of sneaky bugs. Ideally, we’d like TypeScript to check event names and info objects, as well as handler signatures. 
+This works, but we’re not type checking anything, introducing the possibility of sneaky bugs. Ideally, we’d like TypeScript to check event names and info objects, as well as handler signatures.
 
-Let’s look at a 2nd approach.
+Let’s look at a second approach.
 ## Approach B: hand-coding everything
 One way to achieve that is to hand-code an overload signature for each method and every type of event, like this:
 
@@ -202,11 +207,11 @@ declare class Button {
 }
 ```
 
-This solution shows that many of the problems we encounter in runtime code are also present in type-level code. In this case, **we’re not DRY** – we keep repeating ourselves.
+This solution shows that many of the problems we meet in runtime code are also present in type-level code. In this case, **we’re not DRY** – we keep repeating ourselves.
 
-That makes expanding the `Button` with additional events time consuming and error-prone, and it also means we can’t easily extend the event infrastructure to cover other types of elements.
-## Approach C: Using a type-level map
-We can compare the previous approach to copy-pasting the runtime code for registering an event handler:
+That makes expanding the `Button` with more events time consuming and error-prone, and it also means we can’t easily extend the event infrastructure to cover other types of elements.
+## Approach C: using a type-level map
+We can compare the last approach to copy-pasting the runtime code for registering an event handler:
 
 ```js
 class Button {
@@ -227,7 +232,7 @@ class Button {
 }
 ```
 
-In runtime code, the solution is pretty obvious — *just use a Map*.
+In runtime code, the solution is pretty obvious – *just use a Map*.
 
 ```js
 class Button {
@@ -258,7 +263,7 @@ export interface ButtonEventMap {
 
 This type-level map also keeps track of all the valid event names.
 
-We can then use local utility types, which are like variables in type-level code, to store the results of various operations on the map:
+We can then use local utility types, which are like variables in type-level code, to store the results of operations on the map:
 
 ```ts
 // Get the map's keys, convert to lowercase
@@ -293,9 +298,10 @@ declare class Button {
     off(handler: ButtonEventHandlerMap[ButtonEventNames]): void
 }
 ```
+
 # Conclusion
 Type-level code is another way of looking at type declarations. This approach lets us explain complexity using the same principles and tools we’ve learned to deal with runtime code.
- 
+
 In this post, we’ve taken a look at type-level maps. We saw how it corresponds to a runtime dictionary, and how using one can solve design issues at the type level.
 
 I hope you’ll join me in exploring these concepts in the future!

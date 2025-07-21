@@ -1,5 +1,5 @@
 ---
-title: Meta inspection: Debugging with the secret DevTools API
+title: "Debugging pages with the secret DevTools API"
 published: "2025-07-15"
 updated: "2025-07-20"
 description: ""
@@ -23,7 +23,7 @@ inspecting, but that’s about it.
 That means all we need to do is *inspect* the inspector using another instance
 of itself!
 
-I call this technique *meta-inspection*, and here is how it works:
+I call this technique *meta-inspection*, and here's how it works:
 
 ```canva key=meta-inspection ;; size=570x370 ;; alt=Illustrates the end-page, an inspector, and the meta-inspector
 https://www.canva.com/design/DAGb7Bi_Ezk/vgeH-J7-CSHwTsrEz28HpQ/view?utm_content=DAGb7Bi_Ezk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hb2b009fec8
@@ -144,7 +144,7 @@ paths:
 ```
 
 Luckily, there's a pretty stable API that lets us import modules using the same
-path. Here is how it works:
+path. Here's how it works:
 
 ```js
 var Logs = await runtime.loadLegacyModule(
@@ -174,7 +174,7 @@ var NetworkLog = Logs.NetworkLog.NetworkLog.instance()
 `Logs` is a module with an export `NetworkLog` that also happens to be a module,
 finally exporting the `NetworkLog` class.
 
-Here is a quick breakdown of the whole thing:
+Here's a quick breakdown of the whole thing:
 
 ```canva size=525x340 ;; key=network-log-pattern ;; alt=Breaking down the path
 https://www.canva.com/design/DAGb1HApUCg/RoKVEOP8aBwFgYfxUbn7tQ/view?utm_content=DAGb1HApUCg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha093f46606
@@ -255,7 +255,7 @@ object.
 This object gives lots of info about the security protocols, ciphers, key
 exchanges, and certificates used by each request.
 
-Here is the code:
+Here's the code:
 
 ```js
 var reqList = NetworkLog.requests()

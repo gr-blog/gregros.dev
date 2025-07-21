@@ -52,7 +52,7 @@ In principle, you could use any HTML tag for this purpose, but script tags have 
 - They can appear in the `<head>` part of the page.
 - They let you avoid escaping most special characters used in HTML, like `&` and `<`.
 
-Here is an example of a non-executable script tag:
+Here's an example of a non-executable script tag:
 
 ```html
 <!-- a non-executable script tag -->
@@ -133,7 +133,7 @@ Any top-level declarations made here become page-wide globals, accessible from a
 
 That's a particularly nasty and error-prone feature, and you’ll often see script tags use scoping constructs like self-executing functions to control it.
 
-Here is an example of a script tag using this technique:
+Here's an example of a script tag using this technique:
 
 ```html
 <!-- a classic inline script tag
@@ -265,7 +265,7 @@ As a pseudo-protocol, `data:` doesn’t actually point to the location of a reso
 
 `data:` URIs are very handy for many purposes, and you’ll occasionally see scripts loaded this way. We should compare then with inline scripts, rather than external scripts, since they embed JavaScript content instead of referencing another resource.
 
-Data scripts use more consistent escaping rules than inline tags, and can use a wide variety of encodings and character sets, which are often specified as part of the data URI. One of the most popular options is base64, which avoids the need to escape anything.
+Data scripts use more consistent escaping rules than inline tags, and can use lots of encodings and character sets, which are often specified as part of the data URI. One of the most popular options is base64, which avoids the need to escape anything.
 
 At the same time, data scripts have the massive disadvantage of usually being illegible. This makes them one of the vectors of choice when attackers inject malicious scripts.
 

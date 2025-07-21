@@ -60,7 +60,7 @@ The rules for how $\Boxes$ handle jobs are very simple:
 None of these things is true of real-world jobs, but these simplifications are what makes the model easy to reason about.
 
 ## A single box
-Here is the bare-bones version:
+Here's the bare-bones version:
 
 ```canva key=one-box-model ;; size=500x190 ;; alt=A single Box processing one job at a time
 https://www.canva.com/design/DAGlFywvS4Y/G4OZ4DQv84f-a-Sp6hI8Xg/view?utm_content=DAGlFywvS4Y&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h46b5637248
