@@ -49,8 +49,6 @@ const a = {
 
 When we’re looking at it as a type-level map, it becomes an *immutable dictionary*. In this dictionary, *types are values* and *the keys are strings*.
 
-We show this shift of perspective by changing naming conventions. Where normal objects have keys in `camelCase`, here we might use `Pascal_Snake_Case` .
-
 We might visualize it like this:
 $$
 \begin{align*}
@@ -111,28 +109,23 @@ const map = { key: 42 }
 
 const result = map["key"] // 42
 ```
-## Merging
-We can merge two type-level maps using the `&` operator:
+### Multi-value lookups
+TypeScript let’s us look up more than one value, though! By passing a union of several keys, we can get a union type of several values:
 
 ```ts
-type Map_1 = { a: 1 }
-type Map_2 = { b: 2 }
+type Map = {a: 1; b: 2; c: 3}
 
-type Result = Map1 & Map2 // {a: 1; b: 2}
+type AB = Map["a" | "b"] // 1 | 2
 ```
 
-Meanwhile, we can merge JS objects using the `...` operator:
+### Listing values
+Taken to its logic conclusion, if we pass all the keys, we’ll get all the values:
 
 ```ts
-const map1 = { a: 1 }
-const map2 = { b: 2 }
+type Map = {a: 1; b: 2; c: 3}
 
-const result = {
-    ...map1,
-    ...map2
-} // {a: 1, b: 2}
+type Vals = Map[keyof Map] // 1 | 2 | 3
 ```
-
 ## Transforming
 Since type-level maps are immutable, we can’t change them like we would a JavaScript dictionary. But we can still transform one map into another map.
 
@@ -143,7 +136,7 @@ type Map = { key1: 42; key2: 123 }
 
 type Result = {
     [Key in keyof Map]: `${Map[Key]}`;
-} // {Key_1: "42"; Key_2: "123"}
+} // {key1: "42"; key2: "123"}
 ```
 
 The closest JavaScript equivalent here is the `mapValues` function from `lodash`:
@@ -175,9 +168,9 @@ We could define all three methods with no type information. This works, but we�
 export type Handler = (name: string, info: object) => void
 
 declare class Button {
-  emit(name: string, info: object);
-  on(name: string, handler: Handler)
-  off(handler: Handler)
+  emit(name: string, info: object): void
+  on(name: string, handler: Handler): void
+  off(handler: Handler): void
 }
 let button = new Button()
 button.emit("clikc", {
@@ -190,7 +183,6 @@ Ideally, we’d like TypeScript to check event names and info objects, as well a
 One way to achieve that is to hand-code an overload signature for each method and every type of event, like this:
 
 ```ts
-
 type ClickEventInfo = { button: "left" | "right" }
 
 type HoverEventInfo = { x: number; y: number }
@@ -199,12 +191,12 @@ type Handler<Name, Info> = (name: Name, info: Info) => void
 
 declare class Button {
 	// click events:
-	emit(name: "click", info: ClickEventInfo)
-	on(name: "click", handler: Handler<"click", ClickEventInfo>)
-	off(handler: Handler<"click", ClickEventInfo>)
+	emit(name: "click", info: ClickEventInfo): void
+	on(name: "click", handler: Handler<"click", ClickEventInfo>): void
+	off(handler: Handler<"click", ClickEventInfo>): void
 
 	// hover events:
-	emit(name: "hover", info: HoverEventInfo)
+	emit(name: "hover", info: HoverEventInfo): void
 	// ...
 }
 ```
@@ -250,45 +242,51 @@ class Button {
 }
 ```
 
-It turns out the same logic applies to type-level code. We just need to create a **type-level map**. This type-level map will match every event name to its information object:
+It turns out the same logic applies to type-level code. We just need to create a **type-level map**. 
+
+This type-level map will match every event name to its information object:
 
 ```ts
 
-export interface Button_Event_Map {
+export interface ButtonEventMap {
 	click: ClickEventInfo
 	hover: HoverEventInfo
 	mount: {}
 }
-// Get the map's keys, convert to lowercase, and store them:
-type Button_Event_Names = Lowercase<keyof Button_Event_Map>
+```
 
-// Use a transform to create a map of handlers:
-export type Button_Event_Handler_Map = {
-	[Name in Button_Event_Names]: Handler<
+We can then use local utility types, which are like variables in type-level code, to store the results of various operations on the map:
+
+```ts
+// Get the map's keys, convert to lowercase
+type ButtonEventNames = keyof ButtonEventMap
+
+// Transform each key to create a map of handlers:
+export type ButtonEventHandlerMap = {
+	[Name in ButtonEventNames]: Handler<
 		Name, 
-		Button_Event_Map[Name]
+		ButtonEventMap[Name]
 	>
 }
 
 declare class Button {
-	// A generic lookup to get the object:
+	// A generic lookup to get a handler:
 	on<Name extends ButtonEventNames>(
 		name: Name,
-		handler: Button_Event_Handler_Map
-	)
-	
+		handler: ButtonEventHandlerMap[Name]
+	): void
+
+	// A generic lookup to get the info object:
 	emit<Name extends ButtonEventNames>(
 		name: Name,
-		info: Get_Info_For_Event<Name>
-	)
-	
-	off<Name extends ButtonEventNames>(
-		handler: Get_Handler_For_Event<Name>
-	)
-	
+		info: ButtonEventMap[Name]
+	): void
+
+	// Allow only valid handlers by listing values:
+	off(handler: ButtonEventHandlerMap[ButtonEventNames]): void
 }
 ```
-
+	
 Now, in order to build the signatures of the `on`, `emit`, and `off` methods, we use the operators we talked about earlier. 
 
 Let’s take a look at the `on` method first:
