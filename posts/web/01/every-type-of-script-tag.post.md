@@ -1,8 +1,8 @@
 ---
-title: "Every type of script tag: an overview"
+title: "How many types of script tags are there?"
 description: ""
 published: "2025-01-01"
-updated: "2025-07-13"
+updated: "2025-07-21"
 ---
 %%%?
 There used to be just one type of script tag, but after decades of web standards development, we have tons of them.

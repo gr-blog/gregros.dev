@@ -1,7 +1,7 @@
 ---
-title: "Debugging pages with the secret DevTools API"
+title: "Debugging the debugger to inspect pages with code"
 published: "2025-07-15"
-updated: "2025-07-20"
+updated: "2025-07-21"
 description: ""
 figure: meta-inspection
 ---
@@ -67,7 +67,7 @@ going to use. The code is just an example of what’s possible!
 I’ll show you exactly how I figured it out, so you can do the same if it breaks.
 
 That said, I want to keep the examples working, so if they break do
-[send me a line](mailto:gregros@gregros.dev) and I’ll fix them!
+[drop me a line in the Discord](https://discord.gg/698antxq) and I’ll fix them!
 
 # Inspector architecture
 
