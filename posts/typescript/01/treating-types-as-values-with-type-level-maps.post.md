@@ -111,7 +111,6 @@ const map = { key: 42 }
 
 const result = map["key"] // 42
 ```
-
 ## Merging
 We can merge two type-level maps using the `&` operator:
 
@@ -212,10 +211,11 @@ declare class Button {
 
 This solution shows that many of the problems we encounter in runtime code are also present in type-level code. In this case, **we’re not DRY** – we keep repeating ourselves.
 
+That makes expanding the `Button` with additional events time consuming and error-prone, and it also means we can’t easily extend the event infrastructure to cover other types of elements.
+
 We can compare this to copy-pasting the runtime code for registering an event handler:
 
 ```js
-
 class Button {
 	_clickHandlers = []
 	_hoverHandlers = []
@@ -250,34 +250,39 @@ class Button {
 }
 ```
 
-
-That makes expanding the `Button` with additional events time consuming and error-prone, and it also means we can’t easily extend the event infrastructure to cover other types of elements.
-
-Let’s consider how we would validate event names in runtime code.
-
-We’re effectively doing the same thing as copy-pasting the event implementation code for every event. 
+It turns out the same logic applies to type-level code. We just need to create a **type-level map**. This type-level map will match every event name to its information object:
 
 ```ts
-interface Events {
-  click: ClickEventInfo;
-  mount: MountEventInfo;
-  // ...
+export interface ButtonEventsMap {
+	click: ClickEventInfo
+	hover: HoverEventInfo
+	mount: {}
+}
+// Get the map's keys and store them:
+type ButtonEventNames = keyof ButtonEventsMap
+
+// A function that returns the info object type
+// for each event:
+type HandlerForEvent<
+	Name extends string
+> = ButtonEventsMap[Name]
+
+// Combining the two:
+declare class Button {
+	on<Name extends ButtonEventNames>(
+		name: Name,
+		handler: HandlerForEvent<Name>
+	)
+	
 }
 ```
 
-Then we define a single function for each operation, referencing the keys and values of the map to build a generic signature:
+Now, in order to build the signatures of the `on`, `emit`, and `off` methods, we use the operators we talked about earlier. 
 
+Let’s take a look at the `on` method first:
 ```ts
-interface Button {
-  on<Name extends keyof Events>(
-    name: Name,
-    handler: Handler<Events[Name]>
-  ): void;
-  off<Name extends keyof Events>(
-    name: Name,
-    handler: Handler<Events[Name]>
-  ): void;
-  emit<Name extends keyof Events>(
+declare class Button {
+  on<Name extends keyof ButtonEvents>(
     name: Name,
     handler: Handler<Events[Name]>
   ): void;
