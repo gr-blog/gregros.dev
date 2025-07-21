@@ -1,7 +1,8 @@
 ---
 title: Treating types as values with type-level maps
-published: "2025-07-14"
-updated: "2025-07-16"
+published: 2025-07-14
+updated: 2025-07-16
+figure: type-level-map
 ---
 %%%?
 With a shift in perspective, we can view complex type declarations as another kind of code. Code where types are values.
@@ -51,16 +52,9 @@ When we’re looking at it as a type-level map, it becomes an *immutable diction
 
 We might visualize it like this:
 
-```canva size=580x330 ;; key=type-level-map ;; alt=Script tag types diagram
+```canva size=580x330 ;; key=type-level-map ;; alt=A diagram showing strings mapped to types
+https://www.canva.com/design/DAGtzwsCdfc/CUBX4Z0ZkUGew5-exmTVUA/view
 ```
-$$
-\begin{align*}
-\mathtt{key1}&\Rightarrow\mathtt{MyType} \\
-\mathtt{key2}&\Rightarrow\mathtt{MyOtherType} \\
-\mathtt{key3}&\Rightarrow\mathtt{true} \\
-\mathtt{key4}&\Rightarrow\mathtt{object}
-\end{align*}
-$$
 Although they aren’t typically named as such, these structures form a critical part of modern TypeScript APIs.
 # Working with type-level maps
 To justify the shift to “type-level maps”, we need to find operations on object types that mimic how we might work with maps in runtime code. That means:
