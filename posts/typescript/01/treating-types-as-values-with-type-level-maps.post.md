@@ -155,12 +155,12 @@ const map = { key1: 42, key2: 123 }
 
 const result = mapValues(map, x => `${x}`) // {key1: "42", key2: "123"}
 ```
-# Use-case: event handling
+# Use-case: handling events
 Type-level maps have a wide variety of use-cases. One of the most common ones is **handling events**. In fact, you might have encountered this one yourself! 
 
 In this example, we have a `Button` object that has a bunch of events, like `click`, `mount`, and `hover`. Every event comes with a distinct information object:
 
-- `click` says which button was clicked.
+- `click` says which button was clicked, either `"left"` or `"right"`.
 - `hover` gives the $(x,y)$ of the pointer.
 - `mount` doesn’t have any special information.
 
@@ -171,6 +171,7 @@ As is customary, events are managed using three main methods:
 - `emit` emits an event together with an information object.
 
 We could define all three methods with no type information. This works, but we’re not type checking anything, introducing the possibility of sneaky bugs:
+
 ```ts
 export type Handler = (name: string, info: object) => void
 
@@ -181,19 +182,22 @@ declare class Button {
 }
 let button = new Button()
 button.emit("clikc", {
-	x: 5
+	button: 1
 })
 ```
 
-One way to overcome this problem is to define each overload on the `Button` manually:
+Ideally, we’d like TypeScript to check event names and info objects, as well as handler signatures. 
+
+One way to achieve that is to hand-code an overload signature for each method and every type of event, like this:
 
 ```ts
 
-type ClickEventInfo = {
-	x: number
-	y: number
-}
+type ClickEventInfo = { button: "left" | "right" }
+
+type HoverEventInfo = { x: number; y: number }
+
 type Handler<Name, Info> = (name: Name, info: Info) => void
+
 declare class Button {
 	// click events:
 	emit(name: "click", info: ClickEventInfo)
@@ -201,32 +205,57 @@ declare class Button {
 	off(handler: Handler<"click", ClickEventInfo>)
 
 	// hover events:
-	emit(name: "hover")
-	
+	emit(name: "hover", info: HoverEventInfo)
+	// ...
 }
 ```
 
-But we’d like to keep type information about both the supported events and the required shape of each event object. This both gives a better developer experience through auto-completion and also helps spot annoying bugs.
+This solution shows that many of the problems we encounter in runtime code are also present in type-level code. In this case, **we’re not DRY** – we keep repeating ourselves.
 
-We’re going to assume we have a generic type called `Handler` that gives us the type of an event handler:
+We can compare this to copy-pasting the runtime code for registering an event handler:
 
-```ts
-type Handler<Name extends string, Obj> = (name: Name, obj: Obj) => void;
-```
+```js
 
-One way to achieve our goal is to hand-code an overload signature for each method and every type of event, like this:
-
-```ts
-interface Button {
-  on(name: "click", info: Handler<"click", ClickEventInfo>): void;
-  on(name: "mount", info: Handler<"mount", MountEventInfo>): void;
-  // ...
+class Button {
+	_clickHandlers = []
+	_hoverHandlers = []
+	_mountHandlers = []
+	on(name, handler) {
+		if (name === "click") {
+			this._clickHandlers.push(handler)
+		}
+		if (name === "hover") {
+			this._hoverHandlers.push(handler)
+		}
+		if (name === "mount") {
+			this._hoverHandlers.push(handler)
+		}
+	}
 }
 ```
 
-But this isn’t DRY at all. All these repetitions make bugs more likely and make expanding the `Button` with more events difficult. Luckily, we can streamline this structure using a type-level map.
+In runtime code, the solution is pretty obvious — *just use a Map*.
 
-The map will have the name of each event as a key and the `EventInfo` object type as a value. Something like this:
+```js
+class Button {
+	_handlers = new Map()
+	on(name, handler) {
+		let existing = this._handlers.get(name)
+		if (!existing) {
+			existing = new Set()
+			this._handlers.set(name, existing)
+		}
+		existing.add(handler)
+	}
+}
+```
+
+
+That makes expanding the `Button` with additional events time consuming and error-prone, and it also means we can’t easily extend the event infrastructure to cover other types of elements.
+
+Let’s consider how we would validate event names in runtime code.
+
+We’re effectively doing the same thing as copy-pasting the event implementation code for every event. 
 
 ```ts
 interface Events {
