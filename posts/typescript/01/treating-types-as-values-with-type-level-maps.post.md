@@ -50,6 +50,9 @@ const a = {
 When we’re looking at it as a type-level map, it becomes an *immutable dictionary*. In this dictionary, *types are values* and *the keys are strings*.
 
 We might visualize it like this:
+
+```canva size=580x330 ;; key=type-level-map ;; alt=Script tag types diagram
+```
 $$
 \begin{align*}
 \mathtt{key1}&\Rightarrow\mathtt{MyType} \\
@@ -72,7 +75,7 @@ If we were doing math, we’d call this an **isomorphism** between dictionaries 
 We can list the keys in a type-level map using the `keyof` operator:
 
 ```ts
-type Map = { key1: 42; key1: 123 }
+type Map = { key1: 42; key2: 123 }
 
 type Keys = keyof Map // "key1" | "key2"
 ```
