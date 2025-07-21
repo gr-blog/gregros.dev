@@ -1,6 +1,5 @@
 ---
 title: What is an iframe? An overview
-series: web
 description: ""
 published: "2025-01-01"
 updated: "2025-07-15"

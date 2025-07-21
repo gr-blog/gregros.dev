@@ -1,7 +1,7 @@
 ---
 title: Scalability is not performance
-published: 2025-07-16
-updated: 2025-07-20
+published: "2025-07-16"
+updated: "2025-07-20"
 figure: example-job-rates
 ---
 %%%?

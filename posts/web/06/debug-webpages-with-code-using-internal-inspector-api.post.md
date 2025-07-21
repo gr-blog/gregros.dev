@@ -1,5 +1,5 @@
 ---
-title: Debug webpages with code using the inspector's internal API
+title: Meta inspection: Debugging with the secret DevTools API
 published: "2025-07-15"
 updated: "2025-07-20"
 description: ""

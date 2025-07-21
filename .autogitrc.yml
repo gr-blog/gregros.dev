@@ -1,0 +1,6 @@
+cwd: .
+globs:
+  - "*.post.md"
+
+every: 15m
+immediately: true

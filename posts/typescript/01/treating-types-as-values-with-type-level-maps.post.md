@@ -1,7 +1,7 @@
 ---
 title: Treating types as values with type-level maps
-published: 2025-07-14
-updated: 2025-07-16
+published: "2025-07-14"
+updated: "2025-07-16"
 ---
 %%%?
 With a shift in perspective, we can view complex type declarations as another kind of code. Code where types are values.
@@ -253,10 +253,9 @@ browser.call("Click", {
 })
 ```
 
-This signature combines listing the map’s keys and performing some lookups.
 # Conclusion
 Type-level code is another way of looking at type declarations. This approach lets us explain complexity using the same principles and tools we’ve learned to deal with runtime code.
-
+ 
 In this post, we’ve taken a look at type-level maps. We saw how it corresponds to a runtime dictionary, and how using one can solve design issues at the type level.
 
 I hope you’ll join me in exploring these concepts in the future!
