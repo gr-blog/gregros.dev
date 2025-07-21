@@ -29,10 +29,10 @@ A type-level map is just an object type. We typically define it using an interfa
 
 ```ts
 interface TypeLevelMap {
-    Key_1: MyType;
-    Key_2: MyOtherType;
-    Key_3: true;
-    Key_4: object;
+    key1: MyType;
+    key2: MyOtherType;
+    key3: true;
+    key4: object;
 }
 ```
 
@@ -40,10 +40,10 @@ While interfaces usually represents the shape of a runtime object, in our case o
 
 ```js
 const a = {
-    Key_1: { name: "MyType" },
-    Key_2: { name: "MyOtherType" },
-    Key_3: true,
-    Key_4: new Date()
+    key1: { name: "MyType" },
+    key2: { name: "MyOtherType" },
+    key3: true,
+    key4: new Date()
 }
 ```
 
@@ -54,10 +54,10 @@ We show this shift of perspective by changing naming conventions. Where normal o
 We might visualize it like this:
 $$
 \begin{align*}
-\mathtt{Key\_1}&\Rightarrow\mathtt{MyType} \\
-\mathtt{Key\_2}&\Rightarrow\mathtt{MyOtherType} \\
-\mathtt{Key\_3}&\Rightarrow\mathtt{true} \\
-\mathtt{Key\_4}&\Rightarrow\mathtt{object}
+\mathtt{key1}&\Rightarrow\mathtt{MyType} \\
+\mathtt{key2}&\Rightarrow\mathtt{MyOtherType} \\
+\mathtt{key3}&\Rightarrow\mathtt{true} \\
+\mathtt{key4}&\Rightarrow\mathtt{object}
 \end{align*}
 $$
 Although they aren’t typically named as such, these structures form a critical part of modern TypeScript APIs.
@@ -74,9 +74,9 @@ If we were doing math, we’d call this an **isomorphism** between dictionaries 
 We can list the keys in a type-level map using the `keyof` operator:
 
 ```ts
-type Map = { Key_1: 42; Key_2: 123 }
+type Map = { key1: 42; key1: 123 }
 
-type Keys = keyof Map // "Key_1" | "Key_2"
+type Keys = keyof Map // "key1" | "key2"
 ```
 
 The union type we get is really a **type-level set**. But that’s outside the scope of this post.
@@ -93,9 +93,9 @@ const result = Object.keys(map) // ["key1", "key2"]
 We look up values by key using TypeScript’s lookup types:
 
 ```ts
-type Map = { Key: 42 }
+type Map = { key: 42 }
 
-type Result = Map["Key"] // 42
+type Result = Map["key"] // 42
 ```
 
 That example shows what I like to call a *static lookup*. We can also do a *generic lookup* based on a type parameter, like this:
@@ -115,10 +115,10 @@ const result = map["key"] // 42
 We can merge two type-level maps using the `&` operator:
 
 ```ts
-type Map1 = { A: 1 }
-type Map2 = { B: 2 }
+type Map_1 = { a: 1 }
+type Map_2 = { b: 2 }
 
-type Result = Map1 & Map2 // {A: 1; B: 2}
+type Result = Map1 & Map2 // {a: 1; b: 2}
 ```
 
 Meanwhile, we can merge JS objects using the `...` operator:
@@ -139,7 +139,7 @@ Since type-level maps are immutable, we can’t change them like we would a Java
 We do this using a mapped type:
 
 ```ts
-type Map = { Key_1: 42; Key_2: 123 }
+type Map = { key1: 42; key2: 123 }
 
 type Result = {
     [Key in keyof Map]: `${Map[Key]}`;
@@ -253,25 +253,37 @@ class Button {
 It turns out the same logic applies to type-level code. We just need to create a **type-level map**. This type-level map will match every event name to its information object:
 
 ```ts
-export interface ButtonEventsMap {
+
+export interface Button_Event_Map {
 	click: ClickEventInfo
 	hover: HoverEventInfo
 	mount: {}
 }
-// Get the map's keys and store them:
-type ButtonEventNames = keyof ButtonEventsMap
+// Get the map's keys, convert to lowercase, and store them:
+type Button_Event_Names = Lowercase<keyof Button_Event_Map>
 
-// A function that returns the info object type
-// for each event:
-type HandlerForEvent<
-	Name extends string
-> = ButtonEventsMap[Name]
+// Use a transform to create a map of handlers:
+export type Button_Event_Handler_Map = {
+	[Name in Button_Event_Names]: Handler<
+		Name, 
+		Button_Event_Map[Name]
+	>
+}
 
-// Combining the two:
 declare class Button {
+	// A generic lookup to get the object:
 	on<Name extends ButtonEventNames>(
 		name: Name,
-		handler: HandlerForEvent<Name>
+		handler: Button_Event_Handler_Map
+	)
+	
+	emit<Name extends ButtonEventNames>(
+		name: Name,
+		info: Get_Info_For_Event<Name>
+	)
+	
+	off<Name extends ButtonEventNames>(
+		handler: Get_Handler_For_Event<Name>
 	)
 	
 }
