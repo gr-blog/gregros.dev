@@ -34,7 +34,7 @@ When a page builds a synthetic iframe, it also determines everything that's in i
 
 Let’s take a look at every method for constructing a synthetic iframe and compare their advantages.
 # srcdoc attribute
-A straight-forward method that probably resolves 90% of use-cases.
+A straight-forward method that probably resolves 90% of use cases.
 
 We can use the `srcdoc` attribute to set the contents of a synthetic iframe verbatim. We can do that as part of the iframe's HTML or using JavaScript.
 

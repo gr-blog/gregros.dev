@@ -77,7 +77,7 @@ type Keys = keyof Map // "key1" | "key2"
 
 The union type we get is really a **type-level set**. But that’s outside the scope of this post.
 
-Instead, let’s compare it to listing keys on a JavaScript object:
+Instead, lets compare it to listing keys on a JavaScript object:
 
 ```ts
 const map = { key1: 42, key2: 123 }
@@ -110,7 +110,7 @@ const result = map["key"] // 42
 
 TypeScript has an extra feature, though – you can look up lots of values at once!
 ### Multi-value lookups
-TypeScript let’s us look up more than one value, though! We can do that by passing a union of keys, getting a union of values back:
+TypeScript lets us look up more than one value by passing a bunch of keys:
 
 ```ts
 type Map = { a: 1; b: 2; c: 3 }
@@ -149,9 +149,9 @@ const map = { key1: 42, key2: 123 }
 const result = mapValues(map, x => `${x}`) // {key1: "42", key2: "123"}
 ```
 
-Next, we’ll take a look at a use-case.
-# Use-case: handling events
-Type-level maps have lots of use-cases. One of the most common ones is **handling events**. In fact, you might’ve encountered it yourself.
+Next, we’ll take a look at a use case.
+# Use case: handling events
+Type-level maps have lots of use cases. One of the most common ones is **handling events**. In fact, you might’ve encountered it yourself.
 
 Let’s say we have a `Button` object that has a bunch of events. Every event comes with its own information object:
 
@@ -299,14 +299,15 @@ declare class Button {
 }
 ```
 
-Let’s try it out!
-### Trying it out
+Looks interesting, but let’s make sure it actually works!
+### Testing it
 First, we create a button:
+
 ```ts
 const button = new Button()
-
 ```
 
+We’ll define some handlers to see it compiles:
 
 ```ts
 button.on("click", obj => {
@@ -316,7 +317,11 @@ button.on("click", obj => {
 button.on("hover", obj => {
     console.log(`Mouse pointer is in (${obj.x}, ${obj.y})!`)
 })
+```
 
+But the whole point was to catch typos and stuff like that. Let’s check that works too:
+
+```ts
 // @ts-expect-error clikc is not a valid event
 button.on("clikc", obj => {})
 
@@ -326,6 +331,8 @@ button.emit("hover", {
 })
 
 ```
+
+You can try it out yourself in this [playground link](https://www.typescriptlang.org/play/?importHelpers=true&experimentalDecorators=true&ssl=32&ssc=28&pln=31&pc=1#code/C4TwDgpgBAwgNgSwMYGsCiA3CA7YBJbAMwHsoBeKAbygCMBXYYY7ALigCI4JDh2oAfDgCcEAcwAWvKAF8AULNCQoACWJYhmHPiKkK1AB5tsdALY0IQgNxQQR0+aEz5i6MoCG2ACZchAHgIkAHzkUAAUCDpsAcQAlOTBGMQInvIQ+mDEQsBQEcAWhG5I0ABCDEzYmrgAsm5gVLJQjVBIiKhs8MjoWLjRDU3iahZsquqV2iR9jSbEdLhslHJysgD0y1AA4hDZwOLQJrUA5ADOUCgQIEcANM3M6tukcMQA7hZIbkcQCuAlZcxjAHJuEwQE4UM4gYiEKClRh-brAGpgeSrKAAFSEHiOJCEJigEEK4lO5ygTGaQnxeSgbig+zqkKg4g83gsRxYXyUMPKY3cXh8iJClEmUAA2oDgTlsNDfhV4WKQQBdYZMny+TlwrSI0VAiDywKyJaeCAtNzk5pwd4nNWSwVNKAogCCUFEOAsyCgj2IKDodVJzuy1MZvKGQuYvjleP0eS8lulAO1R0CoWw2rYcuugeZQjYVu5yosmrl8pibESyXktodTpdIiQ7uInu9JNIfpJuwlJCgxBoACsjcA2baICYEMAw9qI1HPDHYTKtHKE0mU1A0+3iNnY-CC9qiyWkikhQ64I8np3sHAQFAMG5EJ4GXmhCcaBfEEdgBFRJfr3QQQOmpDCKEGY+OuM65kGQiajmsrxjul57vq8hIMwr60NKITYBAJ5WqEMTyPQM4AHTMKE7AtJ07DXF23bxPUtpIdgRzEFwBGPKIoQAAYAKofI4ZGoBAt47NAAAklBUQR+HlNIqEzgAhOxuHSLhsiScwRHYCRAzqBRnY9jRNpNPRjHMaxHFVDMHxQBkuQWDkJwRGEonifo0jXE5PYESASnyYpykogAAsARwALRpJASDAKFQhCJkZoICgtYICc2DEP6n43ni8IqdK6kkWRCU6VR+lKciayBSFYV9lFMWOFUSVHO+VkxZAWQXgcIAHNlhFDiOmmDEIOkGY0hhQAAjPquFAA)!
 # Conclusion
 Type-level code is another way of looking at type declarations. This approach lets us explain complexity using the same principles and tools we’ve learned to deal with runtime code.
 
