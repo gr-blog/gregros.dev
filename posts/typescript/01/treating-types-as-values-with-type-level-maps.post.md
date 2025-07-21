@@ -155,8 +155,128 @@ const map = { key1: 42, key2: 123 }
 
 const result = mapValues(map, x => `${x}`) // {key1: "42", key2: "123"}
 ```
+# Use-case: event handling
+Type-level maps have a wide variety of use-cases. One of the most common ones is **handling events**. In fact, you might have encountered this one yourself! 
 
-# An example use-case
+In this example, we have a `Button` object that has a bunch of events, like `click`, `mount`, and `hover`. Every event comes with a distinct information object:
+
+- `click` says which button was clicked.
+- `hover` gives the $(x,y)$ of the pointer.
+- `mount` doesn’t have any special information.
+
+As is customary, events are managed using three main methods:
+
+- `on` defines a handler for an event.
+- `off` removes a handler.
+- `emit` emits an event together with an information object.
+
+We could define all three methods with no type information. This works, but we’re not type checking anything, introducing the possibility of sneaky bugs:
+```ts
+export type Handler = (name: string, info: object) => void
+
+declare class Button {
+  emit(name: string, info: object);
+  on(name: string, handler: Handler)
+  off(handler: Handler)
+}
+let button = new Button()
+button.emit("clikc", {
+	x: 5
+})
+```
+
+One way to overcome this problem is to define each overload on the `Button` manually:
+
+```ts
+
+type ClickEventInfo = {
+	x: number
+	y: number
+}
+type Handler<Name, Info> = (name: Name, info: Info) => void
+declare class Button {
+	// click events:
+	emit(name: "click", info: ClickEventInfo)
+	on(name: "click", handler: Handler<"click", ClickEventInfo>)
+	off(handler: Handler<"click", ClickEventInfo>)
+
+	// hover events:
+	emit(name: "hover")
+	
+}
+```
+
+But we’d like to keep type information about both the supported events and the required shape of each event object. This both gives a better developer experience through auto-completion and also helps spot annoying bugs.
+
+We’re going to assume we have a generic type called `Handler` that gives us the type of an event handler:
+
+```ts
+type Handler<Name extends string, Obj> = (name: Name, obj: Obj) => void;
+```
+
+One way to achieve our goal is to hand-code an overload signature for each method and every type of event, like this:
+
+```ts
+interface Button {
+  on(name: "click", info: Handler<"click", ClickEventInfo>): void;
+  on(name: "mount", info: Handler<"mount", MountEventInfo>): void;
+  // ...
+}
+```
+
+But this isn’t DRY at all. All these repetitions make bugs more likely and make expanding the `Button` with more events difficult. Luckily, we can streamline this structure using a type-level map.
+
+The map will have the name of each event as a key and the `EventInfo` object type as a value. Something like this:
+
+```ts
+interface Events {
+  click: ClickEventInfo;
+  mount: MountEventInfo;
+  // ...
+}
+```
+
+Then we define a single function for each operation, referencing the keys and values of the map to build a generic signature:
+
+```ts
+interface Button {
+  on<Name extends keyof Events>(
+    name: Name,
+    handler: Handler<Events[Name]>
+  ): void;
+  off<Name extends keyof Events>(
+    name: Name,
+    handler: Handler<Events[Name]>
+  ): void;
+  emit<Name extends keyof Events>(
+    name: Name,
+    handler: Handler<Events[Name]>
+  ): void;
+}
+```
+
+Even better, we can extract these methods into their own interface, with a type parameter standing in for the event map. This encapsulates the type-level event logic and lets us reuse it with ease.
+
+```ts
+interface SupportsEvent<Events extends Record<string, object>> {
+  on<Name extends keyof Events>(
+    name: Name,
+    handler: Handler<Events[Name]>
+  ): void;
+  off<Name extends keyof Events>(
+    name: Name,
+    handler: Handler<Events[Name]>
+  ): void;
+  emit<Name extends keyof Events>(
+    name: Name,
+    handler: Handler<Events[Name]>
+  ): void;
+}
+```
+
+
+
+
 Imagine we’re building a browser automation platform. This platform tells the browser what to do using `Command` objects.
 ## Command objects
 Every command object has three things:
