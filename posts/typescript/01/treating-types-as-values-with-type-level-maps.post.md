@@ -11,7 +11,7 @@ There’s no better example of this than the type-level map. Let’s take a clos
 %%
 TypeScript is famous for its complex types and what they allow framework authors to achieve.
 
-In this post, I’d like to introduce a different approach for thinking about these complex types: as **type-level code**, code that happens to execute during compilation.
+I'd like to introduce a different way to think about complex types: as **type-level code**, code that happens to execute during compilation.
 
 We'll contrast it with **runtime code** – the normal code that gets stuff done.
 
@@ -50,12 +50,12 @@ const a = {
 
 When we’re looking at it as a type-level map, it becomes an *immutable dictionary*. In this dictionary, *types are values* and *the keys are strings*.
 
-We might visualize it like this:
+Here’s how we can visualize it:
 
 ```canva size=580x330 ;; key=type-level-map ;; alt=A diagram showing strings mapped to types
 https://www.canva.com/design/DAGtzwsCdfc/CUBX4Z0ZkUGew5-exmTVUA/view
 ```
-Although they aren’t typically named as such, these structures form a critical part of modern TypeScript APIs.
+That’s a nice diagram, but how do we use them? 
 # Working with type-level maps
 To justify the shift to “type-level maps”, we need to find operations on object types that mimic how we might work with maps in runtime code. That means:
 
@@ -110,16 +110,16 @@ const result = map["key"] // 42
 TypeScript let’s us look up more than one value, though! By passing a union of several keys, we can get a union type of several values:
 
 ```ts
-type Map = {a: 1; b: 2; c: 3}
+type Map = { a: 1; b: 2; c: 3 }
 
 type AB = Map["a" | "b"] // 1 | 2
 ```
 
 ### Listing values
-Taken to its logic conclusion, if we pass all the keys, we’ll get all the values:
+Taken to its logical conclusion, if we pass all the keys, we’ll get all the values:
 
 ```ts
-type Map = {a: 1; b: 2; c: 3}
+type Map = { a: 1; b: 2; c: 3 }
 
 type Vals = Map[keyof Map] // 1 | 2 | 3
 ```
@@ -159,24 +159,28 @@ As is customary, events are managed using three main methods:
 - `off` removes a handler.
 - `emit` emits an event together with an information object.
 
-We could define all three methods with no type information. This works, but we’re not type checking anything, introducing the possibility of sneaky bugs:
+There are several ways we can implement this pattern at the type level. Let’s take a closer look!
+## Approach A: loosely typed
+We could define all three methods with no type information. Like this:
 
 ```ts
 export type Handler = (name: string, info: object) => void
 
 declare class Button {
-  emit(name: string, info: object): void
-  on(name: string, handler: Handler): void
-  off(handler: Handler): void
+    emit(name: string, info: object): void
+    on(name: string, handler: Handler): void
+    off(handler: Handler): void
 }
 let button = new Button()
 button.emit("clikc", {
-	button: 1
+    button: 1
 })
 ```
 
-Ideally, we’d like TypeScript to check event names and info objects, as well as handler signatures. 
+This works, but we’re not type checking anything, introducing the possibility of sneaky bugs. Ideally, we’d like TypeScript to check event names and info objects, as well as handler signatures. 
 
+Let’s look at a 2nd approach.
+## Approach B: hand-coding everything
 One way to achieve that is to hand-code an overload signature for each method and every type of event, like this:
 
 ```ts
@@ -187,39 +191,39 @@ type HoverEventInfo = { x: number; y: number }
 type Handler<Name, Info> = (name: Name, info: Info) => void
 
 declare class Button {
-	// click events:
-	emit(name: "click", info: ClickEventInfo): void
-	on(name: "click", handler: Handler<"click", ClickEventInfo>): void
-	off(handler: Handler<"click", ClickEventInfo>): void
+    // click events:
+    emit(name: "click", info: ClickEventInfo): void
+    on(name: "click", handler: Handler<"click", ClickEventInfo>): void
+    off(handler: Handler<"click", ClickEventInfo>): void
 
-	// hover events:
-	emit(name: "hover", info: HoverEventInfo): void
-	// ...
+    // hover events:
+    emit(name: "hover", info: HoverEventInfo): void
+    // ...
 }
 ```
 
 This solution shows that many of the problems we encounter in runtime code are also present in type-level code. In this case, **we’re not DRY** – we keep repeating ourselves.
 
 That makes expanding the `Button` with additional events time consuming and error-prone, and it also means we can’t easily extend the event infrastructure to cover other types of elements.
-
-We can compare this to copy-pasting the runtime code for registering an event handler:
+## Approach C: Using a type-level map
+We can compare the previous approach to copy-pasting the runtime code for registering an event handler:
 
 ```js
 class Button {
-	_clickHandlers = []
-	_hoverHandlers = []
-	_mountHandlers = []
-	on(name, handler) {
-		if (name === "click") {
-			this._clickHandlers.push(handler)
-		}
-		if (name === "hover") {
-			this._hoverHandlers.push(handler)
-		}
-		if (name === "mount") {
-			this._hoverHandlers.push(handler)
-		}
-	}
+    _clickHandlers = []
+    _hoverHandlers = []
+    _mountHandlers = []
+    on(name, handler) {
+        if (name === "click") {
+            this._clickHandlers.push(handler)
+        }
+        if (name === "hover") {
+            this._hoverHandlers.push(handler)
+        }
+        if (name === "mount") {
+            this._hoverHandlers.push(handler)
+        }
+    }
 }
 ```
 
@@ -227,30 +231,32 @@ In runtime code, the solution is pretty obvious — *just use a Map*.
 
 ```js
 class Button {
-	_handlers = new Map()
-	on(name, handler) {
-		let existing = this._handlers.get(name)
-		if (!existing) {
-			existing = new Set()
-			this._handlers.set(name, existing)
-		}
-		existing.add(handler)
-	}
+    _handlers = new Map()
+    on(name, handler) {
+        let existing = this._handlers.get(name)
+        if (!existing) {
+            existing = new Set()
+            this._handlers.set(name, existing)
+        }
+        existing.add(handler)
+    }
 }
 ```
 
-It turns out the same logic applies to type-level code. We just need to create a **type-level map**. 
+We can do the same thing with our type-level code!
 
-This type-level map will match every event name to its information object:
+We start by defining a type-level map that maps every event name to its information object:
 
 ```ts
 
 export interface ButtonEventMap {
-	click: ClickEventInfo
-	hover: HoverEventInfo
-	mount: {}
+    click: ClickEventInfo
+    hover: HoverEventInfo
+    mount: {}
 }
 ```
+
+This type-level map also keeps track of all the valid event names.
 
 We can then use local utility types, which are like variables in type-level code, to store the results of various operations on the map:
 
@@ -260,10 +266,10 @@ type ButtonEventNames = keyof ButtonEventMap
 
 // Transform each key to create a map of handlers:
 type ButtonEventHandlerMap = {
-	[Name in ButtonEventNames]: Handler<
-		Name, 
-		ButtonEventMap[Name]
-	>
+    [Name in ButtonEventNames]: Handler<
+        Name, 
+        ButtonEventMap[Name]
+    >
 }
 ```
 
@@ -271,20 +277,20 @@ Finally, we can declare the `Button` class itself, using our utility types toget
 
 ```ts
 declare class Button {
-	// A generic lookup to get a handler:
-	on<Name extends ButtonEventNames>(
-		name: Name,
-		handler: ButtonEventHandlerMap[Name]
-	): void
+    // A generic lookup to get a handler:
+    on<Name extends ButtonEventNames>(
+        name: Name,
+        handler: ButtonEventHandlerMap[Name]
+    ): void
 
-	// A generic lookup to get the info object:
-	emit<Name extends ButtonEventNames>(
-		name: Name,
-		info: ButtonEventMap[Name]
-	): void
+    // A generic lookup to get the info object:
+    emit<Name extends ButtonEventNames>(
+        name: Name,
+        info: ButtonEventMap[Name]
+    ): void
 
-	// Allow only valid handlers by listing values:
-	off(handler: ButtonEventHandlerMap[ButtonEventNames]): void
+    // Allow only valid handlers by listing values:
+    off(handler: ButtonEventHandlerMap[ButtonEventNames]): void
 }
 ```
 # Conclusion
