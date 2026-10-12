@@ -5,7 +5,7 @@ published: "2026-10-10"
 updated: "2026-10-10"
 ---
 %%%?  
-Rust is obviously fast. C’s performance is second-to-none. Assembly is probably even faster. But I’ve also heard Node.js described as fast too, while others say none of this even matter because I/O.
+Rust is obviously fast. C’s performance is second-to-none. Assembly is probably even faster. But I’ve also heard Node.js described as fast too, while others say none of this even matters because I/O.
 
 Can all these claims be true?
 %%  

@@ -1,7 +1,7 @@
 ---
 title: What is a DOM node? A peek under the hood
 description: ""
-published: "2025-01-01"
+published: "2025-03-10"
 updated: "2025-07-20"
 figure: chromium-architecture
 ---

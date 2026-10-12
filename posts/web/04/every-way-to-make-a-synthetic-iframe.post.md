@@ -1,7 +1,7 @@
 ---
 title: "How can you make a synthetic iframe?"
 description: ""
-published: "2025-01-01"
+published: "2025-05-11"
 updated: "2025-07-21"
 figure: synthetic-iframe-decision-tree
 

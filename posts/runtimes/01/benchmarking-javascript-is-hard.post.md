@@ -1,8 +1,8 @@
 ---
 title: Benchmarking JavaScript is hard
 description: ""
-published: 2026-10-02
-updated: 2026-10-02
+published: 2026-09-02
+updated: 2026-09-02
 ---
 %%%?
 Benchmarks try to measure the performance of a bit of code in isolation. Using them in JavaScript can have some pretty misleading results.

@@ -1,7 +1,7 @@
 ---
 title: What is an iframe? An overview
 description: ""
-published: "2025-01-01"
+published: "2025-02-03"
 updated: "2025-07-15"
 ---
 %%%?

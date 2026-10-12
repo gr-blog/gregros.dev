@@ -1,6 +1,6 @@
 ---
 title: "Debugging the debugger to inspect pages with code"
-published: "2025-07-15"
+published: "2025-08-15"
 updated: "2025-07-21"
 description: ""
 figure: meta-inspection

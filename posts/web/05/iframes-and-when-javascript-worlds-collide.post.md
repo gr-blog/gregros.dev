@@ -1,7 +1,7 @@
 ---
 title: iframes and when JavaScript worlds collide
 description: ""
-published: "2025-01-11"
+published: "2025-07-12"
 updated: "2025-07-15"
 ---
 %%%?

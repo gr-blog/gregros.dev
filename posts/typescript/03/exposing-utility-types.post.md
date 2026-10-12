@@ -4,8 +4,10 @@ description: ""
 published: "2026-05-04"
 updated: "2026-05-04"
 ---
-#s_draft
-#q_4
+%%%?
+What do you do when you have a bunch of utility types that are closely related to a class or interface? Should you expose them or not?
+%%
+
 Packages can expose multiple functions and classes. Some of these can have their own miniature world of utility types.
 
 Should you expose those types or not? If you do expose them, what’s the best way to do so? Let’s find out!
