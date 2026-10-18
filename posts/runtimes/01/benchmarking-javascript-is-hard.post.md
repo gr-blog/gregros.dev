@@ -2,7 +2,7 @@
 title: Benchmarking JavaScript is hard
 description: ""
 published: 2026-09-02
-updated: 2026-09-02
+updated: 2026-10-18
 ---
 %%%?
 Benchmarks try to measure the performance of a bit of code in isolation. Using them in JavaScript can have some pretty misleading results.
@@ -45,7 +45,7 @@ If these things stay the same for long enough, the runtime will assume them and 
 
 A function in this state — where all values always have the same type and shape — is called *monomorphic*.
 
-We can illustrate this machine code version using simple C code, though the real implementation is a lot more complicated. 
+We can illustrate this machine code version using simple C code. And it is an **illustration**. The real code includes a lot of technical aspects that are out of scope for this article.
 
 ```c
 typedef struct {
