@@ -1,13 +1,13 @@
 ---
 title: Scalability is not performance
-published: "2025-10-16"
-updated: "2025-10-20"
+published: 2025-10-16
+updated: 2026-10-18
 figure: example-job-rates
 ---
 %%%?
 Scalability is sometimes confused with performance, but it’s not at all the same thing.
 
-In this post, we’ll take a closer look at what both of those things mean, with the help of a simple model!
+So what is it?
 %%
 $$
 %! style=hidden
@@ -22,6 +22,7 @@ $$
 \def\dol{\term{\$}{white}}
 \def\Efficiency{\term{Efficiency}{Apricot}}
 \def\JobRate{\term{JobRate}{RedViolet}}
+\def\Demand{\term{Demand}{RedViolet}}
 \def\Time{\term{Time}{Olive}}
 \def\Utilization{\term{Utilization}{RoyalBlue}}
 \def\Capacity{\term{Capacity}{Pink}}
@@ -30,174 +31,157 @@ $$
 \def\Box{\term{Box}{PineGreen}}
 \def\Boxes{\term{Boxes}{PineGreen}}
 $$
-Scalability is sometimes confused with performance, but it’s not at all the same thing.
+Scalability in distributed systems is the ability to vary performance according to demand. 
 
-To show that, we’re going to build a simple model. But before we start, we need to answer a more basic question. It’ll allow us to decide the scope of our model.
-# What is performance?
-When people talk about the *performance* of a distributed system, they’re usually considering one of two metrics:
+Having high performance is nice, but it’s more important that this performance can change over time. In fact, we often willingly sacrifice performance in pursuit of scalability.
+# The broad definition
+This article is specifically about *scalability* as it’s defined in the study of distributed systems. If your knee-jerk reaction when reading this article was *that’s not scalability!* You’re probably thinking of one of these other definitions.
 
-- $\Latency$, which is the time it takes the system to process a single job (on average).
-- $\Throughput$, which is the number of jobs the system can process in a given period.
+In the broad sense, scalability happens when we have $X$ and $Y$, and we can change $X$ such that $Y$ changes proportionally. In some contexts, we don’t really care about $X$ dropping, so we only look at what happens when it gets larger.
 
-Lower $\Latency$ automatically raises $\Throughput$. But in spite of that, distributed systems generally ignore it.
+This definition is too vague to be useful. For the sake of clarity, I’d like to list some of these other meanings, so you’ll know what I’m *not* talking about.
+## Making bigger
+Some components, like databases, can’t always scale in the way that’s described here.
 
-That's because reducing $\Latency$ is very hard. There's no surefire way of doing it and it suffers from severe diminishing returns.
+Scaling such components is typically a hands-on process that takes developer hours. It’s an effectively permanent change that increases the component’s $\Capacity$ while making it more expensive to operate.
 
-It’s much easier to increase $\Throughput$, even if it comes *at the expense* of $\Latency$. That’s how modern distributed systems work, and what we’re going to focus on.
-# Boxes and jobs
-This model involves just two entities – $\Boxes$ and $\Jobs$.
+This same definition also applies to physical hardware. We can scale a data center by getting more machines, but once again, the bigger data center becomes more expensive to own and operate.
 
-A $\Job$ stands for anything a server could be doing – like answering an HTTP request, processing a credit card transaction, or running a database query.
+The data center itself might be called scalable if it can accommodate a varying number of machines efficiently. 
 
-$\Jobs$ get handled by $\Boxes$. A $\Box$ could stand in for a VM, container, or maybe even a process inside a single machine.
+Even though the number of machines changes, things like the network and cooling infrastructures might stay the same.
+## Algorithmic complexity
+Algorithms (or more generally workloads) are sometimes called scalable when they perform well for large inputs.
 
-The rules for how $\Boxes$ handle jobs are very simple:
+For example, the [bubble sort](https://en.wikipedia.org/wiki/Bubble_sort) algorithm doesn’t scale well, because it achieves very high $\Latency$ as the input gets large. Its time complexity is simply too high.
+## Practical scalability
+Other workloads aren’t scalable because they’re inherently inefficient, without regard to input sizes. Perhaps they consume too much memory or require too many cores, more than is reasonable for their specific task.
 
-- Every $\Job$ takes a fixed amount of $\Time$ to complete. This is the $\Latency$.
-- Every $\Box$ handles $\Jobs$ at the same rate.
-- Every $\Box$ can only process one job at a time.
+We can run such inefficient workloads when $\Demand$ is low and simply soak up the cost, since it can be small when compared to the rest or our system. But if $\Demand$ rises and we need more $\Capacity$, the cost becomes a problem.
 
-None of these things is true of real-world jobs, but these simplifications are what makes the model easy to reason about.
+Here, scaling the workload in a distributed system is still possible. It’s just not practical in the real world. We’re better off modifying the workload before trying to scale it.
 
-## A single box
-Here's the bare-bones version:
+This is somewhat of a slippery concept, though, since some workloads are just performance-intensive and no better solution exists.
+## Other domains
+The word *scalability* appears in other domains, including business, logistics, defense, and so on. Its meaning, while following the broad $X$ and $Y$ definition outlined earlier, is specific to those fields.
+# Distributed systems
+Let’s get back to distributed systems. Such systems are typically modelled with $\Jobs$ and $\Boxes$.
 
-```canva key=one-box-model ;; size=500x190 ;; alt=A single Box processing one job at a time
-https://www.canva.com/design/DAGlFywvS4Y/G4OZ4DQv84f-a-Sp6hI8Xg/view?utm_content=DAGlFywvS4Y&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h46b5637248
-```
+- A $\Job$ is a computing task that needs to be completed by some workload.
+- A $\Box$ is the thing processing jobs, like a container, VM, or a guy in a room.
 
-With a single $\Box$, our performance metrics are directly connected:
+In such systems, performance typically refers to one of two metrics:
 
-$$
-%! style=big
+- $\Latency$ — the amount of time it takes a $\Box$ to complete a single $\Job$.
+- $\Throughput$ — the number of $\Jobs$ all the $\Boxes$ can complete over time.
 
-\Throughput=\frac{1}{\Latency}
-$$
-## Lots of boxes
-But it’s hardly a distributed system if there’s only one $\Box$. Which is why we have lots of them:
+While reducing $\Latency$ increases $\Throughput$, doing so is very hard. It primarily happens at the level of the workload itself and there is a limit (sometimes a physical one) to how low it can go.
+ 
+Instead, we increase $\Throughput$ by raising $\Capacity$, the number of $\Jobs$ are system can process at a time. This often comes *at the expense* of $\Latency$. 
+## So we don’t care about latency?
+We certainly do.
 
-```canva key=many-boxes ;; size=500x330 ;; alt=Many boxes processing jobs
-https://www.canva.com/design/DAGlGFv94Po/kXO_HjoZH3TUX4r1GNmzJg/view?utm_content=DAGlGFv94Po&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h478ac77bb9
-```
+However, from the perspective of a distributed system, $\Latency$ is less a performance metric and more a *Quality of Service (QoS)* metric. If the $\Latency$ is too high, our system doesn’t have a performance problem — it’s just broken. 
 
-Where do these $\Boxes$ come from, though? The rules are really simple:
+Consider a distributed system that takes 24 hours to process a single $\Job$. In many situations, by the time that $\Job$ finishes, its results are worthless. 
+# The biggest numbers
+The lowest $\Latency$ and highest $\Throughput$ is found within the confines of a single machine, below the level of distributed systems.
 
-- We can create $\Boxes$ instantly.
-- When a $\Box$ appears, it immediately starts accepting jobs.
-- We can also remove $\Boxes$.
-- But if a $\Box$ is processing a $\Job$, we first wait for that $\Job$ to complete.
+Consider a single hardware node at a major cloud provider. An extreme example of such a node might involve:
 
-We’ll call the number of these boxes $\Capacity$. In that case, our expression becomes:
+- **8x 64-core Intel Xeon 6768P CPUs** — totaling **512 cores**, each clocking at a maximum of **3.9Ghz**.
+- **4x 8x 128GB DDR5 8-channel** DIMMs, summing up to **8 TiB of RAM** clocking in at **3200Mhz**.
+- NVIDIA ConnectX-6 NIC, providing a full duplex **100 GB/s**.
 
-$$
-%! style=big
+Now consider running a single Rust binary directly on such a node. No virtualization, no containers, nothing. Terabytes of memory space, a thousand hardware threads, and a latency lower than a virtualized service can dream of.
 
-\Throughput=\Capacity\times\frac{1}{\Latency}
+Such a binary would provide $\Throughput$ that rivals a distributed system. After all, this same node could instead host over 100 VM instances doing exactly the same work — and it doesn’t have to contend with virtualization overhead.
 
-$$
-While $\Latency$ is constant, $\Capacity$ isn’t. We can change it in any way we want. To increase $\Throughput$, we just get more $\Boxes$!
-## No such thing as a free lunch
-Sadly, these $\Boxes$ aren’t free. They actually $\Cost$ money.
+But do we really need all the power behind that specific workload at all times? Do we actually have 8 TiB worth of stuff to occupy that memory? If not… that hardware is crazy expensive both to purchase and operate.
 
-While in the real world, different boxes have different price tags, in our model they have a fixed $\Cost$ per unit of $\Time$. We'll pick a cost of $1$ for simplicity, giving us:
-$$
-%! style=big
+Are we sure all this *performance* is what we’re looking for?
+# Changing demand
+So $\Throughput$ is about completing $\Jobs$. But these $\Jobs$ come from somewhere, and there is only so many of them.
 
-\Cost = \Capacity\times\Time
+How many? Well, it depends. What time is it?
 
-$$
-Combining with the last equation, we find that $\Throughput$ and $\Cost$ are directly correlated:
-$$
-%! style=big
-\Cost = \left(\Throughput\times \Latency\right)\times\Time
-$$
-This tells us that if we want to handle more jobs, we need to spend more money.
-# The JobRate
-So we have this system and jobs are coming in. But *how fast are they going?*
+Many real world systems don’t know how many $\Jobs$ they’ll need to handle ahead of time. A lot of them are driven by customer demand, which typically fluctuates across the span of hours, days, and months. 
 
-Having a $\Throughput$ of, say, $100$ means we have the $\Capacity$ to handle $100$ jobs per second. But are we getting $100$ jobs per second?
-
-Maybe we’re getting $10$ or $10,000$. That's the $\JobRate$, and whatever it is, our system needs to handle it.
-
-The $\JobRate$ isn't constant – it’s actually a function of time, or $\JobRate(\Time)$, and in almost all cases we can neither predict nor control it. It could be a flat line or it could fluctuate like crazy.
-
-Here are some potential $\JobRate$ curves:
+This $\Demand$ is thus a function of $\Time$, and can be plotted as a demand curve. Here are some potential examples:
 
 ```canva key=example-job-rates ;; size=700x450 ;; alt=Shows four job curves with different peaks and valleys
 https://www.canva.com/design/DAGlG86qqak/lKUMM69vLfs-Aqqc3pvnzQ/view?utm_content=DAGlG86qqak&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he1cd796a6d
 ```
+Scalability is not about having the most potential $\Throughput$ or highest $\Capacity$. If it were, we’d all be running Rust on massive hardware nodes. 
 
-## Missed jobs
-If $\Throughput<\JobRate$, we're not handling some of the jobs.
+Rather, it’s about having *just the right amount*. Being able to fulfill the current $\Demand$ while wasting as little money as possible, whatever that demand might be.
 
-In the real world, that's inevitable. But in our model, any $\Job$ we're not handling has nowhere to go.
+A lot of times we focus on growing $\Demand$ and scaling $\Capacity$ upwards, because that’s where naive systems break down. But distributed systems have to scale down too, and doing so presents it own set of challenges that are nearly as hard to solve.
+# How we scale
+As mentioned earlier, we typically scale by changing $\Capacity$, the number of $\Jobs$ our $\Boxes$ process at the same time.
 
-It becomes a *missed job*, which is a Very Bad Thing$\texttrademark$ in any system. We'll just say it's a *fail state* of the model.
-# Utilization
-But what about having more $\Throughput$ than we need? That is, a situation where:
-$$
-%! style=big
+We can increase $\Capacity$ by raising the number of $\Boxes$ or using bigger ones, which are able to handle more jobs. We can drop $\Capacity$ by doing the opposite.
 
-\Throughput > \JobRate{}
+That might sound easy, but it’s actually quite hard. The mechanism responsible for this process is called the *scaling solution*. It consists of several things:
 
-$$
-That sounds nice, but since $\Cost$ is proportional to $\Throughput$, we’re paying for hardware that's going to waste.
+- **The metrics** — Measurements of current $\Demand$, $\Throughput$, $\Latency$, and other numbers.
+- **The policy** — The function that maps a target $\Capacity$ to a specific $\Box$ configuration.
+- **The autoscaler** — The thing that implements the policy and handles changes in the $\Box$ configuration.
+- **The provisioner** — The thing that starts $\Boxes$ up and makes sure they’re running.
+- **The deprovisioner** — The thing that kills $\Boxes$ while making sure the system keeps working properly.
 
-We can get a figure for $\Utilization$ – how much of our system is actually used to process these jobs, versus standing idle and racking up money.
+Let’s take a look at some of the problems scaling tries to solve.
+## Point of failure
+Since scaling solutions are quite complicated, they add multiple points of failure to the system.
 
-It’s simply:
+For example, sometimes, a $\Box$ will just refuse to start. It will go through the motions and simply get stuck. While this sometimes points to consistent bug in our infrastructure, other times *it just happens*.
 
-$$
-%! style=big
+A scaling solution needs to keep track of whether the $\Boxes$ it ordered actually started up or not. Since a typical $\Box$ is actually a stack, we sometimes need to check several times.
 
-\Utilization=\frac{\JobRate}{\Throughput}
+More generally, scaling solutions must be self-healing and fault-tolerant, capable of handling the myriad ways in which scaling can go wrong.
+## Scaling delay
+There is a significant delay between rising $\Demand$ and a matching increase in $\Capacity$. 
 
-$$
+The first problem is our inability to see the future. In fact, a scaling solution can’t even see the present. We can only scale based on metrics, and those must have been computed in the past.
 
-- $\Utilization<1$ is the situation we’ve just described. We have *more than enough* $\Capacity$ to handle jobs. We’re still paying for that extra $\Capacity$, though.
+The second problem is the startup time. A $\Box$ doesn’t appear instantaneously and just start accepting jobs. The startup time varies between $\Boxes$, but ideally it should be as low as possible.
 
-- $\Utilization=1$ means we’re right on the money. We're translating every cent we’re pumping into our system into processing jobs.
+Overcoming scaling delay typically requires trying to predict changes in $\Demand$ while maintaining some headroom in the form of idle $\Capacity$.
+## Granularity
+Let’s say our demand fluctuates between $0$ and $3000$ and $\Box$ has a $\Capacity$ of $1000$. So we’re going to have between $0$ and $3$ boxes.
 
-- $\Utilization>1$ just means we’re not handling jobs, which is the Very Bad Thing$\texttrademark$.
+On one hand, this means that we don’t need to scale very often. This is good in some ways, because each scaling event brings with it the possibility of failure, and it reduces the impact of scaling delay.
 
-In our model, we just want to have a $\Utilization$ of $1$. But in the real world, we really don’t want to miss any jobs, so it’s better to have some $\Capacity$ left over.
+But it means our scaling solution is quite inefficient for certain levels of $\Demand$.
 
-That translates to having a $\Utilization$ that’s a bit less than $1$, like $0.8$.
+For example, with a $\Demand$ of $1001$, we’ll have two $\Boxes$, but $49.9\%$ of our $\Capacity$ will remain unused. We’re essentially paying double for our infrastructure.
 
-The exact amount of headroom we want is outside the scope of our model, and really depends on what we’re actually doing.
+We might say that our scaling solution has high *granularity*. It becomes inefficient at specific levels of $\Demand$.
 
-Which is why we’ll answer a different question instead. How would we want $\Utilization$ to *change over time* as the $\JobRate$ changes?
-## We don’t want it to change
-If we can keep $\Utilization$ at $0.5$ whether the $\JobRate$ is $10$ or $10,000$, we're playing it safe – half of our infrastructure is idling – but we're still winning!
+Using smaller $\Boxes$ allows us to avoid this problem. An even better solution involves having $\Boxes$ of different sizes. Both of these introduce additional complexity to the scaling solution and come with problems of their own.
+## Eviction and cordoning
+Let’s say our $\Demand$ has dropped and we want to reduce $\Capacity$. This means we have to get rid of some $\Boxes$.
 
-On the other hand, failure looks like $\Utilization$ going down into $0.01$ or above $1$. Both are situations we want to avoid.
+But those $\Boxes$ are still live and accepting jobs. We can’t just randomly kill them. That would risk losing both jobs and the work put into completing them. 
 
-Of course, if $\JobRate$ keeps changing, the only way to keep $\Utilization$ the same is changing our $\Throughput$ to match. We're fixing $\Latency$ in place, so we have to change $\Capacity$ instead.
+We first need to *cordon* them, forcing them to stop taking new jobs. Then we need to *evict* any jobs they’re already executing, transferring them to other $\Boxes$ that aren’t marked for deletion.
 
-In other words, we need the ability to create and remove $\Boxes$ based on the amount of work we need to do.
+Eviction isn’t always possible, and in some cases, we might just choose to *drain* the $\Boxes$ instead, cordoning them and waiting until they naturally complete the jobs they’re executing.
+# Buying scalability
+Scalability is like, really hard.
 
-That’s what it means to *scale*. Being able to do that is called *scalability*.
-# Why systems scale
-The goal of scaling our system is to meet our target $\Utilization$. That doesn’t just mean getting more $\Throughput$ – it also means getting less of it as needed.
-
-A real-world system is a mess of different components that behave and scale very differently. Building a system that can grow and shrink on demand is both harder and more important than raw performance.
-## Buying scalability
-In fact, scalability is so difficult that few companies try to achieve it by themselves.
-
-Instead, they pay huge cloud providers to solve some parts of these problems for them, even if they have to pay a pretty steep markup on hardware – and $\Throughput$.
+It’s so hard, very few companies try to achieve it themselves. Instead, they pay cloud providers a massive markup to solve it for them, and those solutions also come at the expense of $\Latency$ and $\Throughput$.
 
 The **serverless platform** is the best example of this.
 
 One paper^[https://arxiv.org/pdf/1812.03651] found that, when compared to a virtual machine, serverless platforms cost $100$ times more for the same $\Throughput$.
 
-That would be lunacy from a *performance* standpoint, but it makes perfect sense when considering *scalability* – our $\JobRate$ might vary by a factor of $100,000$ over a single day.
+That would be lunacy from a *performance* standpoint, but it makes perfect sense when considering *scalability* – our $\Demand$ might vary by a factor of $100,000$ over a single day.
 
 Compared to that, even a factor of $100$ might not be so scary, especially if it lets us reduce costs in other ways.
 # Conclusion
-*Scalability* is being able to change our system’s throughput based on demand, while *performance* typically refers to that throughput.
+*Scalability* is being able to dynamically change our system’s $\Capacity$ based on $\Demand$, while *performance* typically refers to the $\Throughput$ it sustains at a given time.
 
-Sometimes, people talk about *improving scalability* when they just mean *making stuff run faster*.
+It’s important to understand the difference, because the two are often at odds. The highest performing systems are *not* scalable ones.
 
-That’s important too, but serverless platforms are proof that many people care more about scalability than performance.
-
-Stay tuned for future posts, where we’ll dive into more advanced models of distributed systems.
+Stay tuned for future posts, where we’ll dive a little deeper into some of the things we’ve talked about in this article.

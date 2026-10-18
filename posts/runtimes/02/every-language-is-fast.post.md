@@ -46,7 +46,7 @@ The code looks similar, but the workload that results from executing each is tot
 
 Let’s consider the C code first, because the machine code that ends up executing is practically trivial. You could hand-compile it with ease. In fact, let me do so now:
 
-```x86
+```asm
 main:
     mov edi, 1
     mov esi, 2
@@ -197,11 +197,12 @@ That’s not the only library with hand-written implementations, either. The sam
 
 But in practice, it’s just not the kind of code a human is typically going to write. It takes a very long time, and all these devilish optimizations can easily lead to equally demonic and inexplicable bugs.
 
-Nor are you likely to see similar performance gains. 
-
 A more typical example of hand-written assembly will probably perform worse than a compiled C counterpart, and for most code, the immense effort to do better is just not worth the bother.
 
-I still find it a little thrilling that the art is far from dead.
+This concept, the difference between effort and performance, can be summed up using the following illustration:
+```canva key=effort-vs-performance-c-assembly ;; size=700x450 ;; alt=Effort vs performance in C vs assembly
+https://www.canva.com/design/DAHYXuFLMiA/_3Ym5EgJUm8M5AMP9bKhtw/view
+```
 # Conclusion
 Languages like C and Rust beat almost everything at the nanosecond time scale, but that becomes less important when code is I/O bound anyway.
 
