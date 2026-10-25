@@ -95,7 +95,7 @@ Suppose we measure a particular Python server and find that it uses an extra 10 
 
 At 100k requests per second, those 10 microseconds add up to one CPU-second of extra work every second. In other words, an entire core. Those cost money!
 
-These higher CPU requirements also mean we’ll start to run into [[scalability-is-not-performance.post|scaling issues]] earlier. In settings where CPU time is expensive and you can’t just scale out, like IoT, they are prohibitive. 
+These higher CPU requirements also mean we’ll start to run into [[NO NO NO NO NO|scaling issues]] earlier. In settings where CPU time is expensive and you can’t just scale out, like IoT, they are prohibitive. 
 
 Doesn’t matter how much I/O you have to do.
 # The (performance) cost of abstractions
@@ -200,7 +200,7 @@ But in practice, it’s just not the kind of code a human is typically going to 
 A more typical example of hand-written assembly will probably perform worse than a compiled C counterpart, and for most code, the immense effort to do better is just not worth the bother.
 
 This concept, the difference between effort and performance, can be summed up using the following illustration:
-```canva key=effort-vs-performance-c-assembly ;; size=700x450 ;; alt=Effort vs performance in C vs assembly
+```canva key=effort-vs-performance-c-assembly ;; size=560x428 ;; alt=Effort vs performance in C vs assembly
 https://www.canva.com/design/DAHYXuFLMiA/_3Ym5EgJUm8M5AMP9bKhtw/view
 ```
 # Conclusion

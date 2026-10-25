@@ -60,7 +60,7 @@ int example(Input *input)
 ```
 
 Here is a pretty illustration:
-```canva size=700x450 ;; key=assumptions-and-js-compilation ;; alt=A diagram showing assumptions leading to compilation
+```canva size=611x390 ;; key=assumptions-and-js-compilation ;; alt=A diagram showing assumptions leading to compilation
 https://www.canva.com/design/DAHXiLuNspw/RLJ3WJdtM1x9GRqdyFs8xw/view
 ```
 
@@ -104,7 +104,7 @@ This internal state can change when the function is called and based on the beha
 
 Here is an illustration of a few stages. In practice, functions might be compiled more or less often than this. Some things can cause the runtime to give up immediately too.
 
-```canva size=700x450 ;; key=javascript-function-states ;; alt=A flow chart showing changes to a JS function's state
+```canva size=581x414 ;; key=javascript-function-states ;; alt=A flow chart showing changes to a JS function's state
 https://www.canva.com/design/DAHXieSTKGg/6-hfd9QU6GBY0mqmZGoHTw/view
 ```
 
